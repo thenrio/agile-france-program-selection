@@ -23,12 +23,19 @@ describe 'Renderer' do
 
     describe 'render_sessions_with_template' do
       before do
-       @output = @renderer.render_sessions_with_template(@sessions, 'sessions.html.erb')
-
+        @got = nil
+        @content = @renderer.render_sessions_with_template(@sessions, 'sessions.html.erb') do |content|
+          @got = content 
+        end
       end
+
       it 'should render diner session' do
-        doc = Nokogiri::HTML(@output)
+        doc = Nokogiri::HTML(@content)
         doc.search('//h1').first.content.should == 'diner'
+      end
+
+      it 'should yield content' do
+        @got.should == @content
       end
     end
 

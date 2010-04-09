@@ -9,7 +9,11 @@ class Renderer
 
   def render_sessions_with_template(sessions, template)
     erb = ERB.new(read_template(template))
-    erb.result binding
+    content = erb.result binding
+    if block_given?
+      return yield content
+    end
+    content
   end
 
   def write(content)
