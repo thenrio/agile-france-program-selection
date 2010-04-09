@@ -1,10 +1,12 @@
 require 'configuration'
 require 'model'
 
-def render()
+class Renderer
+  def render_sessions_with_template(sessions, template)
 
-end
+  end
 
-def clear(index)
-  index % 3 == 0
+  def clear(index)
+    index % 3 == 0
+  end
 end
