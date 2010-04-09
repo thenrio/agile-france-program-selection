@@ -1,10 +1,25 @@
 require 'configuration'
 require 'model'
 require 'erb'
+require 'fileutils'
 
 class Renderer
+  include FileUtils::Verbose
+
+  def initialize()
+    mkdir_p output_dir
+  end
+
+  def output_dir
+    File.join(home_dir, 'output')
+  end
+
+  def home_dir
+    File.join(File.dirname(__FILE__), '..')  
+  end
+  
   def read_template(template)
-    File.read(File.join(File.dirname(__FILE__), '..', 'templates', template))
+    File.read(File.join(home_dir, 'templates', template))
   end
 
   def render_sessions_with_template(sessions, template)
@@ -17,7 +32,11 @@ class Renderer
   end
 
   def write(content)
+    debugger
     
+    File.open(File.join(output_dir, 'sessions.html'), 'w+') do |file|
+      file.write content
+    end
   end
 
   def clear(index)

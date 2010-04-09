@@ -1,6 +1,7 @@
 require "spec_helper"
 require 'render'
 require 'nokogiri'
+require 'rr'
 
 describe 'Renderer' do
   before do
@@ -42,9 +43,12 @@ describe 'Renderer' do
 
     describe 'write_to_file' do
       before do
-
+        @file = mock!
+        mock(File).open(File.join(@renderer.output_dir, 'sessions.html'), 'w+').yields(@file)
       end
+
       it 'should write file' do
+        @file.write('foo')
         @renderer.write('foo')
       end
     end
