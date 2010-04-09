@@ -1,6 +1,7 @@
 require "spec_helper"
 require 'render'
 require 'nokogiri'
+require 'ruby-debug'
 
 describe 'Renderer' do
   before do
@@ -18,10 +19,11 @@ describe 'Renderer' do
   describe 'render_sessions_with_template' do
     before do
       @speaker = Speaker.new(:firstname => 'John', :lastname => 'Doe')
-      @sessions = [Session.new(:title => 'diner')]
+      @sessions = [Session.new(:title => 'diner', :speaker => @speaker)]
     end
+    
     it 'should render diner session' do
-      output = Renderer.new.render_sessions_with_template(@sessions, 'atelier-longs.html.erb')
+      output = Renderer.new.render_sessions_with_template(@sessions, 'long-workshop.html.erb')
       doc = Nokogiri::HTML(output)
       doc.search('//h1').first.content.should == 'diner'
     end
