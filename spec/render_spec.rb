@@ -1,7 +1,6 @@
 require "spec_helper"
 require 'render'
 require 'nokogiri'
-require 'ruby-debug'
 
 describe 'Renderer' do
   before do
@@ -23,7 +22,7 @@ describe 'Renderer' do
     end
     
     it 'should render diner session' do
-      output = Renderer.new.render_sessions_with_template(@sessions, 'long-workshop.html.erb')
+      output = Renderer.new.render_sessions_with_template(@sessions, 'sessions.html.erb')
       doc = Nokogiri::HTML(output)
       doc.search('//h1').first.content.should == 'diner'
     end
