@@ -15,16 +15,31 @@ describe 'Renderer' do
     end
   end
 
-  describe 'render_sessions_with_template' do
+  describe 'render' do
     before do
       @speaker = Speaker.new(:firstname => 'John', :lastname => 'Doe')
       @sessions = [Session.new(:title => 'diner', :speaker => @speaker)]
     end
-    
-    it 'should render diner session' do
-      output = Renderer.new.render_sessions_with_template(@sessions, 'sessions.html.erb')
-      doc = Nokogiri::HTML(output)
-      doc.search('//h1').first.content.should == 'diner'
+
+    describe 'render_sessions_with_template' do
+      before do
+       @output = @renderer.render_sessions_with_template(@sessions, 'sessions.html.erb')
+
+      end
+      it 'should render diner session' do
+        doc = Nokogiri::HTML(@output)
+        doc.search('//h1').first.content.should == 'diner'
+      end
+    end
+
+
+    describe 'write_to_file' do
+      before do
+
+      end
+      it 'should write file' do
+        @renderer.write('foo')
+      end
     end
   end
 end

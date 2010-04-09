@@ -12,6 +12,10 @@ class Renderer
     erb.result binding
   end
 
+  def write(content)
+    
+  end
+
   def clear(index)
     index % 3 == 0
   end
