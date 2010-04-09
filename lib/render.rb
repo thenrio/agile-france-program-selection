@@ -32,8 +32,6 @@ class Renderer
   end
 
   def write(content)
-    debugger
-    
     File.open(File.join(output_dir, 'sessions.html'), 'w+') do |file|
       file.write content
     end
