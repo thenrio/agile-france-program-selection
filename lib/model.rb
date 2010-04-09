@@ -24,4 +24,8 @@ class Speaker
 
 
   has n, :sessions
+
+  def full_name
+    "#{firstname} #{lastname}"
+  end
 end
