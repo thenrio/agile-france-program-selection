@@ -12,6 +12,10 @@ class Session
   property :title, String
 
   belongs_to :speaker
+
+  def duration
+    180
+  end
 end
 
 class Speaker
