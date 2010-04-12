@@ -1,5 +1,10 @@
+$LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'configuration'
 require 'model'
 require 'render'
 
-render = new Renderer
+Configuration.new :path => '/Users/thenrio/src/python/xpdayfr/prod.db'
+render = Renderer.new
+render.render_sessions_with_template(Session.all, 'sessions.html.erb') do |content|
+  render.write content
+end
