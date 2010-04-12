@@ -1,7 +1,19 @@
-<% sessions.each_with_index do |session, index| %>
-<div style="text-align:center; border: 1mm black solid;height: 1000px;width: 300px;float:left;">
-<h1><%= session.title %></h1>
-<h2><%= session.speaker.full_name %></h2>
-<h2>level : <%= session.level %></h2>
+<html>
+<head>
+  <link rel='stylesheet' media='all' href='<%= "#{File.dirname(File.expand_path __FILE__)}/templates/css/program.css" %>'>
+</head>
+
+<body>
+<div id='session'>
+  <% sessions.each_with_index do |session, index| %>
+    <div id='<%= session.category %>'>
+      <h1><%= session.title %></h1>
+
+      <h2><%= session.speaker.full_name %></h2>
+
+      <h2>level : <%= session.level %></h2>
+    </div>
+  <% end %>
 </div>
-<% end %>
+</body>
+</html>

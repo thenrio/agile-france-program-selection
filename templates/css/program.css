@@ -1,0 +1,15 @@
+#session {
+  text-align:center;
+}
+
+#BWORKSHOP {
+  border: 1mm black solid;
+  height: 1000px;
+  width: 300px;
+  float:left;
+}
+
+@media print {
+  @page         { margin: 0 }
+  div           { page-break-inside: avoid }
+}
