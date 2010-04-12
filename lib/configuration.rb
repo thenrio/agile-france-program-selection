@@ -1,5 +1,14 @@
 require 'dm-core'
-DataMapper.setup(:default, 'sqlite3:///Users/thenrio/src/python/xpdayfr/prod.db')
+
+class Configuration
+  def initialize(options={})
+    yield self if block_given?
+  end
+
+  def path=(path)
+    DataMapper.setup(:default, "sqlite3://#{path}")
+  end
+end
 
 
 
