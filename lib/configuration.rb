@@ -2,6 +2,7 @@ require 'dm-core'
 
 class Configuration
   def initialize(options={})
+    self.path = options[:path] if options[:path]
     yield self if block_given?
   end
 
