@@ -11,7 +11,7 @@ class Session
   property :age, String
   property :title, String
   property :key, String
-  property :vote, BigDecimal, :scale => 2, :precision => 2, :default => 0
+  property :vote, Float, :default => 0
 
   belongs_to :speaker
 
