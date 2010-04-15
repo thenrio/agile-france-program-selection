@@ -25,7 +25,7 @@ class Session
     TALK = 'TALK'
     WORKSHOP = 'WORKSHOP'
 
-    def all
+    def self.all
       [BWORKSHOP, KEYNOTE, OTHER, REX, TALK, WORKSHOP]
     end
   end
