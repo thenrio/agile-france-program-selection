@@ -5,7 +5,7 @@ require 'erb'
 require 'fileutils'
 
 class Renderer
-  include FileUtils::Verbose
+  include FileUtils
 
   def initialize()
     mkdir_p output_dir
