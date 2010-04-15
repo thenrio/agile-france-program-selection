@@ -4,7 +4,42 @@
 
 #BWORKSHOP {
   border: 1mm black solid;
-  height: 800px;
+  height: 600px;
+  width: 300px;
+  float:left;
+}
+
+#KEYNOTE {
+  border: 1mm black solid;
+  height: 200px;
+  width: 300px;
+  float:left;
+}
+
+#OTHER {
+  border: 1mm black solid;
+  height: 200px;
+  width: 300px;
+  float:left;
+}
+
+#REX {
+  border: 1mm black solid;
+  height: 100px;
+  width: 300px;
+  float:left;
+}
+
+#TALK {
+  border: 1mm black solid;
+  height: 200px;
+  width: 300px;
+  float:left;
+}
+
+#WORKSHOP {
+  border: 1mm black solid;
+  height: 300px;
   width: 300px;
   float:left;
 }
