@@ -9,6 +9,7 @@ class Renderer
 
   def initialize()
     mkdir_p output_dir
+    cp_r File.join(template_dir, 'css'), output_dir
   end
 
   def output_dir
@@ -16,11 +17,15 @@ class Renderer
   end
 
   def home_dir
-    File.join(File.dirname(__FILE__), '..')  
+    File.join(File.dirname(__FILE__), '..')
   end
-  
+
+  def template_dir
+    File.join(home_dir, 'templates')
+  end
+
   def read_template(template)
-    File.read(File.join(home_dir, 'templates', template))
+    File.read(File.join(template_dir, template))
   end
 
   def render_sessions_with_template(sessions, template)
