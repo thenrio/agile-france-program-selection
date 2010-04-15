@@ -32,8 +32,8 @@ class Renderer
     content
   end
 
-  def write(content)
-    File.open(File.join(output_dir, 'sessions.html'), 'w+') do |file|
+  def write(content, file_name='sessions.html')
+    File.open(File.join(output_dir, file_name), 'w+') do |file|
       file.write content
     end
   end

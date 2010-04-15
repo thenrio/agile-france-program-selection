@@ -43,12 +43,13 @@ describe 'Renderer' do
 
     describe 'write_to_file' do
       before do
+        @file_name = 'some-sessions.html'
         @io = StringIO.new
-        mock(File).open(File.join(@renderer.output_dir, 'sessions.html'), 'w+').yields(@io)
+        mock(File).open(File.join(@renderer.output_dir, @file_name), 'w+').yields(@io)
       end
 
       it 'should write to file' do
-        @renderer.write('foo')
+        @renderer.write('foo', @file_name)
         @io.string.should == 'foo'
       end
     end
