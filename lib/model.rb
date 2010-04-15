@@ -10,6 +10,8 @@ class Session
   property :level, String
   property :age, String
   property :title, String
+  property :key, String
+  property :vote, Integer
 
   belongs_to :speaker
 
