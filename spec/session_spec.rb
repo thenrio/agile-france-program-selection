@@ -9,6 +9,12 @@ describe 'Session' do
     describe 'duration' do
       it 'should be deduced from category' do
         Session.new(:category => 'BWORKSHOP').duration.should == 180
+        Session.new(:category => 'KEYNOTE').duration.should == 60
+        Session.new(:category => 'OTHER').duration.should == 60
+        Session.new(:category => 'REX').duration.should == 30
+        Session.new(:category => 'TALK').duration.should == 60
+        Session.new(:category => 'WORKSHOP').duration.should == 120
+        Session.new(:category => 'FOO').duration.should == 60
       end
     end
 

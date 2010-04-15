@@ -14,7 +14,7 @@ class Session
   belongs_to :speaker
 
   def duration
-    180
+    Category.duration(self.category)
   end
 
   @@level_to_shuhari = {
@@ -22,6 +22,7 @@ class Session
       'INTERMEDIATE' => 'ha',
       'BEGINNER' => 'shu',
   }
+  
   def shuhari
     s = @@level_to_shuhari[self.level]
     return s if s
@@ -42,6 +43,19 @@ class Session
         categories.each {|c| yield c}
       end
       categories
+    end
+
+    @@category_to_duration = {
+      BWORKSHOP => 180,
+      KEYNOTE => 60,
+      OTHER => 60,
+      REX => 30,
+      TALK => 60,
+      WORKSHOP => 120    
+    }
+    def self.duration(category)
+      return @@category_to_duration[category] if @@category_to_duration[category]
+      60
     end
   end
 end
