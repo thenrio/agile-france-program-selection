@@ -26,7 +26,11 @@ class Session
     WORKSHOP = 'WORKSHOP'
 
     def self.all
-      [BWORKSHOP, KEYNOTE, OTHER, REX, TALK, WORKSHOP]
+      categories = [BWORKSHOP, KEYNOTE, OTHER, REX, TALK, WORKSHOP]
+      if block_given?
+        categories.each {|c| yield c}
+      end
+      categories
     end
   end
 end
