@@ -15,3 +15,6 @@ Description goes here.
 == Copyright
 
 Copyright (c) 2010 thierry. See LICENSE for details.
+
+
+alter table talk_proposal add column vote integer default 0;
