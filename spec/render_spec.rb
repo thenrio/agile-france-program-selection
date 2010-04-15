@@ -32,7 +32,7 @@ describe 'Renderer' do
 
       it 'should render diner session' do
         doc = Nokogiri::HTML(@content)
-        doc.search('//h1').first.content.should == 'diner'
+        doc.search('//h3').first.content.should == 'diner'
       end
 
       it 'should yield content' do

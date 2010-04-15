@@ -7,11 +7,11 @@
 <div id='session'>
   <% sessions.each_with_index do |session, index| %>
     <div id='<%= session.category %>'>
-      <h1><%= session.title %></h1>
+      <h3><%= session.title %></h3>
 
-      <h2><%= session.speaker.full_name %></h2>
+      <h4><%= session.speaker.full_name %></h4>
 
-      <h2>level : <%= session.level %></h2>
+      <h4>level : <%= session.level %></h4>
     </div>
   <% end %>
 </div>
