@@ -6,19 +6,15 @@
 
 <body>
 <div class='session'>
-  <% sessions.each_with_index do |session, index| %>
+  <% sessions.each do |session| %>
     <div class='<%= session.category %>'>
       <h3><%= session.title %></h3>
       <div class='shuhari'><%= session.shuhari %></div>
+      <div class='vote'><%= session.vote %> / 10</div>
       <div class='theme'><%= session.theme %></div>
       <h4><%= session.speaker.full_name %></h4>
       <div class='clear'></div>
     </div>
-
-    <% duration += session.duration %>
-    <%if duration % 360 == 0 %>
-      <div class='pagebreak'></div>  
-    <% end %>
   <% end %>
 </div>
 </body>

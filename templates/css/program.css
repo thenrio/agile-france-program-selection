@@ -7,7 +7,7 @@
   width: 10%;
 }
 
-.theme {
+.theme, .vote {
   float:left;
   width: 20%;
 }
