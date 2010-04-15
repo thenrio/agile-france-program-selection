@@ -1,3 +1,4 @@
+#encoding: utf-8
 require 'configuration'
 require 'model'
 require 'erb'
