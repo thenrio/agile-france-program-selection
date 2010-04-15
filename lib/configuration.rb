@@ -8,6 +8,9 @@ class Configuration
 
   def path=(path)
     DataMapper.setup(:default, "sqlite3://#{path}")
+#    require 'model'
+#    Session.auto_migrate!
+#    Speaker.auto_migrate!
   end
 end
 
