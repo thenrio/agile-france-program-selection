@@ -1,18 +1,24 @@
 <html>
 <head>
+  <meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>
   <link rel='stylesheet' media='all' href='<%= "#{File.dirname(File.expand_path __FILE__)}/templates/css/program.css" %>'>
 </head>
 
 <body>
-<div id='session'>
+<div class='session'>
   <% sessions.each_with_index do |session, index| %>
-    <div id='<%= session.category %>'>
+    <div class='<%= session.category %>'>
       <h3><%= session.title %></h3>
-
+      <div class='shuhari'><%= session.shuhari %></div>
+      <div class='theme'><%= session.theme %></div>
       <h4><%= session.speaker.full_name %></h4>
-
-      <h4>level : <%= session.level %></h4>
+      <div class='clear'></div>
     </div>
+
+    <% duration += session.duration %>
+    <%if duration % 360 == 0 %>
+      <div class='pagebreak'></div>  
+    <% end %>
   <% end %>
 </div>
 </body>

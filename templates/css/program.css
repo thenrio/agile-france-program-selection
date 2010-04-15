@@ -1,50 +1,68 @@
-#session {
+.session {
   text-align:center;
 }
 
-#BWORKSHOP {
+.shuhari {
+  float:left;
+  width: 10%;
+}
+
+.theme {
+  float:left;
+  width: 20%;
+}
+
+.clear {
+  clear: both;
+}
+
+.pagebreak {
+  page-break-before:always;
+}
+
+.BWORKSHOP {
   border: 1mm black solid;
-  height: 600px;
+  height: 900px;
   width: 300px;
   float:left;
 }
 
-#KEYNOTE {
-  border: 1mm black solid;
-  height: 200px;
-  width: 300px;
-  float:left;
-}
-
-#OTHER {
-  border: 1mm black solid;
-  height: 200px;
-  width: 300px;
-  float:left;
-}
-
-#REX {
-  border: 1mm black solid;
-  height: 100px;
-  width: 300px;
-  float:left;
-}
-
-#TALK {
-  border: 1mm black solid;
-  height: 200px;
-  width: 300px;
-  float:left;
-}
-
-#WORKSHOP {
+.KEYNOTE {
   border: 1mm black solid;
   height: 300px;
   width: 300px;
   float:left;
 }
 
+.OTHER {
+  border: 1mm black solid;
+  height: 300px;
+  width: 300px;
+  float:left;
+}
+
+.REX {
+  border: 1mm black solid;
+  height: 150px;
+  width: 300px;
+  float:left;
+}
+
+.TALK {
+  border: 1mm black solid;
+  height: 300px;
+  width: 300px;
+  float:left;
+}
+
+.WORKSHOP {
+  border: 1mm black solid;
+  height: 450px;
+  width: 300px;
+  float:left;
+}
+
 @media print {
   @page         { margin: 0 }
-  div           { page-break-inside: avoid }
+  .BWORKSHOP           { page-break-inside: avoid }
 }
