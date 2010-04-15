@@ -2,9 +2,21 @@ require "spec_helper.rb"
 require "model"
 
 describe 'Session' do
-  describe 'duration' do
-    it 'be deduced from category' do
-      Session.new(:category => 'BWORKSHOP').duration.should == 180
+  describe 'an instance' do
+    before do
+      @session = Session.new  
+    end
+    describe 'duration' do
+      it 'should be deduced from category' do
+        Session.new(:category => 'BWORKSHOP').duration.should == 180
+      end
+    end
+
+    describe 'shuhari' do
+      it 'ADVANCED should be ri' do
+        @session.level = 'ADVANCED'
+        @session.shuhari.should == 'RI'
+      end
     end
   end
 
@@ -12,7 +24,7 @@ describe 'Session' do
     before do
       @categories = ['BWORKSHOP', 'KEYNOTE', 'OTHER', 'REX', 'TALK', 'WORKSHOP']
     end
-    it 'should return' do
+    it 'should return available categories' do
       Session::Category.all.should == @categories
     end
 

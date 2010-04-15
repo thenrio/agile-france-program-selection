@@ -17,6 +17,10 @@ class Session
     180
   end
 
+  def shuhari
+    'RI'
+  end
+
   class Category
     BWORKSHOP = 'BWORKSHOP'
     KEYNOTE = 'KEYNOTE'
