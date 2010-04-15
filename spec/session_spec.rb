@@ -4,7 +4,7 @@ require "model"
 describe 'Session' do
   describe 'an instance' do
     before do
-      @session = Session.new  
+      @session = Session.new
     end
     describe 'duration' do
       it 'should be deduced from category' do
@@ -13,9 +13,21 @@ describe 'Session' do
     end
 
     describe 'shuhari' do
+      def level_should_be(level, shuhari)
+        @session.level = level
+        @session.shuhari.should == shuhari
+      end
       it 'ADVANCED should be ri' do
-        @session.level = 'ADVANCED'
-        @session.shuhari.should == 'RI'
+        level_should_be 'ADVANCED', 'ri'
+      end
+      it 'INTERMEDIATE should be ri' do
+        level_should_be 'INTERMEDIATE', 'ha'
+      end
+      it 'BEGINNER should be ri' do
+        level_should_be 'BEGINNER', 'shu'
+      end
+      it 'else should be blank' do
+        level_should_be 'ALL', ''
       end
     end
   end

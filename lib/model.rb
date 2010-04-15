@@ -17,8 +17,15 @@ class Session
     180
   end
 
+  @@level_to_shuhari = {
+      'ADVANCED' => 'ri',
+      'INTERMEDIATE' => 'ha',
+      'BEGINNER' => 'shu',
+  }
   def shuhari
-    'RI'
+    s = @@level_to_shuhari[self.level]
+    return s if s
+    ''
   end
 
   class Category
