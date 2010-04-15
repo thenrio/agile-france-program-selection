@@ -45,8 +45,4 @@ class Renderer
     end
     puts "wrote #{content.length} to #{f}"
   end
-
-  def clear(index)
-    index % 3 == 0
-  end
 end

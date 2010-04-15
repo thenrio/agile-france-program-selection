@@ -7,14 +7,6 @@ describe 'Renderer' do
   before do
     @renderer = Renderer.new
   end
-  describe 'clear' do
-    it "should be true each 3" do
-      @renderer.clear(0).should be_true
-      @renderer.clear(1).should be_false
-      @renderer.clear(2).should be_false
-      @renderer.clear(3).should be_true
-    end
-  end
 
   describe 'render' do
     before do
