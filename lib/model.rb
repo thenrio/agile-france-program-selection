@@ -16,6 +16,19 @@ class Session
   def duration
     180
   end
+
+  class Category
+    BWORKSHOP = 'BWORKSHOP'
+    KEYNOTE = 'KEYNOTE'
+    OTHER = 'OTHER'
+    REX = 'REX'
+    TALK = 'TALK'
+    WORKSHOP = 'WORKSHOP'
+
+    def all
+      [BWORKSHOP, KEYNOTE, OTHER, REX, TALK, WORKSHOP]
+    end
+  end
 end
 
 class Speaker
