@@ -38,7 +38,8 @@ Le comité de sélection a retenu
 - diner
 
 Le programme sera publié prochainement
-Contactez nous pour toute question, remarque, contrainte
+
+Contactez nous pour toute question, remarque ou contrainte
 L'Organisation de la conférence Agile France
 eos
     end
