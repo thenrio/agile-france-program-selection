@@ -18,6 +18,8 @@ end
 Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-program-selection/prod.db'
 render = Renderer.new
 
+# and what about some rake task ?
+# will look better...
 Session::Category.all do |category|
   render_category(render, category)
 end
