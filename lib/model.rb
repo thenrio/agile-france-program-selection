@@ -70,6 +70,7 @@ class Speaker
   property :id, Serial, :field => 'speaker_id'
   property :firstname, String
   property :lastname, String
+  property :email, String
 
 
   has n, :sessions
