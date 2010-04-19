@@ -1,7 +1,8 @@
 Bonjour <%= speaker.full_name %>, nous avons regardé vos propositions de session sur http://conf.agile-france.org/
-Le comité de sélection a retenu<% speaker.sessions.each do |session| %>
+Le comité de sélection a retenu<% speaker.sessions.all(:scheduled => true).each do |session| %>
 - <%= session.title %>
 <% end %>
 Le programme sera publié prochainement
-Contactez nous pour toute question, remarque, contrainte
+
+Contactez nous pour toute question, remarque ou contrainte
 L'Organisation de la conférence Agile France
