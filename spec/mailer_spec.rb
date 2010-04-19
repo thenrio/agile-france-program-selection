@@ -20,7 +20,9 @@ describe 'Mailer' do
       @speaker.save
       s1 = Session.new(:title => 'diner', :speaker => @speaker, :scheduled => true)
       s1.save
-      @sessions = [s1]
+      s2 = Session.new(:title => 'pub', :speaker => @speaker)
+      s2.save
+      @sessions = [s1, s2]
     end
 
     it 'should send to John Doe' do
