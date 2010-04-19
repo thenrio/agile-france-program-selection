@@ -31,7 +31,7 @@ describe 'Mailer' do
       mail.to.should == [@speaker.email]
       mail.subject.should == 'vous avez une session retenue au programme de la conférence Agile France'
       mail.body.raw_source.should == <<eos
-Bonjour, nous avons regardé vos propositions de session sur http://conf.agile-france.org/
+Bonjour John Doe, nous avons regardé vos propositions de session sur http://conf.agile-france.org/
 Le comité de sélection a retenu
 - diner
 
