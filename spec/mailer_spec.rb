@@ -1,3 +1,4 @@
+#encoding: utf-8
 require "spec_helper"
 require 'mailer'
 require 'configuration'
@@ -28,6 +29,7 @@ describe 'Mailer' do
       mail = mails[0]
       mail.from.should == ['orga@conf.agile-france.org']
       mail.to.should == [@speaker.email]
+      mail.subject.should == 'vous avez une session retenue au programme de la conférence Agile France'
     end
   end
 end

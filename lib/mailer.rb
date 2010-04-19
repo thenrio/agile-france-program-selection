@@ -1,3 +1,4 @@
+#encoding: utf-8
 require 'mail'
 require 'model'
 
@@ -15,6 +16,7 @@ class Mailer
     mail = Mail.new do
       from 'orga@conf.agile-france.org'
       to "#{speaker.email}"
+      subject 'vous avez une session retenue au programme de la conférence Agile France'
     end
     mail
   end
