@@ -25,6 +25,8 @@ describe 'Mailer' do
     it 'should send to John Doe' do
       mails = @mailer.mail_speaker_having_at_least_one_scheduled_session
       mails.length.should == 1
+      mail = mails[0]
+      mail.from.should == ['orga@conf.agile-france.org']
     end
   end
 end

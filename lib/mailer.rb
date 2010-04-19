@@ -13,6 +13,7 @@ class Mailer
 
   def mail(speaker, sessions)
     mail = Mail.new do
+      from 'orga@conf.agile-france.org'
     end
     mail
   end
