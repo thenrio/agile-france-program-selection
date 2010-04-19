@@ -3,30 +3,17 @@ require 'configuration'
 require 'model'
 require 'erb'
 require 'fileutils'
+require 'renderable'
 
 class Renderer
   include FileUtils
+  include Renderable
 
   def initialize()
     mkdir_p output_dir
     cp_r File.join(template_dir, 'css'), output_dir
   end
 
-  def output_dir
-    File.join(home_dir, 'output')
-  end
-
-  def home_dir
-    File.join(File.dirname(__FILE__), '..')
-  end
-
-  def template_dir
-    File.join(home_dir, 'templates')
-  end
-
-  def read_template(template)
-    File.read(File.join(template_dir, template))
-  end
 
   def render_sessions_with_template(sessions, template)
     erb = ERB.new(read_template(template))
