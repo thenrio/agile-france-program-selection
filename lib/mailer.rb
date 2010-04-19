@@ -15,10 +15,13 @@ class Mailer
   end
 
   def mail(speaker, sessions)
+    erb = ERB.new(read_template('scheduled_session.text.erb'))
+    content = erb.result binding
     mail = Mail.new do
       from 'orga@conf.agile-france.org'
       to "#{speaker.email}"
       subject 'vous avez une session retenue au programme de la conférence Agile France'
+      body content
     end
     mail
   end
