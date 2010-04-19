@@ -12,6 +12,13 @@ class Configuration
 #    Session.auto_migrate!
 #    Speaker.auto_migrate!
   end
+
+  def test
+    DataMapper.setup(:default, 'sqlite3::memory')
+    Speaker.auto_migrate!
+    Session.auto_migrate!
+    self
+  end
 end
 
 
