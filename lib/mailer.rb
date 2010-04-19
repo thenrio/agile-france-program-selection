@@ -14,6 +14,7 @@ class Mailer
   def mail(speaker, sessions)
     mail = Mail.new do
       from 'orga@conf.agile-france.org'
+      to "#{speaker.email}"
     end
     mail
   end

@@ -27,6 +27,7 @@ describe 'Mailer' do
       mails.length.should == 1
       mail = mails[0]
       mail.from.should == ['orga@conf.agile-france.org']
+      mail.to.should == [@speaker.email]
     end
   end
 end
