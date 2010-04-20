@@ -78,4 +78,8 @@ class Speaker
   def full_name
     "#{firstname} #{lastname}"
   end
+
+  def scheduled_sessions
+    sessions.all(:scheduled => true)
+  end
 end
