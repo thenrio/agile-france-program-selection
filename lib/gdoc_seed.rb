@@ -11,7 +11,9 @@ CSV.foreach(File.join(File.dirname(__FILE__), '../cosel-agile-france-2010.csv'))
   session = Session.first(:key => key)
   if session
     session.vote = vote
-    session.scheduled = scheduled.casecmp('X') if scheduled
+    if scheduled
+      session.scheduled = (scheduled.upcase == 'X')
+    end
     session.save!
   end
 end
