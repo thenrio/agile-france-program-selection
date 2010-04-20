@@ -12,12 +12,12 @@ class Mailer
     speakers = Speaker.all(:sessions => {:scheduled => true})
     mails = []
     speakers.each do |speaker|
-      mails << mail(speaker, speaker.sessions)
+      mails << mail(speaker)
     end
     mails
   end
 
-  def mail(speaker, sessions)
+  def mail(speaker)
     erb = ERB.new(read_template('scheduled_session.text.erb'))
     content = erb.result binding
     mail = Mail.new do
@@ -26,7 +26,7 @@ class Mailer
       subject 'vous avez une session retenue au programme de la conférence Agile France'
       body content
     end
-    @@logger.info "sending #{mail}"
+    @@logger.info "sending to #{speaker.email} : #{speaker.scheduled_sessions} are approved"
     mail.deliver!
   end
 end
