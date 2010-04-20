@@ -2,6 +2,7 @@
 require 'mail'
 require 'model'
 require 'renderable'
+require 'logger'
 
 class Mailer
   @@logger = Logger.new('mailer.log')
@@ -25,7 +26,7 @@ class Mailer
       subject 'vous avez une session retenue au programme de la conférence Agile France'
       body content
     end
+    @@logger.info "sending #{mail}"
     mail.deliver!
-    @@logger.info "sent #{mail}"
   end
 end

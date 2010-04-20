@@ -44,9 +44,5 @@ Contactez nous pour toute question, remarque ou contrainte
 L'Organisation de la conférence Agile France
 eos
     end
-
-    it 'should send message to john@doe.org' do
-      Mail.deliveries.should == @mails
-    end
   end
 end
