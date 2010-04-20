@@ -20,3 +20,7 @@ Copyright (c) 2010 thierry. See LICENSE for details.
 == migration hand made
 alter table talk_proposal add column vote integer default 0;
 alter table talk_proposal add column scheduled boolean default false;
+
+== note
+update with sqlite3
+update talk_proposal set scheduled = 1 where talk_id=4;

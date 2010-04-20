@@ -4,6 +4,8 @@ require 'model'
 require 'renderable'
 
 class Mailer
+  @@logger = Logger.new('mailer.log')
+
   include Renderable
   def mail_speaker_having_at_least_one_scheduled_session
     speakers = Speaker.all(:sessions => {:scheduled => true})
@@ -23,6 +25,7 @@ class Mailer
       subject 'vous avez une session retenue au programme de la conférence Agile France'
       body content
     end
-    mail
+    mail.deliver!
+    @@logger.info "sent #{mail}"
   end
 end

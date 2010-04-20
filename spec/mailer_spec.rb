@@ -23,12 +23,13 @@ describe 'Mailer' do
       s2 = Session.new(:title => 'pub', :speaker => @speaker)
       s2.save
       @sessions = [s1, s2]
+
+      @mails = @mailer.mail_speaker_having_at_least_one_scheduled_session
     end
 
-    it 'should send to John Doe' do
-      mails = @mailer.mail_speaker_having_at_least_one_scheduled_session
-      mails.length.should == 1
-      mail = mails[0]
+    it 'should make a message to John Doe' do
+      @mails.length.should == 1
+      mail = @mails[0]
       mail.from.should == ['orga@conf.agile-france.org']
       mail.to.should == [@speaker.email]
       mail.subject.should == 'vous avez une session retenue au programme de la conférence Agile France'
@@ -42,6 +43,10 @@ Le programme sera publié prochainement
 Contactez nous pour toute question, remarque ou contrainte
 L'Organisation de la conférence Agile France
 eos
+    end
+
+    it 'should send message to john@doe.org' do
+      Mail.deliveries.should == @mails
     end
   end
 end
