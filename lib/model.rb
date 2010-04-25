@@ -16,7 +16,7 @@ class Session
   property :scheduled_at, DateTime
 
   belongs_to :speaker
-  belongs_to :room
+  belongs_to :room, :required => false
 
 
   def duration
