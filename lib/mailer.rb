@@ -12,19 +12,30 @@ class Mailer
   def mail_speaker_having_at_least_one_scheduled_session
     speakers = Speaker.all(:sessions => {:scheduled => true})
     mails = []
+    subject = 'vous avez une session retenue au programme de la conférence Agile France'
     speakers.each do |speaker|
-      mails << mail(speaker)
+      mails << mail(speaker, subject, 'session_is_accepted.text.erb')
     end
     mails
   end
 
-  def mail(speaker)
-    erb = ERB.new(read_template('scheduled_session.text.erb'))
+  def mail_confirm_schedule_time_to_speaker
+    speakers = Speaker.all(:sessions => {:scheduled => true})
+    mails = []
+    subject = 'heure de vos sessions à conférence Agile France'
+    speakers.each do |speaker|
+      mails << mail(speaker, subject, 'session_is_scheduled_at.text.erb')
+    end
+    mails
+  end
+
+  def mail(speaker, subject, template)
+    erb = ERB.new(read_template(template))
     content = erb.result binding
     mail = Mail.new do
       from 'orga@conf.agile-france.org'
       to "#{speaker.email}"
-      subject 'vous avez une session retenue au programme de la conférence Agile France'
+      subject(subject)
       body content
     end
     scheduled_sessions = []

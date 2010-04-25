@@ -1,0 +1,19 @@
+Bonjour <%= speaker.full_name %>
+Nous avons plusieurs information pour vous
+
+== Programmation ==
+Nous avons programmé<% speaker.scheduled_sessions.each do |session| %>
+- <%= session.title %>, <%= session.scheduled_at.strftime('le %d/%m/%Y à %H:%M') %>
+<% end %>
+Le programme sera en ligne prochainement sur http://conf.agile-france.org/
+
+== Matériel visuel ==
+Il y a un logo 'speaker' sur http://github.com/thierryhenrio/agile-france-publicity/blob/master/speaker-2010.png
+Le mettre sur un blog, un site, c'est aussi promouvoir l'évènement
+
+== Nous prenons en charge un orateur par session ==
+La prise en charge comprends les droits d'entrée pour la conférence et le diner du 31/05
+Si vous binomez avec Paul Dupont, Paul Dupont doit s'acquitter des droits d'entrée pour la conférence
+
+Contactez nous pour toute question, remarque ou contrainte
+L'Organisation de la conférence Agile France
