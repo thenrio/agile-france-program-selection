@@ -3,7 +3,7 @@ require 'configuration'
 require 'model'
 require 'mailer'
 
-Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-program-selection/prod.db'
+Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-program-selection/db/prod.db'
 
 # and what about some rake task ?
 # will look better...
