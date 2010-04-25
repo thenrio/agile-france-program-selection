@@ -19,5 +19,5 @@ Mail.defaults do
   delivery_method :smtp, options
 end
 
-Mailer.new.mail_speaker_having_at_least_one_scheduled_session
+Mailer.new.mail_confirm_schedule_time_to_speaker
 
