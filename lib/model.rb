@@ -13,8 +13,11 @@ class Session
   property :key, String
   property :vote, Float, :default => 0
   property :scheduled, Boolean, :default => false
+  property :scheduled_at, DateTime
 
   belongs_to :speaker
+  belongs_to :room
+
 
   def duration
     Category.duration(self.category)
@@ -82,4 +85,13 @@ class Speaker
   def scheduled_sessions
     sessions.all(:scheduled => true)
   end
+end
+
+class Room
+  include DataMapper::Resource
+  property :id, Serial
+  property :name, String
+  property :capacity, Integer
+
+  has n, :sessions
 end
