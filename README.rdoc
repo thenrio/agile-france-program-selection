@@ -20,6 +20,10 @@ Copyright (c) 2010 thierry. See LICENSE for details.
 == migration hand made
 alter table talk_proposal add column vote integer default 0;
 alter table talk_proposal add column scheduled boolean default false;
+alter table talk_proposal add column room_id integer references rooms(id);
+alter table talk_proposal add column scheduled_at datetime;
+
+('A'..'G').each {|name| Room.create :name => name}
 
 == note
 update with sqlite3
