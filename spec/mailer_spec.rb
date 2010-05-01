@@ -61,7 +61,7 @@ eos
       mail = @mails[0]
       mail.from.should == ['orga@conf.agile-france.org']
       mail.to.should == [@speaker.email]
-      mail.subject.should == 'heure de vos sessions à conférence Agile France'
+      mail.subject.should == 'heure de vos sessions à la conférence Agile France'
       mail.body.raw_source.should == <<eos
 Bonjour John Doe
 Nous avons plusieurs information pour vous

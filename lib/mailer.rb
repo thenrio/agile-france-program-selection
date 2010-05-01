@@ -22,7 +22,7 @@ class Mailer
   def mail_confirm_schedule_time_to_speaker
     speakers = Speaker.all(:sessions => {:scheduled => true})
     mails = []
-    subject = 'heure de vos sessions à conférence Agile France'
+    subject = 'heure de vos sessions à la conférence Agile France'
     speakers.each do |speaker|
       mails << mail(speaker, subject, 'session_is_scheduled_at.text.erb')
     end

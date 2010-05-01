@@ -28,3 +28,6 @@ alter table talk_proposal add column scheduled_at datetime;
 == note
 update with sqlite3
 update talk_proposal set scheduled = 1 where talk_id=4;
+
+== log grooming
+cat mailer.log | cut -d ' ' -f 10 | sort > mailed.people.log
