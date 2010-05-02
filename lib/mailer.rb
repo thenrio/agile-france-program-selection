@@ -41,7 +41,6 @@ class Mailer
     mail_scheduled_sessions(speakers, subject, template)    
   end
 
-
   def mail(speaker, subject, template)
     erb = ERB.new(read_template(template))
     content = erb.result binding
