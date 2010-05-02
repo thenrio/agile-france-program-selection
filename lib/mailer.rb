@@ -53,7 +53,7 @@ class Mailer
     end
     scheduled_sessions = []
     speaker.scheduled_sessions.each {|session| scheduled_sessions << session.title}
-    @@logger.info "sending to #{speaker.email} : #{scheduled_sessions} are approved"
+    @@logger.info "sending to #{speaker.email} : #{scheduled_sessions} template #{template}"
     @@mail_logger.info "#{mail} => #{mail.body}"
     mail.deliver!
   end
