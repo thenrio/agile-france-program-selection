@@ -1,0 +1,68 @@
+.session {
+  text-align:center;
+}
+
+.shuhari {
+  float:left;
+  width: 10%;
+}
+
+.theme, .vote {
+  float:left;
+  width: 20%;
+}
+
+.clear {
+  clear: both;
+}
+
+.pagebreak {
+  page-break-before:always;
+}
+
+.BWORKSHOP {
+  border: 1mm black solid;
+  height: 900px;
+  width: 300px;
+  float:left;
+}
+
+.KEYNOTE {
+  border: 1mm black solid;
+  height: 300px;
+  width: 300px;
+  float:left;
+}
+
+.OTHER {
+  border: 1mm black solid;
+  height: 300px;
+  width: 300px;
+  float:left;
+}
+
+.REX {
+  border: 1mm black solid;
+  height: 150px;
+  width: 300px;
+  float:left;
+}
+
+.TALK {
+  border: 1mm black solid;
+  height: 300px;
+  width: 300px;
+  float:left;
+}
+
+.WORKSHOP {
+  border: 1mm black solid;
+  height: 450px;
+  width: 300px;
+  float:left;
+}
+
+@media print {
+  @page         { margin: 0 }
+  .BWORKSHOP           { page-break-inside: avoid }
+}
