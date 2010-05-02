@@ -24,12 +24,14 @@ CSV.foreach(File.join(File.dirname(__FILE__), '../cosel-agile-france-2010.csv'))
   room = csv[9]
   day = csv[10]
   time = csv[11]
+  capacity = csv[14]
   session = Session.first(:key => key)
   if session
     session.vote = vote
     if scheduled
       add_schedule_information(session, day, room, scheduled, time)
     end
+    session.capacity = capacity
     session.save!
   end
 end
