@@ -17,7 +17,7 @@ describe 'Renderer' do
     describe 'render_sessions_with_template' do
       before do
         @got = nil
-        @content = @renderer.render_sessions_with_template(@sessions, 'sessions.html.erb') do |content|
+        @content = @renderer.render_sessions_with_template(@sessions, 'sessions-with-your-hands.html.erb') do |content|
           @got = content 
         end
       end
