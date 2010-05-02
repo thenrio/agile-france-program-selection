@@ -14,6 +14,7 @@ class Session
   property :vote, Float, :default => 0
   property :scheduled, Boolean, :default => false
   property :scheduled_at, DateTime
+  property :capacity, Integer
 
   belongs_to :speaker
   belongs_to :room, :required => false
