@@ -64,6 +64,7 @@ eos
   describe 'confirm_speaker' do
     before do
       @mails = @mailer.mail_confirm_schedule_time_to_speaker
+
     end
 
     it 'should make a message to John Doe' do
@@ -98,5 +99,38 @@ eos
     it 'should send it' do
       Mail::TestMailer.deliveries.should == @mails
     end
+  end
+
+  describe 'ask_for_capacity' do
+    before do
+      @mails = @mailer.ask_for_capacity
+    end
+
+    it 'should make a message to John Doe' do
+      @mails.length.should == 1
+      mail = @mails[0]
+      mail.from.should == ['orga@conf.agile-france.org']
+      mail.to.should == [@speaker.email]
+      mail.subject.should == "nombre de participants que vous pouvez accueillir"
+      mail.body.raw_source.should == <<eos
+Bonjour John Doe
+Nous nous sommes aperçu que le nombre de participants n'est pas requis lors de la soumission de session
+
+Nos objectifs sont les suivants
+- les participants ont accès à cette information pour prendre les bonnes décisions
+par exemple, la session 'Audience réduite' a une limite de 20, je vais rejoindre la salle 5 minutes avant
+
+
+== Programmation ==
+Pour les sessions suivantes, avez vous une limite de participation : 50, 40, 30 ?
+- diner, le 31/05/2010 à 10:30
+
+L'Organisation de la conférence Agile France
+eos
+    end
+
+#    it 'should send it' do
+#      Mail::TestMailer.deliveries.should == @mails
+#    end
   end
 end
