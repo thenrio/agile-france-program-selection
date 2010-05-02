@@ -23,6 +23,7 @@ describe 'Mailer' do
     Mail.defaults do
       delivery_method :test
     end
+    Mail::TestMailer.deliveries.clear
 
     create_seeds()
   end
@@ -49,6 +50,11 @@ Contactez nous pour toute question, remarque ou contrainte
 L'Organisation de la conférence Agile France
 eos
     end
+
+    it 'should send it' do
+      Mail::TestMailer.deliveries.should == @mails
+    end
+
   end
 
   describe 'confirm_speaker' do
