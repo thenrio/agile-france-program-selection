@@ -3,7 +3,7 @@ Nous avons plusieurs information pour vous
 
 == Programmation ==
 Nous avons programmé<% speaker.scheduled_sessions.each do |session| %>
-- <%= session.title %>, <%= session.scheduled_at.strftime('le %d/%m/%Y à %H:%M') %>
+- <%= session.title %>, <%= session.scheduled_at.strftime('le %d/%m/%Y à %H:%M') %>, pour une durée de <%= Session::Category.duration(session.category) %> minutes
 <% end %>
 Le programme sera en ligne prochainement sur http://conf.agile-france.org/
 

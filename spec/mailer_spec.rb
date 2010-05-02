@@ -78,7 +78,7 @@ Nous avons plusieurs information pour vous
 
 == Programmation ==
 Nous avons programmé
-- diner, le 31/05/2010 à 10:30
+- diner, le 31/05/2010 à 10:30, pour une durée de 60 minutes
 
 Le programme sera en ligne prochainement sur http://conf.agile-france.org/
 
