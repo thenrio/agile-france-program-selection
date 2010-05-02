@@ -7,11 +7,11 @@ def create_seeds
   @speaker = Speaker.new(:firstname => 'John', :lastname => 'Doe', :email => 'john@doe.org')
   @speaker.save
   date = DateTime.parse('2010/05/31 10:30')
-  s1 = Session.new(:title => 'diner', :speaker => @speaker, :scheduled => true, :scheduled_at => date)
-  s1.save
-  s2 = Session.new(:title => 'pub', :speaker => @speaker)
-  s2.save
-  @sessions = [s1, s2]
+  @diner = Session.new(:title => 'diner', :speaker => @speaker, :scheduled => true, :scheduled_at => date)
+  @diner.save
+  pub = Session.new(:title => 'pub', :speaker => @speaker)
+  pub.save
+  @sessions = [@diner, pub]
 end
 
 def configure_test_mail
@@ -101,17 +101,19 @@ eos
   end
 
   describe 'ask_for_capacity' do
-    before do
-      @mails = @mailer.mail_ask_for_capacity
-    end
 
-    it 'should make a message to John Doe' do
-      @mails.length.should == 1
-      mail = @mails[0]
-      mail.from.should == ['orga@conf.agile-france.org']
-      mail.to.should == [@speaker.email]
-      mail.subject.should == "nombre de participants que vous pouvez accueillir"
-      mail.body.raw_source.should == <<eos
+    describe ', with speaker having session without capacity' do
+      before do
+        @mails = @mailer.mail_ask_for_capacity
+      end
+
+      it 'should make a message to John Doe for diner session' do
+        @mails.length.should == 1
+        mail = @mails[0]
+        mail.from.should == ['orga@conf.agile-france.org']
+        mail.to.should == [@speaker.email]
+        mail.subject.should == "nombre de participants que vous pouvez accueillir"
+        mail.body.raw_source.should == <<eos
 Bonjour John Doe
 Nous nous sommes aperçu que le nombre de participants n'est pas requis lors de la soumission de session
 Et nous aimerions communiquer cette information aux participants
@@ -128,10 +130,23 @@ Pour les sessions suivantes, avez vous une limite de participation : 50, 40, 30,
 
 L'Organisation de la conférence Agile France
 eos
+      end
+
+      it 'should send it' do
+        Mail::TestMailer.deliveries.should == @mails
+      end
     end
 
-#    it 'should send it' do
-#      Mail::TestMailer.deliveries.should == @mails
-#    end
+    describe ', with speaker having scheduled session with capacity' do
+      before do
+        @diner.capacity = 10
+        @diner.save!
+        @mails = @mailer.mail_ask_for_capacity
+      end
+
+      it 'should not mail John Doe' do
+        @mails.length.should == 0  
+      end
+    end
   end
 end
