@@ -1,0 +1,21 @@
+<html>
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>
+  <link rel='stylesheet' media='all' href='<%= "css/program-with-your-hands.css" %>'>
+</head>
+
+<body>
+<div class='session'>
+  <% sessions.each do |session| %>
+    <div class='<%= session.category %>'>
+      <h3><%= session.title %></h3>
+      <div class='shuhari'><%= session.shuhari %></div>
+      <div class='vote'><%= session.vote %>/10</div>
+      <div class='theme'><%= session.theme %></div>
+      <h4><%= session.speaker.full_name %></h4>
+      <div class='clear'></div>
+    </div>
+  <% end %>
+</div>
+</body>
+</html>
