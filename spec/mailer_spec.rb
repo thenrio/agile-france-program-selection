@@ -64,7 +64,6 @@ eos
   describe 'confirm_speaker' do
     before do
       @mails = @mailer.mail_confirm_schedule_time_to_speaker
-
     end
 
     it 'should make a message to John Doe' do
