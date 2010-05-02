@@ -25,6 +25,9 @@ alter table talk_proposal add column scheduled_at datetime;
 
 ('A'..'G').each {|name| Room.create :name => name}
 
+== dm migration ==
+add_capacity_to_talk_proposal.rb
+
 == note
 update with sqlite3
 update talk_proposal set scheduled = 1 where talk_id=4;
