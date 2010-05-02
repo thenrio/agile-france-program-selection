@@ -1,7 +1,7 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'configuration'
 require 'model'
-require 'render'
+require 'renderer'
 require 'pager'
 
 def render_category(render, category)

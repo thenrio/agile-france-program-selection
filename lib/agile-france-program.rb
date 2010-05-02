@@ -1,7 +1,7 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'configuration'
 require 'model'
-require 'render'
+require 'renderer'
 
 def render_category(render, category)
   sessions = Session.all(:category => category, :order => [:vote.desc])
