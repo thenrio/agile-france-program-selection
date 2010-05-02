@@ -36,7 +36,7 @@ class Mailer
   def mail_ask_for_capacity
     subject = 'nombre de participants que vous pouvez accueillir'
     template = 'ask_for_capacity.text.erb'
-    speakers = Speaker.all(:sessions => {:scheduled => true})
+    speakers = Speaker.all(:sessions => {:scheduled => true, :capacity => nil})
 
     mail_scheduled_sessions(speakers, subject, template)    
   end
