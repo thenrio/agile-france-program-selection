@@ -45,6 +45,7 @@ class Mailer
     erb = ERB.new(read_template(template))
     content = erb.result binding
     mail = Mail.new do
+      content_type 'text/html; charset=UTF-8'
       from 'orga@conf.agile-france.org'
       to "#{speaker.email}"
       subject(subject)
