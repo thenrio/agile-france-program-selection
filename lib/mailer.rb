@@ -9,24 +9,27 @@ class Mailer
   @@mail_logger = Logger.new('mails.log')
   include Renderable
 
-  def mail_speaker_having_at_least_one_scheduled_session
+  def mail_scheduled_sessions(subject, template)
     speakers = Speaker.all(:sessions => {:scheduled => true})
     mails = []
-    subject = 'vous avez une session retenue au programme de la conférence Agile France'
     speakers.each do |speaker|
-      mails << mail(speaker, subject, 'session_is_accepted.text.erb')
+      mails << mail(speaker, subject, template)
     end
     mails
   end
 
+  def mail_speaker_having_at_least_one_scheduled_session
+    subject = 'vous avez une session retenue au programme de la conférence Agile France'
+    template = 'session_is_accepted.text.erb'
+
+    mail_scheduled_sessions(subject, template)
+  end
+
   def mail_confirm_schedule_time_to_speaker
-    speakers = Speaker.all(:sessions => {:scheduled => true})
-    mails = []
     subject = 'heure de vos sessions à la conférence Agile France'
-    speakers.each do |speaker|
-      mails << mail(speaker, subject, 'session_is_scheduled_at.text.erb')
-    end
-    mails
+    template = 'session_is_scheduled_at.text.erb'
+
+    mail_scheduled_sessions(subject, template)
   end
 
   def mail(speaker, subject, template)
