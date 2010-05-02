@@ -1,0 +1,15 @@
+Bonjour <%= speaker.full_name %>
+Nous nous sommes aperçu que le nombre de participants n'est pas requis lors de la soumission de session
+Et nous aimerions communiquer cette information aux participants
+
+Nos objectifs sont les suivants
+- les participants ont accès à cette information pour prendre les bonnes décisions
+par exemple, la session 'Audience réduite' a une limite de 20, je vais rejoindre la salle 5 minutes avant,
+plutot qu'arriver juste à temps
+
+
+== Vos sessions ==
+Pour les sessions suivantes, avez vous une limite de participation : 50, 40, 30, autre ?<% speaker.scheduled_sessions.each do |session| %>
+- <%= session.title %>, <%= session.scheduled_at.strftime('le %d/%m/%Y à %H:%M') %>
+<% end %>
+L'Organisation de la conférence Agile France

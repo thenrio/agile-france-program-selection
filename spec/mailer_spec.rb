@@ -103,7 +103,7 @@ eos
 
   describe 'ask_for_capacity' do
     before do
-      @mails = @mailer.ask_for_capacity
+      @mails = @mailer.mail_ask_for_capacity
     end
 
     it 'should make a message to John Doe' do
@@ -115,14 +115,16 @@ eos
       mail.body.raw_source.should == <<eos
 Bonjour John Doe
 Nous nous sommes aperçu que le nombre de participants n'est pas requis lors de la soumission de session
+Et nous aimerions communiquer cette information aux participants
 
 Nos objectifs sont les suivants
 - les participants ont accès à cette information pour prendre les bonnes décisions
-par exemple, la session 'Audience réduite' a une limite de 20, je vais rejoindre la salle 5 minutes avant
+par exemple, la session 'Audience réduite' a une limite de 20, je vais rejoindre la salle 5 minutes avant,
+plutot qu'arriver juste à temps
 
 
-== Programmation ==
-Pour les sessions suivantes, avez vous une limite de participation : 50, 40, 30 ?
+== Vos sessions ==
+Pour les sessions suivantes, avez vous une limite de participation : 50, 40, 30, autre ?
 - diner, le 31/05/2010 à 10:30
 
 L'Organisation de la conférence Agile France
