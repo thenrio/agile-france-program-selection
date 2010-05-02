@@ -14,18 +14,23 @@ def create_seeds
   @sessions = [s1, s2]
 end
 
+def configure_test_mail
+  Mail.defaults do
+    delivery_method :test
+  end
+  Mail::TestMailer.deliveries.clear
+end
+
+def configure_test_database
+  Configuration.new.test
+  create_seeds()
+end
+
 describe 'Mailer' do
   before do
+    configure_test_mail()
+    configure_test_database()
     @mailer = Mailer.new
-
-    Configuration.new.test
-
-    Mail.defaults do
-      delivery_method :test
-    end
-    Mail::TestMailer.deliveries.clear
-
-    create_seeds()
   end
 
   describe 'mail_speaker_having_at_least_one_scheduled_session' do
@@ -54,7 +59,6 @@ eos
     it 'should send it' do
       Mail::TestMailer.deliveries.should == @mails
     end
-
   end
 
   describe 'confirm_speaker' do
