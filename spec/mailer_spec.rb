@@ -94,5 +94,9 @@ Contactez nous pour toute question, remarque ou contrainte
 L'Organisation de la conférence Agile France
 eos
     end
+    
+    it 'should send it' do
+      Mail::TestMailer.deliveries.should == @mails
+    end
   end
 end
