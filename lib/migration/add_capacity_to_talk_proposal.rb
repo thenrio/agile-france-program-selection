@@ -5,18 +5,18 @@ require 'configuration'
 DataMapper::Logger.new(STDOUT, :debug)
 DataMapper.logger.debug( "Starting Migration" )
 
-Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-program-selection/prod.db'
+Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-program-selection/db/prod.db'
 
 migration 1, :add_scheduled_to_talk_proposal do
   up do
     modify_table :talk_proposal do
-      add_column :scheduled, Boolean, :default => false
+      add_column :capacity, Integer
     end
   end
 
   down do
     modify_table :talk_proposal do
-      drop_column :scheduled
+      drop_column :capacity
     end
   end
 end
