@@ -17,6 +17,12 @@ def add_schedule_information(session, day, room, scheduled, time)
   end
 end
 
+def clear_schedule_information(session)
+  session.scheduled = false
+  session.room = nil
+  session.scheduled_at = nil
+end
+
 CSV.foreach(File.join(File.dirname(__FILE__), '../cosel-agile-france-2010.csv')) do |csv|
   scheduled = csv[0]
   key = csv[1]
@@ -30,6 +36,8 @@ CSV.foreach(File.join(File.dirname(__FILE__), '../cosel-agile-france-2010.csv'))
     session.vote = vote
     if scheduled
       add_schedule_information(session, day, room, scheduled, time)
+    else
+      clear_schedule_information(session)
     end
     session.capacity = capacity
     session.save!
