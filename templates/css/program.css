@@ -7,11 +7,6 @@
   width: 10%;
 }
 
-.theme, .vote {
-  float:left;
-  width: 20%;
-}
-
 .clear {
   clear: both;
 }
@@ -62,7 +57,21 @@
   float:left;
 }
 
-@media print {
-  @page         { margin: 0 }
-  .BWORKSHOP           { page-break-inside: avoid }
+.COACHING {
+  background-color:pink;
+}
+.DEVEL {
+  background-color:green;
+}
+.ORG {
+  background-color:blue;
+}
+.PRODUCT {
+  background-color:orange;
+}
+.TOOL {
+  background-color:red;
+}
+.UX {
+  background-color:yellow;
 }

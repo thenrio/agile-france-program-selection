@@ -1,14 +1,14 @@
 <html>
 <head>
   <meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>
-  <link rel='stylesheet' media='all' href='<%= "css/program-with-your-hands.css" %>'>
+  <link rel='stylesheet' media='all' href='<%= "css/program.css" %>'>
 </head>
 
 <body>
 <div class='session'>
   <% sessions.each do |session| %>
     <div class='<%= session.category %>'>
-      <div class='theme'><%= session.theme %>
+      <div class='<%= session.theme %>'>
         <h3><%= session.title %></h3>
         <div class='shuhari'><%= session.shuhari %></div>
         <h4><%= session.speaker.full_name %></h4>
