@@ -152,7 +152,7 @@ eos
 
   describe 'refusal' do
     before do
-      @mails = @mailer.mail_confirm_schedule_time_to_speaker
+      @mails = @mailer.mail_communicate_refusal
     end
 
     it 'should inform John Doe that pub session is not scheduled' do
