@@ -1,0 +1,7 @@
+Bonjour <%= speaker.full_name %>
+
+les sessions suivantes ne sont pas retenues au programme<% speaker.scheduled_sessions.each do |session| %>
+- <%= session.title %>
+<% end %>
+Nous vous remercions d'avoir proposé, car cela nous a permis de choisir
+L'Organisation de la conférence Agile France

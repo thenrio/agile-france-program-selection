@@ -41,6 +41,14 @@ class Mailer
     mail_scheduled_sessions(speakers, subject, template)    
   end
 
+  def mail_communicate_refusal
+    subject = 'les sessions suivantes ne sont pas retenues'
+    template = 'communicate_refusal.text.erb'
+    speakers = Speaker.all(:sessions => {:scheduled => false})
+
+    mail_scheduled_sessions(speakers, subject, template)
+  end
+
   def mail(speaker, subject, template)
     erb = ERB.new(read_template(template))
     content = erb.result binding
