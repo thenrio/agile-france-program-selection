@@ -1,5 +1,5 @@
 require "spec_helper"
-require 'render'
+require 'renderer'
 require 'nokogiri'
 require 'rr'
 
