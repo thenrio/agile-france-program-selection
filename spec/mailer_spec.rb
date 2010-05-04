@@ -101,7 +101,6 @@ eos
   end
 
   describe 'ask_for_capacity' do
-
     describe ', with speaker having session without capacity' do
       before do
         @mails = @mailer.mail_ask_for_capacity
@@ -148,5 +147,35 @@ eos
         @mails.length.should == 0  
       end
     end
+
   end
+
+  describe 'refusal' do
+    before do
+      @mails = @mailer.mail_confirm_schedule_time_to_speaker
+    end
+
+    it 'should inform John Doe that pub session is not scheduled' do
+      @mails.length.should == 1
+      mail = @mails[0]
+      mail.from.should == ['orga@conf.agile-france.org']
+      mail.to.should == [@speaker.email]
+      mail.subject.should == 'vos propositions de session suivantes ne sont pas retenues à la conférence Agile France'
+      mail.body.raw_source.should == <<eos
+Bonjour John Doe
+
+les sessions suivantes ne sont pas retenues au programme
+- pub
+
+Nous vous remercions d'avoir proposé, car cela nous a permis de choisir
+L'Organisation de la conférence Agile France
+eos
+    end
+
+    it 'should send it' do
+      Mail::TestMailer.deliveries.should == @mails
+    end
+  end
+
+
 end
