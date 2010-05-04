@@ -8,7 +8,7 @@ describe 'Renderer' do
     @renderer = Renderer.new
   end
 
-  describe 'render' do
+  describe 'renderer' do
     before do
       @speaker = Speaker.new(:firstname => 'John', :lastname => 'Doe')
       @sessions = [Session.new(:title => 'diner', :speaker => @speaker)]
