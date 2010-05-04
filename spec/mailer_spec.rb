@@ -4,6 +4,8 @@ require 'mailer'
 require 'configuration'
 
 def create_seeds
+  Speaker.all.destroy!
+  Session.all.destroy!
   @speaker = Speaker.new(:firstname => 'John', :lastname => 'Doe', :email => 'john@doe.org')
   @speaker.save
   date = DateTime.parse('2010/05/31 10:30')
@@ -181,6 +183,9 @@ eos
     before do
       @diner.scheduled_at = DateTime.parse('31/05/2010 14h')
       @diner.save!
+      date = Date.parse('06/06/2006')
+      @lunch = Session.new(:title => 'lunch', :speaker => @speaker, :scheduled => true, :scheduled_at => date)
+      @lunch.save!
       @mails = @mailer.communicate_session_is_rescheduled @diner
     end
 
@@ -203,5 +208,4 @@ eos
       Mail::TestMailer.deliveries.should == @mails
     end
   end
-
 end
