@@ -1,0 +1,5 @@
+Bonjour <%= speaker.full_name %>
+Pour exploiter au mieux vos contraintes ou les capacités des salles, votre session a été reprogrammée<% speaker.scheduled_sessions.each do |session| %>
+- <%= session.title %>, <%= session.scheduled_at.strftime('le %d/%m/%Y à %H:%M') %>
+<% end %>
+L'Organisation de la conférence Agile France
