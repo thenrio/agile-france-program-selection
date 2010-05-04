@@ -25,4 +25,10 @@ describe 'Speaker' do
       @speaker.scheduled_sessions.should == [@s1]    
     end
   end
+
+  describe 'unscheduled_sessions' do
+    it 'should be sessions scoped by scheduled' do
+      @speaker.unscheduled_sessions.should == [@s2]
+    end
+  end
 end

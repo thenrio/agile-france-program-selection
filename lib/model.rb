@@ -86,6 +86,10 @@ class Speaker
   def scheduled_sessions
     sessions.all(:scheduled => true)
   end
+
+  def unscheduled_sessions
+    sessions.all(:scheduled => false)
+  end
 end
 
 class Room
