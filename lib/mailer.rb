@@ -73,4 +73,8 @@ class Mailer
     @@mail_logger.info "#{mail} => #{mail.body}"
     mail.deliver!
   end
+
+  def self.get_bindings(hash_bindings)
+    
+  end
 end

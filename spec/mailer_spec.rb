@@ -208,4 +208,13 @@ eos
       Mail::TestMailer.deliveries.should == @mails
     end
   end
+
+  describe 'get_bindings' do
+    it 'should make available hash values under hash keys' do
+      defined?(foo).should_not be_true
+      Mailer.get_bindings({:foo => 'foo'})
+      defined?('foo').should be_true
+      foo.should == 'foo'
+    end
+  end
 end
