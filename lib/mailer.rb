@@ -74,7 +74,7 @@ class Mailer
     mail.deliver!
   end
 
-  def self.get_bindings(hash_bindings)
-    
+  def inject_locals(hash)
+    self
   end
 end
