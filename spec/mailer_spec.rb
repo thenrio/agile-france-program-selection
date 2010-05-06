@@ -9,7 +9,7 @@ def create_seeds
   @speaker = Speaker.new(:firstname => 'John', :lastname => 'Doe', :email => 'john@doe.org')
   @speaker.save
   date = DateTime.parse('2010/05/31 10:30')
-  @diner = Session.new(:title => 'diner', :speaker => @speaker, :scheduled => true, :scheduled_at => date)
+  @diner = Session.new(:title => 'diner', :speaker => @speaker, :scheduled_at => date)
   @diner.save
   pub = Session.new(:title => 'pub', :speaker => @speaker)
   pub.save
