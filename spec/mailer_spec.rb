@@ -150,14 +150,13 @@ eos
         @mails.length.should == 0
       end
     end
-
   end
 
   describe 'refusal' do
     before do
       @mails = @mailer.mail_communicate_refusal
-
     end
+    
     it 'should inform John Doe that pub session is not scheduled' do
       @mails.length.should == 1
       mail = @mails[0]
