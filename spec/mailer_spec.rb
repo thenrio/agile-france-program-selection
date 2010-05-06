@@ -142,7 +142,6 @@ eos
       before do
         @diner.capacity = 10
         @diner.save!
-        debugger
         @mails = @mailer.mail_ask_for_capacity
       end
 

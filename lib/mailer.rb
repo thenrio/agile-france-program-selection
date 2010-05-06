@@ -36,9 +36,7 @@ class Mailer
   def mail_ask_for_capacity
     subject = 'nombre de participants que vous pouvez accueillir'
     template = 'ask_for_capacity.text.erb'
-    speakers = Speaker.scheduled
-    speakers =[]
-    speakers.collect!
+    speakers = Speaker.all(:sessions => {:scheduled_at.not => nil, :capacity => nil})
 
     mail_speakers(speakers, subject, template)
   end
