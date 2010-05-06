@@ -57,9 +57,11 @@ class Mailer
     mail_speakers(speakers, subject, template)
   end
 
-  def mail(speaker, subject, template)
+  def mail(speaker, subject, template, locals={})
+    inject_locals locals.merge({:speaker => speaker})
     erb = ERB.new(read_template(template))
-    content = erb.result binding
+    context = get_binding
+    content = erb.result(context)
     mail = Mail.new do
       content_type 'text/html; charset=UTF-8'
       from 'orga@conf.agile-france.org'
@@ -81,5 +83,9 @@ class Mailer
       self.send :instance_variable_set, "@#{symbol}", value
     end
     self
+  end
+
+  def get_binding
+    binding
   end
 end
