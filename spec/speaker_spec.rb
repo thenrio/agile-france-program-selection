@@ -8,7 +8,7 @@ describe 'Speaker' do
     Configuration.new.test
     @speaker = Speaker.new(:firstname => 'John', :lastname => 'Doe', :email => 'john@doe.org')
     @speaker.save!
-    @s1 = Session.new(:title => 'diner', :speaker => @speaker, :scheduled => true)
+    @s1 = Session.new(:title => 'diner', :speaker => @speaker, :scheduled_at => DateTime.now)
     @s1.save!
     @s2 = Session.new(:title => 'pub', :speaker => @speaker)
     @s2.save!

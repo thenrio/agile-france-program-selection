@@ -84,11 +84,11 @@ class Speaker
   end
 
   def scheduled_sessions
-    sessions.all(:scheduled => true)
+    sessions.all(:scheduled_at.not => nil)
   end
 
   def unscheduled_sessions
-    sessions.all(:scheduled => false)
+    sessions.all(:scheduled_at => nil)
   end
 end
 
