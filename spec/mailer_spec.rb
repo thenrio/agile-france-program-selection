@@ -213,6 +213,7 @@ eos
     it 'should make available hash values under hash keys' do
       mailer = Mailer.new
       mailer.inject_locals({:foo => 'foo'}).should == mailer
+      mailer.foo.should == 'foo'
     end
   end
 end

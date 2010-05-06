@@ -3,6 +3,7 @@ require 'mail'
 require 'model'
 require 'renderable'
 require 'logger'
+require 'ruby-debug'
 
 class Mailer
   @@logger = Logger.new('mailer.log')
@@ -75,6 +76,11 @@ class Mailer
   end
 
   def inject_locals(hash)
+    hash.each_pair do |key, value|
+      symbol = key.to_s
+      class << self; self; end.module_eval("attr_accessor :#{symbol}")
+      self.send :instance_variable_set, "@#{symbol}", value
+    end
     self
   end
 end
