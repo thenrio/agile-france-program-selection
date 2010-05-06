@@ -13,7 +13,9 @@ describe 'Speaker' do
     @s2 = Session.new(:title => 'pub', :speaker => @john)
     @s2.save!
     @eddy = Speaker.new(:firstname => 'Eddy', :lastname => 'Doe', :email => 'eddy@doe.org')
+    @eddy.save!
     @s3 = Session.new(:title => 'beer', :speaker => @eddy)
+    @s3.save!
     @sessions = [@s1, @s2]
   end
   describe 'full_name' do
@@ -37,6 +39,15 @@ describe 'Speaker' do
   describe 'Speaker.scheduled' do
     it 'should be John' do
       Speaker.scheduled.size.should == 1
+      Speaker.scheduled.first.should == @john
+    end
+  end
+
+  describe 'Speaker.unscheduled' do
+    it 'should be John and Eddy' do
+      Speaker.unscheduled.size.should == 2
+      Speaker.unscheduled.get(@john.id).should == @john
+      Speaker.unscheduled.get(@eddy.id).should == @eddy
     end
   end
 end

@@ -94,6 +94,10 @@ class Speaker
   def self.scheduled
     Speaker.all(:sessions => {:scheduled_at.not => nil})
   end
+
+  def self.unscheduled
+    Speaker.all(:sessions => {:scheduled_at => nil})
+  end
 end
 
 class Room
