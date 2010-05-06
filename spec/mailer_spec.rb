@@ -142,8 +142,10 @@ eos
       before do
         @diner.capacity = 10
         @diner.save!
+        debugger
         @mails = @mailer.mail_ask_for_capacity
       end
+
 
       it 'should not mail John Doe' do
         @mails.length.should == 0

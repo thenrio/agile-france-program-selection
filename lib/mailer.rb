@@ -3,14 +3,13 @@ require 'mail'
 require 'model'
 require 'renderable'
 require 'logger'
-require 'ruby-debug'
 
 class Mailer
   @@logger = Logger.new('mailer.log')
   @@mail_logger = Logger.new('mails.log')
   include Renderable
 
-  def mail_scheduled_sessions(speakers, subject, template)
+  def mail_speakers(speakers, subject, template)
     mails = []
     speakers.each do |speaker|
       mails << mail(speaker, subject, template)
@@ -23,7 +22,7 @@ class Mailer
     template = 'session_is_accepted.text.erb'
     speakers = Speaker.scheduled
 
-    mail_scheduled_sessions(speakers, subject, template)
+    mail_speakers(speakers, subject, template)
   end
 
   def mail_confirm_schedule_time_to_speaker
@@ -31,15 +30,17 @@ class Mailer
     template = 'session_is_scheduled_at.text.erb'
     speakers = Speaker.scheduled
 
-    mail_scheduled_sessions(speakers, subject, template)
+    mail_speakers(speakers, subject, template)
   end
 
   def mail_ask_for_capacity
     subject = 'nombre de participants que vous pouvez accueillir'
     template = 'ask_for_capacity.text.erb'
-    speakers = Speaker.scheduled.all(:sessions => {:capacity => nil})
+    speakers = Speaker.scheduled
+    speakers =[]
+    speakers.collect!
 
-    mail_scheduled_sessions(speakers, subject, template)    
+    mail_speakers(speakers, subject, template)
   end
 
   def mail_communicate_refusal
@@ -47,7 +48,7 @@ class Mailer
     template = 'communicate_refusal.text.erb'
     speakers = Speaker.unscheduled
 
-    mail_scheduled_sessions(speakers, subject, template)
+    mail_speakers(speakers, subject, template)
   end
 
   def communicate_session_is_rescheduled(session)
@@ -55,7 +56,7 @@ class Mailer
     template = 'communicate_session_is_rescheduled.text.erb'
     speakers = Speaker.scheduled
 
-    mail_scheduled_sessions(speakers, subject, template)
+    mail_speakers(speakers, subject, template)
   end
 
   def mail(speaker, subject, template)
@@ -68,9 +69,9 @@ class Mailer
       subject(subject)
       body content
     end
-    scheduled_sessions = []
-    speaker.scheduled_sessions.each {|session| scheduled_sessions << session.title}
-    @@logger.info "sending to #{speaker.email} : #{scheduled_sessions} template #{template}"
+    sessions = []
+    speaker.scheduled_sessions.each {|session| sessions << session.title}
+    @@logger.info "sending to #{speaker.email} : #{sessions} template #{template}"
     @@mail_logger.info "#{mail} => #{mail.body}"
     mail.deliver!
   end
