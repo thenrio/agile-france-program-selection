@@ -15,7 +15,7 @@ def render_category(render, category)
   end
 end
 
-Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-program-selection/db/prod.db'
+Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-database/prod.db'
 render = Renderer.new
 
 # and what about some rake task ?
