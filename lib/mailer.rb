@@ -57,21 +57,23 @@ class Mailer
     mail_speakers(speakers, subject, template)
   end
 
-  def mail(speaker, subject, template, locals={})
+  def make_body(speaker, template, locals={})
     inject_locals locals.merge({:speaker => speaker})
     erb = ERB.new(read_template(template))
     context = get_binding
-    content = erb.result(context)
+    erb.result(context)
+  end
+
+  def mail(speaker, subject, template, locals={})
+    body = make_body(speaker, template, locals)
     mail = Mail.new do
       content_type 'text/html; charset=UTF-8'
       from 'orga@conf.agile-france.org'
       to "#{speaker.email}"
       subject(subject)
-      body content
+      body(body)
     end
-    sessions = []
-    speaker.scheduled_sessions.each {|session| sessions << session.title}
-    @@logger.info "sending to #{speaker.email} : #{sessions} template #{template}"
+    @@logger.info "sending to #{speaker.email} template #{template}"
     @@mail_logger.info "#{mail} => #{mail.body}"
     mail.deliver!
   end
