@@ -26,6 +26,16 @@ describe Invoicer do
         @invoicer.select_receivable_invoices.should == []
       end
     end
-  end
 
+    describe ', with 1 attendee and 0 invoice' do
+      before do
+        @john = Attendee.new(:firstname => 'john', :lastname => 'doe', :email => 'john@doe.com', :company => @google)
+        @john.save
+      end
+
+      it 'should return john#payments' do
+        @invoicer.select_receivable_invoices.should == [Payment.new('AGF10P270', 1)]
+      end
+    end
+  end
 end
