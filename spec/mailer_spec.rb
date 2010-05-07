@@ -189,20 +189,23 @@ eos
       @mails = @mailer.communicate_session_is_rescheduled @diner
     end
 
-#    it 'should inform John Doe that pub session is not scheduled' do
-#      @mails.length.should == 1
-#      mail = @mails[0]
-#      mail.from.should == ['orga@conf.agile-france.org']
-#      mail.to.should == [@speaker.email]
-#      mail.subject.should == 'votre session a été reprogrammée'
-#      mail.body.raw_source.should == <<eos
-#Bonjour John Doe
-#Pour exploiter au mieux vos contraintes ou les capacités des salles, votre session a été reprogrammée
-#- diner, le 31/05/2010 à 14:00
-#
-#L'Organisation de la conférence Agile France
-#eos
-#    end
+    it 'should inform John Doe that pub session is not scheduled' do
+      @mails.length.should == 1
+      mail = @mails[0]
+      mail.from.should == ['orga@conf.agile-france.org']
+      mail.to.should == [@speaker.email]
+      mail.subject.should == 'une de vos sessions a été reprogrammée'
+      mail.body.raw_source.should == <<eos
+Bonjour John Doe
+Pour exploiter au mieux vos contraintes ou les capacités des salles, nous avons reprogrammé au moins une de vos session
+Nous vous confirmons votre agenda
+- diner, le 31/05/2010 à 14:00
+
+- lunch, le 06/06/2006 à 00:00
+
+L'Organisation de la conférence Agile France
+eos
+    end
 
     it 'should send it' do
       Mail::TestMailer.deliveries.should == @mails

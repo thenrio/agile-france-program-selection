@@ -50,7 +50,7 @@ class Mailer
   end
 
   def communicate_session_is_rescheduled(session)
-    subject = 'votre session a été reprogrammée'
+    subject = 'une de vos sessions a été reprogrammée'
     template = 'communicate_session_is_rescheduled.text.erb'
     speakers = Speaker.scheduled
 
