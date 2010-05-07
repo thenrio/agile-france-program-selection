@@ -23,7 +23,7 @@ describe Invoicer do
 
     describe ', with no attendee' do
       it 'should return []' do
-        @invoicer.select_receivable_invoices.should == []
+        @invoicer.invoice_companies.should == []
       end
     end
 
@@ -34,7 +34,7 @@ describe Invoicer do
       end
 
       it 'should return john#payments' do
-        @invoicer.select_receivable_invoices.should == [Payment.new('AGF10P270', 1)]
+        @invoicer.invoice_companies.should == [Payment.new('AGF10P270', 1)]
       end
     end
   end
