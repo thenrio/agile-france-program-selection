@@ -17,9 +17,10 @@ class Configuration
     DataMapper.setup(:default, 'sqlite3::memory:')
     Speaker.auto_migrate!
     Session.auto_migrate!
+    Company.auto_migrate!
+    Attendee.auto_migrate!
+    Invoice.auto_migrate!
+    InvoiceItem.auto_migrate!
     self
   end
 end
-
-
-
