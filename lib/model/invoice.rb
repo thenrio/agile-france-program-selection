@@ -10,6 +10,7 @@ class Company
   storage_names[:default] = 'registration_company'
 
   property :id, Serial, :field => 'company_id'
+  property :name, String
   property :firstname, String
   property :lastname, String
   property :email, String
