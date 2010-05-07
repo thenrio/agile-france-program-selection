@@ -3,7 +3,7 @@ require 'csv'
 require 'configuration'
 require 'model'
 
-Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-program-selection/db/prod.db'
+Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-database/prod.db'
 
 DAYS = {1 => '2010/05/31', 2 => '2010/06/01'}
 
