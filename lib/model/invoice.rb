@@ -6,7 +6,7 @@ end
 
 class Company
   include DataMapper::Resource
-  include FullNamed
+#  include FullNamed
   storage_names[:default] = 'registration_company'
 
   property :id, Serial, :field => 'company_id'
@@ -22,7 +22,7 @@ end
 class Attendee
   include DataMapper::Resource
   include FullNamed
-  storage_names[:default] = 'registration_company'
+  storage_names[:default] = 'registration_attendee'
 
   property :id, Serial, :field => 'attendee_id'
   property :firstname, String
@@ -37,7 +37,7 @@ class Invoice
   property :xero_id, String
 
   belongs_to :company
-  has n, :invoiced_items
+  has n, :invoice_items
 end
 
 class InvoiceItem
