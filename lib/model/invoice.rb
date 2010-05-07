@@ -39,7 +39,7 @@ class Invoice
   has n, :invoiced_items
 end
 
-class InvoicedItem
+class InvoiceItem
   include DataMapper::Resource
 
   property :id, Serial
