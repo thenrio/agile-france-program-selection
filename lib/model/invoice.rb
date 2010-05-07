@@ -43,7 +43,7 @@ class InvoicedItem
   include DataMapper::Resource
 
   property :id, Serial
-  property :xero_item_id
+  property :xero_item_id, String
 
   belongs_to :invoice
   belongs_to :attendee
