@@ -1,6 +1,6 @@
 #encoding: utf-8
 require 'mail'
-require 'model'
+require 'model/program'
 require 'renderable'
 require 'logger'
 

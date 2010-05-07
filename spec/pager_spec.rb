@@ -1,6 +1,6 @@
 require "spec_helper"
 require 'pager'
-require 'model'
+require 'model/program'
 
 describe 'pager' do
 

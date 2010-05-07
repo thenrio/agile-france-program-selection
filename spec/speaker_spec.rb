@@ -1,5 +1,5 @@
 require "spec_helper.rb"
-require "model"
+require "model/program"
 require 'configuration'
 
 

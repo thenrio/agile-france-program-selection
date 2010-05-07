@@ -1,6 +1,6 @@
 #encoding: utf-8
 require 'configuration'
-require 'model'
+require 'model/program'
 require 'erb'
 require 'fileutils'
 require 'renderable'
