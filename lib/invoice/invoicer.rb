@@ -1,3 +1,5 @@
+require 'invoice/payment'
+
 class Invoicer
   attr_accessor :connector
 
