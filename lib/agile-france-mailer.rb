@@ -1,7 +1,7 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'configuration'
 require 'model/program'
-Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-program-selection/db/prod.db'
+Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-database/db/prod.db'
 
 # and what about some rake task ?
 # will look better...
