@@ -32,7 +32,10 @@ class Attendee
   belongs_to :company
 
   def invoiceables
-    [Invoiceable.new]
+    invoices = []
+    place = Invoiceable.new
+    place = Invoiceable.new('AGF10P220') if early?
+    invoices.push place
   end
 end
 
