@@ -30,6 +30,7 @@ module Connector
     end
 
     def put_invoice(company, invoiceables)
+      @access_token.put('https://api.xero.com/api.xro/2.0/Invoice', create_invoice(company, invoiceables))
     end
 
 
