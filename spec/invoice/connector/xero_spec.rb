@@ -10,9 +10,15 @@ describe Connector::Xero do
 
     @connector = Connector::Xero.new(@consumer, @secret, @options)
   end
-  describe 'put_invoice' do
-    it 'should' do
+  describe 'access_token' do
+    before do
+      consumer, @token = 'hello', 'there'
+      mock(OAuth::Consumer).new(@consumer, @secret, @options) {consumer}
+      mock(OAuth::AccessToken).new(consumer, @consumer, @secret) {@token}
+    end
 
+    it 'access_token' do
+      @connector.access_token.should == @token
     end
   end
 end
