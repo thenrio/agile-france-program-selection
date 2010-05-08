@@ -56,6 +56,9 @@ describe Connector::Xero do
     it 'should build minimal xml' do
       doc = Nokogiri::XML(@connector.create_invoice(@company, @invoiceables))
       doc.xpath('/Invoice').length.should == 1
+      doc.xpath('/Invoice/Type').length.should == 1
+      doc.xpath('/Invoice/Type').first.content.should == 'ACCREC'
+
     end
   end
 end

@@ -23,7 +23,10 @@ module Connector
     end
 
     def create_invoice(company, invoiceables)
-      
+      builder = Builder::XmlMarkup.new
+      xml = builder.Invoice {|invoice|
+        invoice.Type('ACCREC')
+        }
     end
   end
 end
