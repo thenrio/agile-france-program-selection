@@ -26,6 +26,9 @@ module Connector
       builder = Builder::XmlMarkup.new
       xml = builder.Invoice {|invoice|
         invoice.Type('ACCREC')
+        invoice.Contact {|contact|
+          contact.Name(company.name)
+          }
         }
     end
   end

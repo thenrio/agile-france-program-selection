@@ -54,11 +54,13 @@ describe Connector::Xero do
       @invoiceables = [Invoiceable.new('foo', 10), Invoiceable.new('moo', 3)]
     end
     it 'should build minimal xml' do
-      doc = Nokogiri::XML(@connector.create_invoice(@company, @invoiceables))
-      doc.xpath('/Invoice').length.should == 1
-      doc.xpath('/Invoice/Type').length.should == 1
+      xml = @connector.create_invoice(@company, @invoiceables)
+      debugger
+      doc = Nokogiri::XML(xml)
       doc.xpath('/Invoice/Type').first.content.should == 'ACCREC'
-
+      doc.xpath('/Invoice/Contact/Name').first.content.should == 'no name'
+      doc.xpath('/Invoice/Contact/Date').first.content.should == '2010-05-10'
+      doc.xpath('/Invoice/Contact/DueDate').first.content.should == '2010-05-25'
     end
   end
 end
