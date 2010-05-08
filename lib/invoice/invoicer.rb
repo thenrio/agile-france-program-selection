@@ -1,4 +1,4 @@
-require 'invoice/payment'
+require 'invoice/invoiceable'
 
 class Invoicer
   attr_accessor :connector
@@ -14,6 +14,6 @@ class Invoicer
 
   def invoice_company(company)
     return nil if company.attendees.empty?
-    Payment.new(:standard, 1) if company.invoices.empty?
+    Invoiceable.new(:standard, 1) if company.invoices.empty?
   end
 end

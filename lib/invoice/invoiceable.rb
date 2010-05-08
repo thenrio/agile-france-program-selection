@@ -1,4 +1,4 @@
-class Payment
+class Invoiceable
   attr_accessor :code, :quantity
   def initialize(code='AGF10P270', quantity=1)
     self.code = code

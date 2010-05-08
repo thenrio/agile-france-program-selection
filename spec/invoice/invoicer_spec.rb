@@ -34,7 +34,7 @@ describe Invoicer do
       end
 
       it 'should return john#payments' do
-        @invoicer.invoice_companies.should == [Payment.new(:standard, 1)]
+        @invoicer.invoice_companies.should == [Invoiceable.new(:standard, 1)]
       end
     end
   end
