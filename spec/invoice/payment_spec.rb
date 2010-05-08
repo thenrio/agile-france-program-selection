@@ -5,9 +5,14 @@ require 'invoice/payment'
 
 describe Payment do
   describe 'default values' do
-    it 'should have default code AGF10P270, and quantity 1' do
-      p = Payment.new
-      p.code.should == 'AGF10P270'
+    before do
+      @payment = Payment.new
+    end
+    it 'should have default code AGF10P270' do
+      @payment.code.should == 'AGF10P270'
+    end
+    it 'should have default quantity 1' do
+      @payment.quantity.should == 1
     end
   end
 end
