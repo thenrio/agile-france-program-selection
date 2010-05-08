@@ -8,4 +8,8 @@ class Invoiceable
   def ==(other)
     code == other.code and quantity == other.quantity 
   end
+
+  def price
+    220
+  end
 end

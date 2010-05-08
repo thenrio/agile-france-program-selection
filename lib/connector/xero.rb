@@ -6,6 +6,8 @@ require 'builder'
 module Connector
   class Xero < Base
     attr_writer :access_token
+    attr_accessor :date, :offset
+
     def initialize(consumer_key, secret_key, options)
       @consumer_key = consumer_key
       @secret_key = secret_key
@@ -19,17 +21,29 @@ module Connector
     end
 
     def put_invoice(company, invoiceables)
-
     end
 
     def create_invoice(company, invoiceables)
       builder = Builder::XmlMarkup.new
-      xml = builder.Invoice {|invoice|
+      xml = builder.Invoice { |invoice|
         invoice.Type('ACCREC')
-        invoice.Contact {|contact|
+        invoice.Contact { |contact|
           contact.Name(company.name)
+        }
+        invoice.Date(Date.today)
+        invoice.DueDate(Date.today+15)
+        invoice.LineAmountType('Exclusive')
+        invoice.LineItems {|items|
+          invoiceables.each {|invoiceable|
+            items.LineItem {|item|
+              item.Description(invoiceable.code)
+              item.Quantity(invoiceable.quantity)
+              item.UnitPrice(invoiceable.price)
+              item.AccountCode(invoiceable.account)
+            }
           }
         }
+      }
     end
   end
 end
