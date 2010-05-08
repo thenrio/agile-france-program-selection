@@ -28,6 +28,7 @@ class Attendee
   property :email, String
   property :early, Boolean
   property :lunch, Boolean
+  property :invited_by, String
 
   belongs_to :company
 
@@ -35,6 +36,7 @@ class Attendee
     invoices = []
     place = Invoiceable.new
     place = Invoiceable.new('AGF10P220') if early?
+    place = Invoiceable.new('AGF10P0') if invited?
     invoices.push place
     diner = Invoiceable.new('AGF10D40') if diner?
     invoices.push diner if diner
@@ -43,6 +45,10 @@ class Attendee
 
   alias_method :diner=, :lunch=
   alias_method :diner?, :lunch?
+
+  def invited?
+    invited_by != nil
+  end
 end
 
 class Invoice

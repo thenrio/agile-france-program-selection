@@ -29,4 +29,14 @@ describe Attendee do
       @attendee.invoiceables.should == [Invoiceable.new, Invoiceable.new('AGF10D40')]
     end
   end
+
+  describe 'invited by organisation' do
+    before do
+      @attendee.invited_by = 'ORGANIZATION'
+    end
+
+    it 'should be invoiced' do
+      @attendee.invoiceables.should == [Invoiceable.new('AGF10P0')]
+    end
+  end
 end
