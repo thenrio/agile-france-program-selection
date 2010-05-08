@@ -1,7 +1,9 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 require 'rr'
-require 'connector/xero'
 require 'nokogiri'
+require 'connector/xero'
+require 'model/invoice'
+require 'invoice/invoiceable'
 
 describe Connector::Xero do
   before do
@@ -49,10 +51,11 @@ describe Connector::Xero do
   describe 'create_invoice' do
     before do
       @company = Company.new(:name => 'no name', :email => 'no@name.com')
-      @invoiceables = [Invoiceable.new, ]
+      @invoiceables = [Invoiceable.new('foo', 10), Invoiceable.new('moo', 3)]
     end
     it 'should build minimal xml' do
-      doc = Nokogiri::XML(@connector.create_invoice())
+      doc = Nokogiri::XML(@connector.create_invoice(@company, @invoiceables))
+      doc.xpath('/Invoice').length.should == 1
     end
   end
 end
