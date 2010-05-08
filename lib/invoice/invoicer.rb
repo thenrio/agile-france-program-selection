@@ -3,7 +3,17 @@ require 'invoice/payment'
 class Invoicer
   attr_accessor :connector
 
-  def select_receivable_invoices
-    []
+  def invoice_companies
+    payments = []
+    Company.all.each do |company|
+      payment = invoice_company company
+      payments.push payment if payment
+    end
+    payments
+  end
+
+  def invoice_company(company)
+    return nil if company.attendees.empty?
+    Payment.new(:standard, 1) if company.invoices.empty?
   end
 end
