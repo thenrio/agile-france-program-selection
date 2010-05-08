@@ -33,7 +33,7 @@ describe Invoicer do
         @john.save
       end
 
-      it 'should return john#payments' do
+      it 'should return john#invoiceables' do
         @invoicer.invoice_companies.should == [Invoiceable.new(:standard, 1)]
       end
     end
