@@ -19,9 +19,11 @@ module Connector
     end
 
     def put_invoice(company, invoiceables)
+
     end
 
     def create_invoice(company, invoiceables)
+      
     end
   end
 end

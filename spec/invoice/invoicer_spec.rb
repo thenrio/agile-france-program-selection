@@ -13,7 +13,7 @@ describe Invoicer do
     @invoicer.connector.should be_nil
   end
 
-  describe 'select_receivable_invoices' do
+  describe 'invoice_companies' do
     before do
       Configuration.new.test
       @google = Company.new(:name => 'google', :firstname => 'john', :lastname => 'doe', :email => 'john@doe.com')
