@@ -36,7 +36,13 @@ class Attendee
     place = Invoiceable.new
     place = Invoiceable.new('AGF10P220') if early?
     invoices.push place
+    diner = Invoiceable.new('AGF10D40') if diner?
+    invoices.push diner if diner
+    invoices
   end
+
+  alias_method :diner=, :lunch=
+  alias_method :diner?, :lunch?
 end
 
 class Invoice

@@ -3,24 +3,30 @@ require 'model/invoice'
 require 'invoice/invoiceable'
 
 describe Attendee do
+  before do
+    @attendee = Attendee.new
+  end
 
-  describe 'default' do
-    before do
-      @attendee = Attendee.new
-    end
 
-    it 'default should be entrance invoiceable' do
-      @attendee.invoiceables.should == [Invoiceable.new]
-    end
+  it 'default entrance should be invoiceable' do
+    @attendee.invoiceables.should == [Invoiceable.new]
   end
 
   describe 'early' do
     before do
-      @attendee = Attendee.new(:early => true)
+      @attendee.early = true
     end
-
-    it 'default should be entrance invoiceable' do
+    it 'should be invoiceable' do
       @attendee.invoiceables.should == [Invoiceable.new('AGF10P220')]
+    end
+  end
+
+  describe 'diner' do
+    before do
+      @attendee.diner = true
+    end
+    it 'should be invoiceable' do
+      @attendee.invoiceables.should == [Invoiceable.new, Invoiceable.new('AGF10D40')]
     end
   end
 end
