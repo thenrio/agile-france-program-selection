@@ -1,6 +1,7 @@
 require 'connector/base'
 require 'oauth'
 require 'oauth/signature/rsa/sha1'
+require 'builder'
 
 module Connector
   class Xero < Base
@@ -15,7 +16,6 @@ module Connector
       return @access_token if @access_token
       consumer = OAuth::Consumer.new(@consumer_key, @secret_key, @options)
       @access_token = OAuth::AccessToken.new(consumer, @consumer_key, @secret_key)
-      @access_token
     end
 
     def put_invoice(company, invoiceables)
