@@ -50,7 +50,7 @@ describe Connector::Xero do
 
   describe 'create_invoice' do
     before do
-      @company = Company.new(:name => 'no name', :email => 'no@name.com')
+      @company = Company.new(:name => 'no name', :firstname => 'john', :lastname => 'doe', :email => 'john@doe.com')
       @invoiceables = [Invoiceable.new('foo', 10), Invoiceable.new('moo', 3)]
       @connector.date = Date.parse('10/05/2010')
     end
@@ -60,6 +60,9 @@ describe Connector::Xero do
       doc = Nokogiri::XML(xml)
       doc.xpath('/Invoice/Type').first.content.should == 'ACCREC'
       doc.xpath('/Invoice/Contact/Name').first.content.should == 'no name'
+      doc.xpath('/Invoice/Contact/FirstName').first.content.should == 'john'
+      doc.xpath('/Invoice/Contact/LastName').first.content.should == 'doe'
+      doc.xpath('/Invoice/Contact/EmailAddress').first.content.should == 'john@doe.com'
       doc.xpath('/Invoice/Date').first.content.should == '20100510'
       doc.xpath('/Invoice/DueDate').first.content.should == '20100525'
       foo = doc.xpath('/Invoice/LineItems/LineItem')[0]

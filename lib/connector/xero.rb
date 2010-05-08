@@ -35,10 +35,13 @@ module Connector
 
     def create_invoice(company, invoiceables)
       builder = Builder::XmlMarkup.new
-      xml = builder.Invoice { |invoice|
+      builder.Invoice { |invoice|
         invoice.Type('ACCREC')
         invoice.Contact { |contact|
           contact.Name(company.name)
+          contact.FirstName(company.firstname)
+          contact.LastName(company.lastname)
+          contact.EmailAddress(company.email)
         }
         invoice.Date(date.xero_format)
         invoice.DueDate((date+offset).xero_format)
