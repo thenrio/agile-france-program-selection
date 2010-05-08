@@ -26,6 +26,8 @@ class Attendee
   property :firstname, String
   property :lastname, String
   property :email, String
+  property :early, Boolean
+  property :lunch, Boolean
 
   belongs_to :company
 
