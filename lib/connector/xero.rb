@@ -29,9 +29,19 @@ module Connector
       @access_token = OAuth::AccessToken.new(consumer, @consumer_key, @secret_key)
     end
 
+
     def put_invoice(company, invoiceables)
-      @access_token.put('https://api.xero.com/api.xro/2.0/Invoice', create_invoice(company, invoiceables))
+      uri = 'https://api.xero.com/api.xro/2.0/Invoice'
+      @access_token.put(uri, create_invoice(company, invoiceables))
     end
+
+    def parse(response)
+    end
+
+#    def invoice(company, invoiceables)
+#      invoice = parse(put_invoice(company, invoiceables))
+#      invoice.save
+#    end
 
 
     def create_invoice(company, invoiceables)

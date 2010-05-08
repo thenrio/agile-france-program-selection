@@ -90,6 +90,8 @@ describe Connector::Xero do
       foo.xpath('AccountCode').first.content.should == 'AGFSI'
     end
   end
+
+  describe ''
 end
 
 
