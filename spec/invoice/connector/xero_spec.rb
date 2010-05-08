@@ -17,7 +17,7 @@ describe Connector::Xero do
       mock(OAuth::AccessToken).new(consumer, @consumer, @secret) {@token}
     end
 
-    it 'access_token' do
+    it 'should initialize token with appropriate parameters' do
       @connector.access_token.should == @token
     end
   end
