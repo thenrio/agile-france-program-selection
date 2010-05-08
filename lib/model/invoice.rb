@@ -38,8 +38,11 @@ class Attendee
     place = Invoiceable.new('AGF10P220') if early?
     place = Invoiceable.new('AGF10P0') if invited?
     invoices.push place
-    diner = Invoiceable.new('AGF10D40') if diner?
-    invoices.push diner if diner
+    if diner?
+      diner = Invoiceable.new('AGF10D40')
+      diner = Invoiceable.new('AGF10D0') if invited?
+      invoices.push diner if diner
+    end
     invoices
   end
 

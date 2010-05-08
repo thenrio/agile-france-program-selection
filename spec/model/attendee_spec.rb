@@ -33,10 +33,21 @@ describe Attendee do
   describe 'invited by organisation' do
     before do
       @attendee.invited_by = 'ORGANIZATION'
+      @attendee.diner?.should be_false
     end
 
-    it 'should be invoiced' do
+    it 'should be invoiced with AGF10P0' do
       @attendee.invoiceables.should == [Invoiceable.new('AGF10P0')]
+    end
+
+    describe 'with diner' do
+      before do
+        @attendee.diner = true
+      end
+
+      it 'should have AGF10D0' do
+        @attendee.invoiceables.last.should == Invoiceable.new('AGF10D0')
+      end
     end
   end
 end
