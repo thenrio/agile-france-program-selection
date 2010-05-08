@@ -1,4 +1,5 @@
 require 'dm-core'
+require 'model/full_named'
 
 class Session
   include DataMapper::Resource
@@ -69,6 +70,7 @@ end
 
 class Speaker
   include DataMapper::Resource
+  include FullNamed
   storage_names[:default] = 'talk_speaker'
 
   property :id, Serial, :field => 'speaker_id'
@@ -78,10 +80,6 @@ class Speaker
 
 
   has n, :sessions
-
-  def full_name
-    "#{firstname} #{lastname}"
-  end
 
   def scheduled_sessions
     sessions.all(:scheduled_at.not => nil)

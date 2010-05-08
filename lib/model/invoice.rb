@@ -1,8 +1,6 @@
-module FullNamed
-  def full_name
-    "#{firstname} #{lastname}"
-  end
-end
+require 'dm-core'
+require 'model/full_named'
+
 
 class Company
   include DataMapper::Resource
@@ -30,6 +28,10 @@ class Attendee
   property :email, String
 
   belongs_to :company
+
+  def invoiceables
+    [Invoiceable.new]
+  end
 end
 
 class Invoice
