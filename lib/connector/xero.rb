@@ -2,6 +2,13 @@ require 'connector/base'
 require 'oauth'
 require 'oauth/signature/rsa/sha1'
 require 'builder'
+require 'renderable'
+
+class Date
+  def xero_format
+    self.strftime('%Y%m%d')
+  end
+end
 
 module Connector
   class Xero < Base
@@ -12,6 +19,8 @@ module Connector
       @consumer_key = consumer_key
       @secret_key = secret_key
       @options = options
+      self.date = Date.today
+      self.offset = 15
     end
 
     def access_token
@@ -23,6 +32,7 @@ module Connector
     def put_invoice(company, invoiceables)
     end
 
+
     def create_invoice(company, invoiceables)
       builder = Builder::XmlMarkup.new
       xml = builder.Invoice { |invoice|
@@ -30,16 +40,16 @@ module Connector
         invoice.Contact { |contact|
           contact.Name(company.name)
         }
-        invoice.Date(Date.today)
-        invoice.DueDate(Date.today+15)
+        invoice.Date(date.xero_format)
+        invoice.DueDate((date+offset).xero_format)
         invoice.LineAmountType('Exclusive')
-        invoice.LineItems {|items|
-          invoiceables.each {|invoiceable|
-            items.LineItem {|item|
+        invoice.LineItems { |items|
+          invoiceables.each { |invoiceable|
+            items.LineItem { |item|
               item.Description(invoiceable.code)
               item.Quantity(invoiceable.quantity)
-              item.UnitPrice(invoiceable.price)
-              item.AccountCode(invoiceable.account)
+              item.UnitAmount(invoiceable.price)
+              item.AccountCode('AGFSI')
             }
           }
         }

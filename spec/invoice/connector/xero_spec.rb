@@ -52,14 +52,23 @@ describe Connector::Xero do
     before do
       @company = Company.new(:name => 'no name', :email => 'no@name.com')
       @invoiceables = [Invoiceable.new('foo', 10), Invoiceable.new('moo', 3)]
+      @connector.date = Date.parse('10/05/2010')
     end
     it 'should build minimal xml' do
       xml = @connector.create_invoice(@company, @invoiceables)
+      puts xml
       doc = Nokogiri::XML(xml)
       doc.xpath('/Invoice/Type').first.content.should == 'ACCREC'
       doc.xpath('/Invoice/Contact/Name').first.content.should == 'no name'
-      doc.xpath('/Invoice/Contact/Date').first.content.should == '2010-05-10'
-      doc.xpath('/Invoice/Contact/DueDate').first.content.should == '2010-05-25'
+      doc.xpath('/Invoice/Date').first.content.should == '20100510'
+      doc.xpath('/Invoice/DueDate').first.content.should == '20100525'
+      foo = doc.xpath('/Invoice/LineItems/LineItem')[0]
+      foo.xpath('Description').first.content.should == 'foo'
+      foo.xpath('Quantity').first.content.should == '10'
+      foo.xpath('UnitAmount').first.content.should == '220'
+      foo.xpath('AccountCode').first.content.should == 'AGFSI'
+      moo = doc.xpath('/Invoice/LineItems/LineItem')[1]
+      
     end
   end
 end
