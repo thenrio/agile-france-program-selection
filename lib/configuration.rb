@@ -15,6 +15,8 @@ class Configuration
 
   def test
     DataMapper.setup(:default, 'sqlite3::memory:')
+    require 'model/invoice'
+    require 'model/program'
     Speaker.auto_migrate!
     Session.auto_migrate!
     Company.auto_migrate!
