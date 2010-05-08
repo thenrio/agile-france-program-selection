@@ -1,6 +1,8 @@
 class Payment
   attr_accessor :code, :quantity
-  def initialize(code='', quantity=1)
+  def initialize(code='AGF10P270', quantity=1)
+    self.code = code
+    self.quantity = quantity
   end
 
   def ==(other)
