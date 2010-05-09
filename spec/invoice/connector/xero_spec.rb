@@ -70,7 +70,7 @@ describe Connector::Xero do
     before do
       @company = Company.new(:name => 'no name', :firstname => 'john', :lastname => 'doe', :email => 'john@doe.com')
       @connector.date = Date.parse('10/05/2010')
-      @invoiceables = [Invoiceable.new('foo', 10), Invoiceable.new('moo', 3)]
+      @invoiceables = [Invoiceable.new('foo', 10, 1)]
     end
     it 'should build minimal xml' do
       xml = @connector.create_invoice(@company, @invoiceables)
@@ -86,12 +86,10 @@ describe Connector::Xero do
       foo = doc.xpath('/Invoice/LineItems/LineItem')[0]
       foo.xpath('Description').first.content.should == 'foo'
       foo.xpath('Quantity').first.content.should == '10'
-      foo.xpath('UnitAmount').first.content.should == '220'
+      foo.xpath('UnitAmount').first.content.should == '1'
       foo.xpath('AccountCode').first.content.should == 'AGFSI'
     end
   end
-
-  describe ''
 end
 
 
