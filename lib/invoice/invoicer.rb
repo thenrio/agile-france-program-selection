@@ -2,8 +2,8 @@ require 'invoice/invoiceable'
 require 'connector/base'
 class Invoicer
   attr_accessor :connector
-  def initialize
-    self.connector = Connector::Base.new
+  def initialize(connector = Connector::Base.new)
+    self.connector = connector
   end
 
   def invoice_companies
