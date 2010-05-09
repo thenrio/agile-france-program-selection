@@ -1,8 +1,8 @@
 require 'spec/spec_helper'
 
 Given 'a XeroInvoicer using sandbox xero account' do
-  require 'connector/xero'
   require 'invoice/invoicer'
+  require 'connector/xero'
   options = {:site=> 'https://api.xero.com',
               :request_token_path => "/oauth/RequestToken",
               :access_token_path  => "/oauth/AccessToken",
@@ -30,7 +30,6 @@ And 'John Doe, from google, attends' do
 end
 
 When 'XeroInvoicer invoices' do
-  debugger
   @invoicer.invoice_companies
 end
 
