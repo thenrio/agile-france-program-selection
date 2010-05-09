@@ -56,7 +56,7 @@ describe Attendee do
       end
     end
 
-    describe ' when there is an entrance invoice for John Doe,' do
+    describe ' when entrance is already invoiced' do
       before do
         @invoice = Invoice.new(:company => @john_doe.company)
         entrance = InvoiceItem.new(:xero_item_id => 'AGF10P270', :attendee => @john_doe)
@@ -64,7 +64,7 @@ describe Attendee do
         @invoice.save
       end
 
-      it 'should have empty invoiceables' do
+      it 'should have no more invoiceables' do
         @john_doe.invoiceables.should == []
       end
     end
