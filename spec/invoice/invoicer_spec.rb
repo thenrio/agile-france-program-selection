@@ -3,38 +3,32 @@ require 'configuration'
 require 'invoice/invoicer'
 require 'model/invoice'
 require 'model/program'
+require 'connector/base'
 
-describe Invoicer do
+describe 'an Invoicer,' do
   before do
     @invoicer = Invoicer.new
   end
 
-  it 'should have a connector' do
+  it 'should have a default nil connector' do
     @invoicer.connector.should be_nil
   end
 
-  describe 'invoice_companies' do
+  describe 'when invoicing google' do
     before do
       Configuration.new.test
       @google = Company.new(:name => 'google', :firstname => 'john', :lastname => 'doe', :email => 'john@doe.com')
       @google.save
+      @john = Attendee.new(:firstname => 'john', :lastname => 'doe', :email => 'john@doe.com', :company => @google)
+      @john.save
+
+      @invoicer.connector = Connector::Base.new
     end
 
-    describe ', with no attendee' do
-      it 'should return []' do
-        @invoicer.invoice_companies.should == []
-      end
-    end
-
-    describe ', with 1 attendee and 0 invoice' do
-      before do
-        @john = Attendee.new(:firstname => 'john', :lastname => 'doe', :email => 'john@doe.com', :company => @google)
-        @john.save
-      end
-
-      it 'should return john#invoiceables' do
-        @invoicer.invoice_companies.should == [Invoiceable.new(:standard, 1)]
-      end
+    it 'should tell connector to invoice john\'s invoiceables' do
+      stub(@john).invoiceables {[1,2]}
+      mock(@invoicer.connector).put_invoice(@google, [1,2])
+      @invoicer.invoice_company @google
     end
   end
 end
