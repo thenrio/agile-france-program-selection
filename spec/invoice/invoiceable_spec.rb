@@ -15,4 +15,13 @@ describe Invoiceable do
       @good.quantity.should == 1
     end
   end
+
+  describe 'price' do
+    it 'should be 220 for early AGF10P220' do
+      Invoiceable.new('AGF10P220').price.should == 220  
+    end
+    it 'should be 270 for early AGF10P270' do
+      Invoiceable.new('AGF10P270').price.should == 270
+    end
+  end
 end
