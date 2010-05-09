@@ -10,8 +10,8 @@ describe 'an Invoicer,' do
     @invoicer = Invoicer.new
   end
 
-  it 'should have a default nil connector' do
-    @invoicer.connector.should be_nil
+  it 'should have a default connector' do
+    @invoicer.connector.should be_instance_of Connector::Base
   end
 
   describe 'when invoicing google' do
@@ -21,8 +21,6 @@ describe 'an Invoicer,' do
       @google.save
       @john = Attendee.new(:firstname => 'john', :lastname => 'doe', :email => 'john@doe.com', :company => @google)
       @john.save
-
-      @invoicer.connector = Connector::Base.new
     end
 
     it 'should tell connector to invoice john\'s invoiceables' do
