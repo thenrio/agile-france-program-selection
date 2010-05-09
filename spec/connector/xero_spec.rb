@@ -106,7 +106,6 @@ describe Connector::Xero do
     it 'should extract InvoiceNumber from happy xml, under xpath' do
       xml = <<XML
 <Response>
-  <Status>OK</Status>
   <Invoices>
     <Invoice>
       <InvoiceNumber>INV-0011</InvoiceNumber>
@@ -144,7 +143,8 @@ XML
 </ApiException>
 XML
       response = HttpDuck.new(400, xml)
-      lambda{@connector.parse_response(response)}.should raise_error RuntimeError, "Email address must be valid."
+      message = 'A validation exception occurred, Email address must be valid.'
+      lambda{@connector.parse_response(response)}.should raise_error Connector::Xero::Problem, message
     end
   end
 end

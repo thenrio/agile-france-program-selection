@@ -59,8 +59,21 @@ module Connector
 
     # parse response and return xpath content for /Response/Invoices/Invoice/InvoiceNumber
     def parse_response(response)
-      doc = Nokogiri::XML(response)
+      case response.code
+        when 200 then success!(response)
+        else fail!(response)
+      end
+    end
+
+    def success!(response)
+      doc = Nokogiri::XML(response.body)
       doc.xpath('/Response/Invoices/Invoice/InvoiceNumber').first.content
+    end
+
+    def fail!(response)
+      doc = Nokogiri::XML(response.body)
+      messages = doc.xpath('//Message').to_a.map{|element| element.content}.uniq!
+      raise Problem, messages.join(', ')
     end
 
 #    def invoice(company, invoiceables)
@@ -94,6 +107,6 @@ module Connector
       }
     end
 
-    class InvoicingError < StandardError; end
+    class Problem < StandardError; end
   end
 end
