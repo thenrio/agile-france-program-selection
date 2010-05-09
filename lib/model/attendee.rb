@@ -14,7 +14,7 @@ class Attendee
   property :lunch, Boolean
   property :invited_by, String
 
-  belongs_to :company
+  belongs_to :company, :required => false
 
   def invoiceables
     return @invoiceables if @invoiceables

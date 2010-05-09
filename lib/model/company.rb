@@ -14,4 +14,13 @@ class Company
 
   has n, :invoices
   has n, :attendees
+
+  def invoiceables
+    return @invoiceables if @invoiceables
+    @invoiceables = []
+    attendees.each do |attendee|
+      @invoiceables.concat attendee.invoiceables
+    end
+    @invoiceables
+  end
 end
