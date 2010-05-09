@@ -43,7 +43,6 @@ module Connector
 #      invoice.save
 #    end
 
-
     def create_invoice(company, invoiceables)
       builder = Builder::XmlMarkup.new
       builder.Invoice { |invoice|
