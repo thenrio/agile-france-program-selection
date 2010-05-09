@@ -93,5 +93,7 @@ module Connector
         }
       }
     end
+
+    class InvoicingError < StandardError; end
   end
 end
