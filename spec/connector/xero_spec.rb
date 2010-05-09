@@ -1,4 +1,4 @@
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
+require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 require 'rr'
 require 'nokogiri'
 require 'connector/xero'
@@ -93,12 +93,11 @@ describe Connector::Xero do
       foo.xpath('AccountCode').first.content.should == 'AGFSI'
     end
   end
-
-  describe 'parse' do
-    describe 'happy response' do
-      it 'should return xero InvoiceNumber' do
-        response = <<HAPPY
-<Response xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  
+  describe 'parse_response' do
+    it 'should extract InvoiceNumber from happy xml, under xpath' do
+      xml = <<XML
+<Response>
   <Status>OK</Status>
   <Invoices>
     <Invoice>
@@ -106,12 +105,17 @@ describe Connector::Xero do
     </Invoice>
   </Invoices>
 </Response>
-HAPPY
-        doc = Nokogiri::XML(response)
-        @connector.parse_response(response).should == 'INV-0011'
-      end
+XML
+      @connector.parse_response(xml).should == 'INV-0011'
+    end
+
+    it 'should extract InvoiceNumber from happy xml, under xpath' do
+      xml = <<XML
+<Response>
+  <Status>KO</Status>
+</Response>
+XML
+      lambda{@connector.parse_response(  xml)}.should raise_error
     end
   end
 end
-
-

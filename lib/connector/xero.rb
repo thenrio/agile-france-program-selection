@@ -31,7 +31,7 @@ module Connector
       self.class.logger
     end
 
-    def initialize(consumer_key, secret_key, options)
+    def initialize(consumer_key=nil, secret_key=nil, options={})
       @consumer_key = consumer_key
       @secret_key = secret_key
       @options = options
@@ -60,7 +60,7 @@ module Connector
     # parse response and return xpath content for /Response/Invoices/Invoice/InvoiceNumber
     def parse_response(response)
       doc = Nokogiri::XML(response)
-      doc.xpath('/Response/Invoices').first.content
+      doc.xpath('/Response/Invoices/Invoice/InvoiceNumber').first.content
     end
 
 #    def invoice(company, invoiceables)
