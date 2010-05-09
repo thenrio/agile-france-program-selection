@@ -2,7 +2,9 @@ require 'connector/base'
 require 'oauth'
 require 'oauth/signature/rsa/sha1'
 require 'builder'
-require 'renderable'
+require 'model/company'
+require 'model/attendee'
+require 'model/invoice'
 
 class Date
   def xero_format
@@ -32,10 +34,16 @@ module Connector
 
     def put_invoice(company)
       uri = 'https://api.xero.com/api.xro/2.0/Invoice'
-      @access_token.put(uri, create_invoice(company, company.invoiceables))
+      response = @access_token.put(uri, create_invoice(company, company.invoiceables))
+
+      invoice = Invoice.new(:company => company)
+      invoice.invoice_id = parse(response)
+
     end
 
+    # parse response and return the Response/Invoices/Invoice/InvoiceNumber
     def parse(response)
+      
     end
 
 #    def invoice(company, invoiceables)

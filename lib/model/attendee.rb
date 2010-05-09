@@ -40,7 +40,7 @@ class Attendee
 
   def add_invoiceable_if_not_already_invoiced(invoiceable)
     if invoiceable
-      @invoiceables.push invoiceable unless InvoiceItem.first(:attendee => self, :xero_item_id => invoiceable.code)
+      @invoiceables.push invoiceable unless InvoiceItem.first(:attendee => self, :invoice_item_id => invoiceable.code)
     end
   end
   private :add_invoiceable_if_not_already_invoiced

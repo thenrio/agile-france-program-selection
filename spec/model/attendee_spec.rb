@@ -60,7 +60,7 @@ describe Attendee do
     describe ' when entrance is already invoiced' do
       before do
         @invoice = Invoice.new(:company => @john_doe.company)
-        entrance = InvoiceItem.new(:xero_item_id => 'AGF10P270', :attendee => @john_doe)
+        entrance = InvoiceItem.new(:invoice_item_id => 'AGF10P270', :attendee => @john_doe)
         @invoice.invoice_items.push(entrance)
         @invoice.save
       end
