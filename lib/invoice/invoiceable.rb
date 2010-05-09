@@ -10,6 +10,8 @@ class Invoiceable
   end
 
   def price
-    220
+    if code =~ /AGF10(\D+)(\d+)/
+      return Integer($2)
+    end
   end
 end
