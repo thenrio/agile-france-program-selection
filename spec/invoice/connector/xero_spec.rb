@@ -56,9 +56,9 @@ describe Connector::Xero do
       @connector.date = Date.parse('10/05/2010')
       @invoiceables = [Invoiceable.new('foo', 10), Invoiceable.new('moo', 3)]
 
-      stub(@company).invoiceables {@invoiceables}
-      stub(@connector).create_invoice(@company, @invoiceables) {'invoice'}
-      stub(@connector).parse_response(anything) {'123'}
+      stub(@company).invoiceables { @invoiceables }
+      stub(@connector).create_invoice(@company, @invoiceables) { 'invoice' }
+      stub(@connector).parse_response(anything) { '123' }
     end
 
     it 'should tell connector to put' do
@@ -107,6 +107,7 @@ describe Connector::Xero do
   </Invoices>
 </Response>
 HAPPY
+        doc = Nokogiri::XML(response)
         @connector.parse_response(response).should == 'INV-0011'
       end
     end

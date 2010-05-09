@@ -29,8 +29,9 @@ And 'John Doe, from google, attends' do
   @john_doe.save
 end
 
-When 'XeroInvoicer invoices' do
-  @invoicer.invoice_companies
+When 'XeroInvoicer invoices google' do
+  debugger
+  @invoicer.invoice_company @google
 end
 
 Then 'there is an invoice for google having a xero_id field' do
