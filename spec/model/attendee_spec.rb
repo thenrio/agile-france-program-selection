@@ -1,52 +1,71 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 require 'model/invoice'
 require 'invoice/invoiceable'
+require 'configuration'
 
 describe Attendee do
   before do
-    @attendee = Attendee.new
+    Configuration.new.test
+    @google = Company.new(:name => 'google')
+    @google.save
+    @john_doe = Attendee.new(:firstname => 'John', :lastname => 'Doe', :email => 'john@doe.com', :company => @google)
+    @john_doe.save
   end
 
-
-  it 'default entrance should be invoiceable' do
-    @attendee.invoiceables.should == [Invoiceable.new]
-  end
-
-  describe 'early' do
-    before do
-      @attendee.early = true
-    end
-    it 'should be invoiceable' do
-      @attendee.invoiceables.should == [Invoiceable.new('AGF10P220')]
-    end
-  end
-
-  describe 'diner' do
-    before do
-      @attendee.diner = true
-    end
-    it 'should be invoiceable' do
-      @attendee.invoiceables.should == [Invoiceable.new, Invoiceable.new('AGF10D40')]
-    end
-  end
-
-  describe 'invited by organisation' do
-    before do
-      @attendee.invited_by = 'ORGANIZATION'
-      @attendee.diner?.should be_false
+  describe 'John Doe' do
+    it 'entrance should be invoiceable' do
+      @john_doe.invoiceables.should == [Invoiceable.new]
     end
 
-    it 'should be invoiced with AGF10P0' do
-      @attendee.invoiceables.should == [Invoiceable.new('AGF10P0')]
-    end
-
-    describe 'with diner' do
+    describe 'when early,' do
       before do
-        @attendee.diner = true
+        @john_doe.early = true
+      end
+      it 'should have an invoiceable early entrance' do
+        @john_doe.invoiceables.should == [Invoiceable.new('AGF10P220')]
+      end
+    end
+
+    describe 'when attending diner,' do
+      before do
+        @john_doe.diner = true
+      end
+      it 'should have a invoiceable diner' do
+        @john_doe.invoiceables.should == [Invoiceable.new, Invoiceable.new('AGF10D40')]
+      end
+    end
+
+    describe 'when invited by organisation,' do
+      before do
+        @john_doe.invited_by = 'ORGANIZATION'
+        @john_doe.diner?.should be_false
       end
 
-      it 'should have AGF10D0' do
-        @attendee.invoiceables.last.should == Invoiceable.new('AGF10D0')
+      it 'should be invoiced with AGF10P0' do
+        @john_doe.invoiceables.should == [Invoiceable.new('AGF10P0')]
+      end
+
+      describe 'with diner,' do
+        before do
+          @john_doe.diner = true
+        end
+
+        it 'should have AGF10D0' do
+          @john_doe.invoiceables.last.should == Invoiceable.new('AGF10D0')
+        end
+      end
+    end
+
+    describe ' when there is an entrance invoice for John Doe,' do
+      before do
+        @invoice = Invoice.new(:company => @john_doe.company)
+        entrance = InvoiceItem.new(:xero_item_id => 'AGF10P270', :attendee => @john_doe)
+        @invoice.invoice_items.push(entrance)
+        @invoice.save
+      end
+
+      it 'should have empty invoiceables' do
+        @john_doe.invoiceables.should == []
       end
     end
   end
