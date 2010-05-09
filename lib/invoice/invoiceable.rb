@@ -10,9 +10,11 @@ class Invoiceable
     code == other.code and quantity == other.quantity 
   end
 
-  def price
-    if code =~ /AGF10(\D+)(\d+)/
-      return Integer($2)
+  def price=(price)
+    unless price
+      code =~ /AGF10(\D+)(\d+)/
+      price = Integer($2) if $2
     end
+    @price = price
   end
 end

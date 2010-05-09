@@ -23,5 +23,8 @@ describe Invoiceable do
     it 'should be 270 for early AGF10P270' do
       Invoiceable.new('AGF10P270').price.should == 270
     end
+    it 'should be set' do
+      Invoiceable.new('special', 1, 65).price.should == 65
+    end
   end
 end
