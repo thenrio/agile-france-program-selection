@@ -13,6 +13,6 @@ class Invoicer
   end
 
   def invoice_company(company)
-    @connector.put_invoice(company, [1,2])
+    @connector.put_invoice(company)
   end
 end

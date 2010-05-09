@@ -1,6 +1,6 @@
 module Connector
   class Base
-    def put_invoice(company, invoiceables)
+    def put_invoice(company)
     end
   end
 end

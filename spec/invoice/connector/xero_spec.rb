@@ -56,12 +56,13 @@ describe Connector::Xero do
       @connector.date = Date.parse('10/05/2010')
       @invoiceables = [Invoiceable.new('foo', 10), Invoiceable.new('moo', 3)]
 
+      stub(@company).invoiceables {@invoiceables}
       stub(@connector).create_invoice(@company, @invoiceables) {'invoice'}
     end
 
     it 'should put' do
       mock(@access_token).put('https://api.xero.com/api.xro/2.0/Invoice', 'invoice')
-      @connector.put_invoice(@company, @invoiceables)
+      @connector.put_invoice(@company)
     end
   end
 

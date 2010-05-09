@@ -2,7 +2,8 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 require 'configuration'
 require 'invoice/invoicer'
 require 'model/invoice'
-require 'model/program'
+require 'model/company'
+require 'model/attendee'
 require 'connector/base'
 
 describe 'an Invoicer,' do
@@ -25,7 +26,7 @@ describe 'an Invoicer,' do
 
     it 'should tell connector to invoice john\'s invoiceables' do
       stub(@john).invoiceables {[1,2]}
-      mock(@invoicer.connector).put_invoice(@google, [1,2])
+      mock(@invoicer.connector).put_invoice(@google)
       @invoicer.invoice_company @google
     end
   end
