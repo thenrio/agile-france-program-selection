@@ -1,5 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 require 'model/invoice'
+require 'model/attendee'
 require 'invoice/invoiceable'
 require 'configuration'
 
