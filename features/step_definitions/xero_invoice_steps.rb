@@ -1,3 +1,5 @@
+require 'spec/spec_helper'
+
 Given 'a XeroInvoicer using sandbox xero account' do
   require 'connector/xero'
   require 'invoice/invoicer'
@@ -17,18 +19,23 @@ And 'database is empty' do
   Configuration.new.test
 end
 
-And /database has a company "(.*)"/ do |company_name|
-  @google = Company.new(:name => company_name)
+And 'database has a company google' do
+  @google = Company.new(:name => 'google')
   @google.save
 end
 
+And 'John Doe, from google, attends' do
+  @john_doe = Attendee.new(:firstname => 'John', :lastname => 'Doe', :email => 'john@doe.com', :company => @google)
+  @john_doe.save
+end
+
 When 'XeroInvoicer invoices' do
+  debugger
   @invoicer.invoice_companies
 end
 
-Then /there is an invoice for "(.*)" having a xero_id field/ do |company_name|
+Then 'there is an invoice for google having a xero_id field' do
   invoice = Invoice.first(:company => @google)
-  debugger
   invoice.should_not be_nil
   invoice.xero_id.should_not be_nil
 end
