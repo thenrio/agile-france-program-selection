@@ -92,8 +92,8 @@ describe Connector::Xero do
       doc.xpath('/Invoice/Contact/FirstName').first.content.should == 'john'
       doc.xpath('/Invoice/Contact/LastName').first.content.should == 'doe'
       doc.xpath('/Invoice/Contact/EmailAddress').first.content.should == 'john@doe.com'
-      doc.xpath('/Invoice/Date').first.content.should == '20100510'
-      doc.xpath('/Invoice/DueDate').first.content.should == '20100525'
+      doc.xpath('/Invoice/Date').first.content.should == '2010-05-10'
+      doc.xpath('/Invoice/DueDate').first.content.should == '2010-05-25'
       foo = doc.xpath('/Invoice/LineItems/LineItem')[0]
       foo.xpath('Description').first.content.should == 'foo'
       foo.xpath('Quantity').first.content.should == '10'

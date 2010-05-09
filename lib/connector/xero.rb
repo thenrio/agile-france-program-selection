@@ -10,7 +10,7 @@ require 'logger'
 
 class Date
   def xero_format
-    self.strftime('%Y%m%d')
+    self.strftime('%Y-%m-%d')
   end
 end
 
@@ -75,11 +75,6 @@ module Connector
       messages = doc.xpath('//Message').to_a.map{|element| element.content}.uniq
       raise Problem, messages.join(', ')
     end
-
-#    def invoice(company, invoiceables)
-#      invoice = parse(put_invoice(company, invoiceables))
-#      invoice.save
-#    end
 
     def create_invoice(company, invoiceables)
       builder = Builder::XmlMarkup.new
