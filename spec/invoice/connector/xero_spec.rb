@@ -58,11 +58,13 @@ describe Connector::Xero do
 
       stub(@company).invoiceables {@invoiceables}
       stub(@connector).create_invoice(@company, @invoiceables) {'invoice'}
+      stub(@connector).parse_response(anything) {'123'}
     end
 
-    it 'should put' do
+    it 'should tell connector to put' do
       mock(@access_token).put('https://api.xero.com/api.xro/2.0/Invoice', 'invoice')
-      @connector.put_invoice(@company)
+      invoice = @connector.put_invoice(@company)
+      invoice.invoice_id.should == '123'
     end
   end
 
@@ -89,6 +91,24 @@ describe Connector::Xero do
       foo.xpath('Quantity').first.content.should == '10'
       foo.xpath('UnitAmount').first.content.should == '1'
       foo.xpath('AccountCode').first.content.should == 'AGFSI'
+    end
+  end
+
+  describe 'parse' do
+    describe 'happy response' do
+      it 'should return xero InvoiceNumber' do
+        response = <<HAPPY
+<Response xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Status>OK</Status>
+  <Invoices>
+    <Invoice>
+      <InvoiceNumber>INV-0011</InvoiceNumber>
+    </Invoice>
+  </Invoices>
+</Response>
+HAPPY
+        @connector.parse_response(response).should == 'INV-0011'
+      end
     end
   end
 end

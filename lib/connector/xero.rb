@@ -5,6 +5,8 @@ require 'builder'
 require 'model/company'
 require 'model/attendee'
 require 'model/invoice'
+require 'nokogiri'
+require 'logger'
 
 class Date
   def xero_format
@@ -16,6 +18,18 @@ module Connector
   class Xero < Base
     attr_writer :access_token
     attr_accessor :date, :offset
+
+    def self.logger
+      @@logger ||= Logger.new("xero-#{Date.today}.log")
+    end
+
+    def self.logger=(logger)
+      @@logger = logger
+    end
+
+    def logger
+      self.class.logger
+    end
 
     def initialize(consumer_key, secret_key, options)
       @consumer_key = consumer_key
@@ -31,19 +45,22 @@ module Connector
       @access_token = OAuth::AccessToken.new(consumer, @consumer_key, @secret_key)
     end
 
-
     def put_invoice(company)
       uri = 'https://api.xero.com/api.xro/2.0/Invoice'
-      response = @access_token.put(uri, create_invoice(company, company.invoiceables))
+      invoice_as_xml = create_invoice(company, company.invoiceables)
+      logger.info "send #{invoice_as_xml}"
+      response = @access_token.put(uri, invoice_as_xml)
+      logger.info "get #{response}"
 
       invoice = Invoice.new(:company => company)
-      invoice.invoice_id = parse(response)
-
+      invoice.invoice_id = parse_response response
+      invoice
     end
 
-    # parse response and return the Response/Invoices/Invoice/InvoiceNumber
-    def parse(response)
-      
+    # parse response and return xpath content for /Response/Invoices/Invoice/InvoiceNumber
+    def parse_response(response)
+      doc = Nokogiri::XML(response)
+      doc.xpath('/Response/Invoices').first.content
     end
 
 #    def invoice(company, invoiceables)
