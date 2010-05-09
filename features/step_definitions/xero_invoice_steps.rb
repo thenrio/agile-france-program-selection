@@ -3,16 +3,20 @@ require 'spec/spec_helper'
 Given 'a XeroInvoicer using sandbox xero account' do
   require 'invoice/invoicer'
   require 'connector/xero'
-  options = {:site=> 'https://api.xero.com',
-              :request_token_path => "/oauth/RequestToken",
-              :access_token_path  => "/oauth/AccessToken",
-              :authorize_path     => "/oauth/Authorize",
-              :signature_method => 'RSA-SHA1',
-              :private_key_file => '/Users/thenrio/src/ruby/spike-on-xero/keys/xero.rsa'}
+
+
+
+  options = {:site => 'https://api.xero.com',
+             :request_token_path => "/oauth/RequestToken",
+             :access_token_path  => "/oauth/AccessToken",
+             :authorize_path     => "/oauth/Authorize",
+             :signature_method => 'RSA-SHA1',
+             :private_key_file => '/Users/thenrio/src/ruby/spike-on-xero/keys/xero.rsa'}
   consumer_key = 'NTA0YZDJZTM0M2JHNDQ0MMJHY2NLMT'
   secret_key = 'XHHWNGJGRUDMXQKVBQIZEBGG2ROFRF'
   @connector = Connector::Xero.new(consumer_key, secret_key, options)
-  @invoicer = Invoicer.new
+  @invoicer = Invoicer.new(@connector)
+
 end
 And 'database is empty' do
   require 'configuration'
@@ -30,7 +34,6 @@ And 'John Doe, from google, attends' do
 end
 
 When 'XeroInvoicer invoices google' do
-  debugger
   @invoicer.invoice_company @google
 end
 

@@ -46,10 +46,10 @@ module Connector
     end
 
     def put_invoice(company)
-      uri = 'https://api.xero.com/api.xro/2.0/Invoice'
+      uri = 'https://api.xero.com/api.xro/2.0/Invoices'
       invoice_as_xml = create_invoice(company, company.invoiceables)
       logger.info "send #{invoice_as_xml}"
-      response = @access_token.put(uri, invoice_as_xml)
+      response = access_token.put(uri, invoice_as_xml)
       logger.info "get #{response}"
 
       invoice = Invoice.new(:company => company)
