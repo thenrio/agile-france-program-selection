@@ -114,7 +114,8 @@ describe Connector::Xero do
   </Invoices>
 </Response>
 XML
-      @connector.parse_response(xml).should == 'INV-0011'
+      response = HttpDuck.new(200, xml)
+      @connector.parse_response(response).should == 'INV-0011'
     end
 
     it 'should extract error message when service fails' do
@@ -142,11 +143,8 @@ XML
   </Elements>
 </ApiException>
 XML
-      http_response = mock!
-      mock(http_response).code = 400
-      mock(http_response).body = xml
-
-      lambda{@connector.parse_response(xml)}.should raise_error RuntimeError, "Email address must be valid."
+      response = HttpDuck.new(400, xml)
+      lambda{@connector.parse_response(response)}.should raise_error RuntimeError, "Email address must be valid."
     end
   end
 end
