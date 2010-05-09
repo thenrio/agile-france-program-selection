@@ -51,22 +51,19 @@ class Attendee
 
   belongs_to :company
 
-  def add_invoiceable_if_not_already_invoiced(invoices, invoiceable)
-    invoices.push invoiceable unless InvoiceItem.first(:attendee => self, :xero_item_id => invoiceable.code)
-  end
-
   def invoiceables
-    invoices = []
+    return @invoiceables if @invoiceables
+    @invoiceables = []
     place = Invoiceable.new
     place = Invoiceable.new('AGF10P220') if early?
     place = Invoiceable.new('AGF10P0') if invited?
-    add_invoiceable_if_not_already_invoiced(invoices, place)
+    add_invoiceable_if_not_already_invoiced(place)
     if diner?
       diner = Invoiceable.new('AGF10D40')
       diner = Invoiceable.new('AGF10D0') if invited?
-      invoices.push diner if diner
+      add_invoiceable_if_not_already_invoiced(diner)
     end
-    invoices
+    @invoiceables
   end
 
   alias_method :diner=, :lunch=
@@ -75,5 +72,11 @@ class Attendee
   def invited?
     invited_by != nil
   end
-end
 
+  def add_invoiceable_if_not_already_invoiced(invoiceable)
+    if invoiceable
+      @invoiceables.push invoiceable unless InvoiceItem.first(:attendee => self, :xero_item_id => invoiceable.code)
+    end
+  end
+  private :add_invoiceable_if_not_already_invoiced  
+end
