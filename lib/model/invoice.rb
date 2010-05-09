@@ -1,6 +1,25 @@
 require 'dm-core'
 require 'model/full_named'
 
+class Invoice
+  include DataMapper::Resource
+
+  property :id, Serial
+  property :xero_id, String
+
+  belongs_to :company
+  has n, :invoice_items
+end
+
+class InvoiceItem
+  include DataMapper::Resource
+
+  property :id, Serial
+  property :xero_item_id, String
+
+  belongs_to :invoice
+  belongs_to :attendee
+end
 
 class Company
   include DataMapper::Resource
@@ -32,12 +51,16 @@ class Attendee
 
   belongs_to :company
 
+  def add_invoiceable_if_not_already_invoiced(invoices, invoiceable)
+    invoices.push invoiceable unless InvoiceItem.first(:attendee => self, :xero_item_id => invoiceable.code)
+  end
+
   def invoiceables
     invoices = []
     place = Invoiceable.new
     place = Invoiceable.new('AGF10P220') if early?
     place = Invoiceable.new('AGF10P0') if invited?
-    invoices.push place
+    add_invoiceable_if_not_already_invoiced(invoices, place)
     if diner?
       diner = Invoiceable.new('AGF10D40')
       diner = Invoiceable.new('AGF10D0') if invited?
@@ -54,22 +77,3 @@ class Attendee
   end
 end
 
-class Invoice
-  include DataMapper::Resource
-
-  property :id, Serial
-  property :xero_id, String
-
-  belongs_to :company
-  has n, :invoice_items
-end
-
-class InvoiceItem
-  include DataMapper::Resource
-
-  property :id, Serial
-  property :xero_item_id, String
-
-  belongs_to :invoice
-  belongs_to :attendee
-end
