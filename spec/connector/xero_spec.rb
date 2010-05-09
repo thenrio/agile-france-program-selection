@@ -14,6 +14,15 @@ describe Connector::Xero do
     @connector = Connector::Xero.new(@consumer, @secret, @options)
   end
 
+  class HttpDuck
+    attr_accessor :code, :body
+    def initialize(code=200, body='')
+      self.code = code
+      self.body = body
+    end
+  end
+
+
   describe 'access_token' do
     # will have to go and see this code once again
     # there is smell in creating a new 'irritating' dependency on a method
@@ -62,12 +71,11 @@ describe Connector::Xero do
     end
 
     it 'should tell connector to put' do
-      mock(@access_token).put('https://api.xero.com/api.xro/2.0/Invoice', 'invoice')
+      mock(@access_token).put('https://api.xero.com/api.xro/2.0/Invoice', 'invoice') {HttpDuck.new(200)}
       invoice = @connector.put_invoice(@company)
       invoice.invoice_id.should == '123'
     end
   end
-
 
   describe 'create_invoice' do
     before do
@@ -109,13 +117,36 @@ XML
       @connector.parse_response(xml).should == 'INV-0011'
     end
 
-#    it 'should extract InvoiceNumber from happy xml, under xpath' do
-#      xml = <<XML
-#<Response>
-#  <Status>KO</Status>
-#</Response>
-#XML
-#      lambda{@connector.parse_response(xml)}.should raise_error RuntimeError
-#    end
+    it 'should extract error message when service fails' do
+      xml = <<XML
+<ApiException>
+  <ErrorNumber>10</ErrorNumber>
+  <Type>ValidationException</Type>
+  <Message>A validation exception occurred</Message>
+  <Elements>
+    <DataContractBase xsi:type="Invoice">
+      <ValidationErrors>
+        <ValidationError>
+          <Message>Email address must be valid.</Message>
+        </ValidationError>
+      </ValidationErrors>
+      <Reference />
+      <Type>ACCREC</Type>
+      <Contact>
+        <ValidationErrors>
+          <ValidationError>
+            <Message>Email address must be valid.</Message>
+          </ValidationError>
+        </ValidationErrors>
+    </DataContractBase>
+  </Elements>
+</ApiException>
+XML
+      http_response = mock!
+      mock(http_response).code = 400
+      mock(http_response).body = xml
+
+      lambda{@connector.parse_response(xml)}.should raise_error RuntimeError, "Email address must be valid."
+    end
   end
 end

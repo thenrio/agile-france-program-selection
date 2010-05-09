@@ -46,14 +46,14 @@ module Connector
     end
 
     def put_invoice(company)
-      uri = 'https://api.xero.com/api.xro/2.0/Invoices'
+      uri = 'https://api.xero.com/api.xro/2.0/Invoice'
       invoice_as_xml = create_invoice(company, company.invoiceables)
       logger.info "send #{invoice_as_xml}"
       response = access_token.put(uri, invoice_as_xml)
-      logger.info "get #{response}"
+      logger.info "get #{response.code}, #{response.body}"
 
       invoice = Invoice.new(:company => company)
-      invoice.invoice_id = parse_response response
+      invoice.invoice_id = parse_response response.body
       invoice
     end
 
@@ -80,7 +80,7 @@ module Connector
         }
         invoice.Date(date.xero_format)
         invoice.DueDate((date+offset).xero_format)
-        invoice.LineAmountType('Exclusive')
+        invoice.LineAmountTypes('Exclusive')
         invoice.LineItems { |items|
           invoiceables.each { |invoiceable|
             items.LineItem { |item|
