@@ -67,3 +67,10 @@ MetricFu::Configuration.run do |config|
                                      "--exclude /gems/,/Library/,spec"]}
   config.graph_engine = :bluff
 end
+
+require 'cucumber'
+require 'cucumber/rake/task'
+
+Cucumber::Rake::Task.new(:features) do |t|
+  t.cucumber_opts = "features --format pretty"
+end
