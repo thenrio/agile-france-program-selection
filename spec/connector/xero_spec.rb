@@ -117,7 +117,7 @@ XML
       @connector.parse_response(response).should == 'INV-0011'
     end
 
-    it 'should extract error message when service fails' do
+    it 'should extract error message when mail is not valid' do
       xml = <<XML
 <ApiException>
   <ErrorNumber>10</ErrorNumber>
@@ -144,6 +144,19 @@ XML
 XML
       response = HttpDuck.new(400, xml)
       message = 'A validation exception occurred, Email address must be valid.'
+      lambda{@connector.parse_response(response)}.should raise_error Connector::Xero::Problem, message
+    end
+
+    it 'should extract error code and message' do
+      xml = <<XML
+<ApiException>
+  <ErrorNumber>14</ErrorNumber>
+  <Type>PostDataInvalidException</Type>
+  <Message>The string '20100510' is not a valid AllXsd value.</Message>
+</ApiException>
+XML
+      response = HttpDuck.new(400, xml)
+      message = 'The string \'20100510\' is not a valid AllXsd value.'
       lambda{@connector.parse_response(response)}.should raise_error Connector::Xero::Problem, message
     end
   end

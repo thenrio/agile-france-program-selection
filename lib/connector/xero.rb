@@ -53,7 +53,7 @@ module Connector
       logger.info "get #{response.code}, #{response.body}"
 
       invoice = Invoice.new(:company => company)
-      invoice.invoice_id = parse_response response.body
+      invoice.invoice_id = parse_response response
       invoice
     end
 
@@ -72,7 +72,7 @@ module Connector
 
     def fail!(response)
       doc = Nokogiri::XML(response.body)
-      messages = doc.xpath('//Message').to_a.map{|element| element.content}.uniq!
+      messages = doc.xpath('//Message').to_a.map{|element| element.content}.uniq
       raise Problem, messages.join(', ')
     end
 
