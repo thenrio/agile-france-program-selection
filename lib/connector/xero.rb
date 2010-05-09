@@ -59,7 +59,7 @@ module Connector
 
     # parse response and return xpath content for /Response/Invoices/Invoice/InvoiceNumber
     def parse_response(response)
-      case response.code
+      case Integer(response.code)
         when 200 then success!(response)
         else fail!(response)
       end
