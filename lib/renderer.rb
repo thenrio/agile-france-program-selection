@@ -6,7 +6,6 @@ require 'fileutils'
 require 'renderable'
 
 class Renderer
-  include FileUtils
   include Renderable
 
   def render(template, locals={})
