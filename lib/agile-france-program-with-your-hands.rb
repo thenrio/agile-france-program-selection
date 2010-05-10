@@ -3,6 +3,7 @@ require 'configuration'
 require 'model/program'
 require 'renderer'
 require 'pager'
+require 'fileutils'
 
 def render_category(renderer, category)
   sessions = Session.all(:category => category, :order => [:vote.desc])

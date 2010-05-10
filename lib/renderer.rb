@@ -2,7 +2,6 @@
 require 'configuration'
 require 'model/program'
 require 'erb'
-require 'fileutils'
 require 'renderable'
 
 class Renderer
