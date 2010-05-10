@@ -1,7 +1,7 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'csv'
 require 'configuration'
-require 'model'
+require 'model/program'
 
 Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-database/prod.db'
 
