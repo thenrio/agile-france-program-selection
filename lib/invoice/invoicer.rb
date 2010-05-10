@@ -15,6 +15,10 @@ class Invoicer
   def invoice_company(company)
     invoice_id = @connector.put_invoice(company)
     invoice = Invoice.new(:invoice_id => invoice_id, :company => company)
+    company.invoiceables.each do |invoiceable|
+      invoice_item = InvoiceItem.new(:invoice_item_id => invoiceable.code, :attendee => invoiceable.attendee)
+      company.invoice_items.push invoice_item
+    end
     invoice.save
   end
 end
