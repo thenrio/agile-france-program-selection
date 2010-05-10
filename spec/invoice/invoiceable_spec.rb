@@ -27,4 +27,12 @@ describe Invoiceable do
       Invoiceable.new('special', 1, 65).price.should == 65
     end
   end
+
+  describe 'attendee' do
+    it 'should be accessible' do
+      attendee = Object.new
+      @good.attendee = attendee
+      @good.attendee.should == attendee
+    end
+  end
 end

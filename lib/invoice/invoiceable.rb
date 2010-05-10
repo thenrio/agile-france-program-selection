@@ -1,5 +1,6 @@
 class Invoiceable
   attr_accessor :code, :quantity, :price
+  attr_accessor :attendee
   def initialize(code='AGF10P270', quantity=1, price=nil)
     self.code = code
     self.quantity = quantity
