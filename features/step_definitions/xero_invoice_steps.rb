@@ -40,5 +40,5 @@ end
 Then 'there is an invoice for google having a xero_id field' do
   invoice = Invoice.first(:company => @google)
   invoice.should_not be_nil
-  invoice.xero_id.should_not be_nil
+  invoice.invoice_id.should_not be_nil
 end
