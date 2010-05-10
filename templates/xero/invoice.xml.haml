@@ -6,9 +6,9 @@
   %DueDate= invoice.due_date
   %LineAmountTypes Exclusive
   %LineItems
-    -company.invoiceables.each do  |invoiceable|
-      %LineItem
-        %Description= invoiceable.invoice_item_id
-        %Quantity= invoiceable.quantity
-        %UnitAmount= invoiceable.price
-        %AccountCode AGFSI
+  -invoice.invoiceables.each do  |invoiceable|
+    %LineItem
+      %Description= invoiceable.invoice_item_id
+      %Quantity= invoiceable.quantity
+      %UnitAmount= invoiceable.price
+      %AccountCode AGFSI
