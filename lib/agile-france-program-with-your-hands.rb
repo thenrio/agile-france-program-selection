@@ -17,6 +17,7 @@ end
 
 def copy_css_to_output_directory
   include Renderable
+  include FileUtils
   mkdir_p output_dir
   cp_r File.join(template_dir, 'css'), output_dir
 end
