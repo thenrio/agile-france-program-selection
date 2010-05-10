@@ -3,7 +3,7 @@ require 'configuration'
 require 'model'
 require 'renderer'
 
-Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-program-selection/db/prod.db'
+Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-database/prod.db'
 render = Renderer.new
 
 
