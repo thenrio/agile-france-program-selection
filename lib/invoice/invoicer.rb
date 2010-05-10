@@ -13,6 +13,8 @@ class Invoicer
   end
 
   def invoice_company(company)
-    @connector.put_invoice(company)
+    invoice_id = @connector.put_invoice(company)
+    invoice = Invoice.new(:invoice_id => invoice_id, :company => company)
+    invoice.save
   end
 end

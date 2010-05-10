@@ -26,8 +26,11 @@ describe 'an Invoicer,' do
 
     it 'should tell connector to invoice john\'s invoiceables' do
       stub(@john).invoiceables {[1,2]}
-      mock(@invoicer.connector).put_invoice(@google)
+      mock(@invoicer.connector).put_invoice(@google) {:invoice_id}
       @invoicer.invoice_company @google
+
+      invoice=Invoice.first(:invoice_id => :invoice_id)
+      invoice.company.should == @google
     end
   end
 end
