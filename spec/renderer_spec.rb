@@ -46,4 +46,11 @@ describe Renderer::Erb do
       @got.should == @content
     end
   end
+
+  describe 'inject_locals' do
+    it 'should make available hash values under hash keys' do
+      @renderer.inject_locals(:foo => 'foo').should == @renderer
+      @renderer.foo.should == 'foo'
+    end
+  end
 end
