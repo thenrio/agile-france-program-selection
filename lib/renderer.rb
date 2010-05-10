@@ -9,15 +9,10 @@ class Renderer
   include FileUtils
   include Renderable
 
-  def initialize()
-    mkdir_p output_dir
-    cp_r File.join(template_dir, 'css'), output_dir
-  end
-
   def render(template, locals={})
   end
 
-  def write(content, file_name='sessions.html')
+  def write(content, file_name='sessions.html', output_dir=self.output_dir)
     f = File.join(output_dir, file_name)
     File.open(f, 'w+') do |file|
       file.write content
