@@ -1,6 +1,7 @@
 require "spec_helper"
 require 'renderer'
 require 'nokogiri'
+require 'ostruct'
 require 'rr'
 
 describe 'Renderer' do
@@ -51,6 +52,25 @@ describe Renderer::Erb do
     it 'should make available hash values under hash keys' do
       @renderer.inject_locals(:foo => 'foo').should == @renderer
       @renderer.foo.should == 'foo'
+    end
+  end
+end
+
+describe Renderer::Hml do
+  before do
+    @renderer = Renderer::Hml.new
+    @company = OpenStruct.new(:name => 'ha')
+    invoiceable = OpenStruct.new(:invoice_item_id => 'ID', :quantity => 10, :price => 200)
+    @invoice = OpenStruct.new(:invoiceables => [invoiceable])
+
+    @invoice.invoiceables.first.quantity.should == 10
+  end
+
+  describe 'render' do
+    it 'should render haiku' do
+      content = @renderer.render('xero/invoice.xml.haml', :company => @company, :invoice => @invoice)
+      doc = Nokogiri::XML(content)
+      doc.search('/Invoice/Type').first.content.should == 'ACCREC'
     end
   end
 end

@@ -1,11 +1,10 @@
 #encoding: utf-8
 require 'configuration'
 require 'model/program'
-require 'erb'
 require 'renderable'
 
 class Renderer
-  include Renderable
+include Renderable
 
   def render(template, locals={})
   end
@@ -20,6 +19,7 @@ class Renderer
 
 
   class Erb < Renderer
+    require 'erb'
     def render(template, locals={})
       erb = ERB.new(read_template(template))
       inject_locals(locals)
@@ -42,5 +42,13 @@ class Renderer
     def get_binding
       binding
     end
+  end
+
+  class Hml < Renderer
+    require 'haml'
+    def render(template, locals={})
+      haml = Haml::Engine.new(read_template(template))
+      haml.render(Object.new, locals)
+    end    
   end
 end
