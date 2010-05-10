@@ -14,14 +14,7 @@ class Renderer
     cp_r File.join(template_dir, 'css'), output_dir
   end
 
-
-  def render_sessions_with_template(sessions, template)
-    erb = ERB.new(read_template(template))
-    content = erb.result binding
-    if block_given?
-      return yield content
-    end
-    content
+  def render(template, locals={})
   end
 
   def write(content, file_name='sessions.html')
@@ -30,5 +23,31 @@ class Renderer
       file.write content
     end
     puts "wrote #{content.length} to #{f}"
+  end
+
+
+  class Erb < Renderer
+    def render(template, locals={})
+      erb = ERB.new(read_template(template))
+      inject_locals(locals)
+      content = erb.result get_binding
+      if block_given?
+        return yield content
+      end
+      content
+    end
+
+    def inject_locals(hash)
+      hash.each_pair do |key, value|
+        symbol = key.to_s
+        class << self;self;end.module_eval("attr_accessor :#{symbol}")
+        self.send :instance_variable_set, "@#{symbol}", value
+      end
+      self
+    end
+
+    def get_binding
+      binding
+    end
   end
 end
