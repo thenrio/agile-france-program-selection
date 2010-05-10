@@ -1,6 +1,6 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'configuration'
-require 'model'
+require 'model/program'
 require 'renderer'
 require 'pager'
 
@@ -9,7 +9,7 @@ def render_category(render, category)
   sessions_per_unit_of_times = Pager.paginate(sessions, 360)
 
   sessions_per_unit_of_times.each_with_index do |ss, index|
-    render.render({:sessions => ss}, 'sessions-with-your-hands.html.erb') do |content|
+    render.render('sessions-with-your-hands.html.erb', :sessions => ss) do |content|
       render.write(content, "#{category}-#{index}.html")
     end
   end
