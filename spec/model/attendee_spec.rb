@@ -17,6 +17,9 @@ describe Attendee do
     it 'entrance should be invoiceable' do
       @john_doe.invoiceables.should == [Invoiceable.new]
     end
+    it 'entrance invoiceable should have John as attendee' do
+      @john_doe.invoiceables.first.attendee.should == @john_doe
+    end
 
     describe 'when early,' do
       before do
