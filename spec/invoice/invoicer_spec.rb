@@ -31,7 +31,7 @@ describe 'an Invoicer,' do
 
       invoice=Invoice.first(:invoice_id => :invoice_id)
       invoice.company.should == @google
-      entrance = invoice.invoice_items[0]
+      entrance = invoice.invoiceables[0]
       entrance.invoice_item_id.should == 'AGF10P270'
       entrance.attendee.should == @john
     end

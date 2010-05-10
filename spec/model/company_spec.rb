@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 require 'model/company'
 require 'model/attendee'
-require 'invoice/invoiceable'
+require 'model/invoiceable'
 require 'configuration'
 
 describe 'Company google, ' do

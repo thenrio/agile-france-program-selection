@@ -3,7 +3,7 @@ require 'rr'
 require 'nokogiri'
 require 'connector/xero'
 require 'model/invoice'
-require 'invoice/invoiceable'
+require 'model/invoiceable'
 
 describe Connector::Xero do
   before do
@@ -63,7 +63,7 @@ describe Connector::Xero do
 
       @company = Company.new(:name => 'no name', :firstname => 'john', :lastname => 'doe', :email => 'john@doe.com')
       @connector.date = Date.parse('10/05/2010')
-      @invoiceables = [Invoiceable.new('foo', 10), Invoiceable.new('moo', 3)]
+      @invoiceables = [Invoiceable.new(), Invoiceable.new()]
 
       stub(@company).invoiceables { @invoiceables }
       stub(@connector).create_invoice(@company, @invoiceables) { 'invoice' }
@@ -81,7 +81,7 @@ describe Connector::Xero do
     before do
       @company = Company.new(:name => 'no name', :firstname => 'john', :lastname => 'doe', :email => 'john@doe.com')
       @connector.date = Date.parse('10/05/2010')
-      @invoiceables = [Invoiceable.new('foo', 10, 1)]
+      @invoiceables = [Invoiceable.new()]
     end
     it 'should build minimal xml' do
       xml = @connector.create_invoice(@company, @invoiceables)
@@ -95,9 +95,9 @@ describe Connector::Xero do
       doc.xpath('/Invoice/Date').first.content.should == '2010-05-10'
       doc.xpath('/Invoice/DueDate').first.content.should == '2010-05-25'
       foo = doc.xpath('/Invoice/LineItems/LineItem')[0]
-      foo.xpath('Description').first.content.should == 'foo'
-      foo.xpath('Quantity').first.content.should == '10'
-      foo.xpath('UnitAmount').first.content.should == '1'
+      foo.xpath('Description').first.content.should == 'AGF10P270'
+      foo.xpath('Quantity').first.content.should == '1'
+      foo.xpath('UnitAmount').first.content.should == '270'
       foo.xpath('AccountCode').first.content.should == '20010AGFI'
     end
   end

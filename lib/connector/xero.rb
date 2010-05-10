@@ -119,8 +119,8 @@ module Connector
         invoice.LineItems { |items|
           invoiceables.each { |invoiceable|
             items.LineItem { |item|
-              item.Description(invoiceable.code)
-              item.Quantity(invoiceable.quantity)
+              item.Description(invoiceable.invoice_item_id)
+              item.Quantity(1)
               item.UnitAmount(invoiceable.price)
               item.AccountCode('20010AGFI')
             }

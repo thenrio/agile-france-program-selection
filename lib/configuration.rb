@@ -13,6 +13,7 @@ class Configuration
   def test
     DataMapper.setup(:default, 'sqlite3::memory:')
     require 'model/invoice'
+    require 'model/invoiceable'
     require 'model/attendee'
     require 'model/company'
     require 'model/program'
@@ -21,7 +22,7 @@ class Configuration
     Company.auto_migrate!
     Attendee.auto_migrate!
     Invoice.auto_migrate!
-    InvoiceItem.auto_migrate!
+    Invoiceable.auto_migrate!
     self
   end
 end

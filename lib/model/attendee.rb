@@ -20,12 +20,12 @@ class Attendee
     return @invoiceables if @invoiceables
     @invoiceables = []
     place = Invoiceable.new
-    place = Invoiceable.new('AGF10P220') if early?
-    place = Invoiceable.new('AGF10P0') if invited?
+    place = Invoiceable.new(:invoice_item_id => 'AGF10P220') if early?
+    place = Invoiceable.new(:invoice_item_id => 'AGF10P0') if invited?
     add_invoiceable_if_not_already_invoiced(place)
     if diner?
-      diner = Invoiceable.new('AGF10D40')
-      diner = Invoiceable.new('AGF10D0') if invited?
+      diner = Invoiceable.new(:invoice_item_id => 'AGF10D40')
+      diner = Invoiceable.new(:invoice_item_id => 'AGF10D0') if invited?
       add_invoiceable_if_not_already_invoiced(diner)
     end
     @invoiceables
@@ -40,7 +40,7 @@ class Attendee
 
   def add_invoiceable_if_not_already_invoiced(invoiceable)
     if invoiceable
-      @invoiceables.push invoiceable unless InvoiceItem.first(:attendee => self, :invoice_item_id => invoiceable.code)
+      @invoiceables.push invoiceable unless Invoiceable.first(:attendee => self, :invoice_item_id => invoiceable.invoice_item_id)
       invoiceable.attendee = self
     end
   end
