@@ -14,11 +14,20 @@ describe Invoiceable do
     it 'should have default quantity 1' do
       @good.quantity.should == 1
     end
+
+    describe 'attendee' do
+      it 'should be nil accessible' do
+        @good.attendee.should be_nil
+        attendee = Object.new
+        @good.attendee = attendee
+        @good.attendee.should == attendee
+      end
+    end
   end
 
   describe 'price' do
     it 'should be 220 for early AGF10P220' do
-      Invoiceable.new('AGF10P220').price.should == 220  
+      Invoiceable.new('AGF10P220').price.should == 220
     end
     it 'should be 270 for early AGF10P270' do
       Invoiceable.new('AGF10P270').price.should == 270
@@ -28,11 +37,4 @@ describe Invoiceable do
     end
   end
 
-  describe 'attendee' do
-    it 'should be accessible' do
-      attendee = Object.new
-      @good.attendee = attendee
-      @good.attendee.should == attendee
-    end
-  end
 end
