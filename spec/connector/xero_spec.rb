@@ -98,7 +98,7 @@ describe Connector::Xero do
       foo.xpath('Description').first.content.should == 'foo'
       foo.xpath('Quantity').first.content.should == '10'
       foo.xpath('UnitAmount').first.content.should == '1'
-      foo.xpath('AccountCode').first.content.should == 'AGFSI'
+      foo.xpath('AccountCode').first.content.should == '20010AGFI'
     end
   end
   
