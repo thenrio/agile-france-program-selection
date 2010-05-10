@@ -1,13 +1,12 @@
 #encoding: utf-8
 require 'mail'
 require 'model/program'
-require 'renderable'
+require 'renderer'
 require 'logger'
 
 class Mailer
   @@logger = Logger.new('mailer.log')
   @@mail_logger = Logger.new('mails.log')
-  include Renderable
 
   def mail_speakers(speakers, subject, template)
     mails = []
@@ -58,10 +57,8 @@ class Mailer
   end
 
   def make_body(speaker, template, locals={})
-    inject_locals locals.merge({:speaker => speaker})
-    erb = ERB.new(read_template(template))
-    context = get_binding
-    erb.result(context)
+    renderer = Renderer::Erb.new
+    renderer.render(template, locals.merge(:speaker => speaker))
   end
 
   def mail(speaker, subject, template, locals={})
@@ -76,18 +73,5 @@ class Mailer
     @@logger.info "sending to #{speaker.email} template #{template}"
     @@mail_logger.info "#{mail} => #{mail.body}"
     mail.deliver!
-  end
-
-  def inject_locals(hash)
-    hash.each_pair do |key, value|
-      symbol = key.to_s
-      class << self; self; end.module_eval("attr_accessor :#{symbol}")
-      self.send :instance_variable_set, "@#{symbol}", value
-    end
-    self
-  end
-
-  def get_binding
-    binding
   end
 end
