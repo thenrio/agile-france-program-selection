@@ -60,8 +60,10 @@ module Connector
     # parse response and return xpath content for /Response/Invoices/Invoice/InvoiceNumber
     def parse_response(response)
       case Integer(response.code)
-        when 200 then success!(response)
-        else fail!(response)
+        when 200 then
+          success!(response)
+        else
+          fail!(response)
       end
     end
 
@@ -72,7 +74,7 @@ module Connector
 
     def fail!(response)
       doc = Nokogiri::XML(response.body)
-      messages = doc.xpath('//Message').to_a.map{|element| element.content}.uniq
+      messages = doc.xpath('//Message').to_a.map { |element| element.content }.uniq
       raise Problem, messages.join(', ')
     end
 
@@ -81,27 +83,53 @@ module Connector
       builder.Invoice { |invoice|
         invoice.Type('ACCREC')
         invoice.Contact { |contact|
-          contact.Name(company.name)
+          contact.ContactNumber(company.id)
+          contact.Name("#{company.name}")
+          contact.EmailAddress(company.email)
+          contact.ContactStatus('ACTIVE')
+          contact.AccountsRecievableTaxType('OUTPUT')
+          contact.AccountsPayableTaxType('INPUT')
           contact.FirstName(company.firstname)
           contact.LastName(company.lastname)
-          contact.EmailAddress(company.email)
+          contact.DefaultCurrency('EUR')
+          contact.Adresses { |addresses|
+            addresses.Address { |address|
+              address.AddressType('POBOX')
+              address.AddressLine1('PO Box 10112')
+              address.City('New York')
+              address.Region('New York State')
+              address.PostalCode('10112')
+              address.Country('USA')
+            }
+          }
+          contact.Phones {|phones|
+            phones.Phone{|phone|
+              phone.PhoneType('DEFAULT')
+              phone.PhoneNumber('5996999')
+              phone.PhoneAreaCode('877')
+              phone.PhoneCountryCode('0001')
+            }
+          }
         }
         invoice.Date(date.xero_format)
         invoice.DueDate((date+offset).xero_format)
+        invoice.CurrencyCode('EUR')
         invoice.LineAmountTypes('Exclusive')
+#        invoice.Status('SUBMITTED')
         invoice.LineItems { |items|
           invoiceables.each { |invoiceable|
             items.LineItem { |item|
               item.Description(invoiceable.code)
               item.Quantity(invoiceable.quantity)
               item.UnitAmount(invoiceable.price)
-              item.AccountCode('AGFSI')
+              item.AccountCode('20010AGFI')
             }
           }
         }
       }
     end
 
-    class Problem < StandardError; end
+    class Problem < StandardError;
+    end
   end
 end
