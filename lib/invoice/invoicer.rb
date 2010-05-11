@@ -12,8 +12,13 @@ class Invoicer
     end
   end
 
+  def create_company(company)
+    company.invoicing_id = @connector.put_company(company)
+    company.save
+  end
+
   def invoice_company(company)
-    @connector.put_company(company) unless company.invoicing_id
+    create_company(company) unless company.invoicing_id
     
     invoice_id = @connector.put_invoice(company)
     invoice = Invoice.new(:invoice_id => invoice_id, :company => company)
