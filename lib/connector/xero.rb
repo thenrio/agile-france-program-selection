@@ -36,6 +36,7 @@ module Connector
       @consumer_key = consumer_key
       @secret_key = secret_key
       @options = options
+      @renderer = Renderer::Hml.new
       self.date = Date.today
       self.offset = 15
     end
@@ -131,8 +132,7 @@ module Connector
     end
 
     def create_contact(company)
-      renderer = Renderer::Hml.new
-      renderer.render('xero/contact.xml.haml', :company => company)
+      @renderer.render('xero/contact.xml.haml', :company => company)
     end
 
     class Problem < StandardError;
