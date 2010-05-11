@@ -2,19 +2,18 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..'))
 require 'dm-migrations/migration_runner'
 
 DataMapper::Logger.new(STDOUT, :debug)
-DataMapper.logger.debug( "Starting Migration" )
+DataMapper.logger.debug("Starting Migration")
 
-
-migration 1, :add_scheduled_to_talk_proposal do
+migration 4, :add_invoicing_id_to_company do
   up do
-    modify_table :talk_proposal do
-      add_column :capacity, Integer
+    modify_table :registration_company do
+      add_column :invoicing_id, String
     end
   end
 
   down do
-    modify_table :talk_proposal do
-      drop_column :capacity
+    modify_table :registration_company do
+      drop_column :invoicing_id
     end
   end
 end
