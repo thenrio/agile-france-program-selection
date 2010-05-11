@@ -67,7 +67,7 @@ describe Connector::Xero do
 
       stub(@company).invoiceables { @invoiceables }
       stub(@connector).create_invoice(@company, @invoiceables) { 'invoice' }
-      stub(@connector).parse_response(anything) { '123' }
+      stub(@connector).parse_invoice_response(anything) { '123' }
     end
 
     it 'should tell connector to put' do
@@ -83,9 +83,9 @@ describe Connector::Xero do
       @connector.date = Date.parse('10/05/2010')
       @invoiceables = [Invoiceable.new()]
     end
+
     it 'should build minimal xml' do
       xml = @connector.create_invoice(@company, @invoiceables)
-      puts xml
       doc = Nokogiri::XML(xml)
       doc.xpath('/Invoice/Type').first.content.should == 'ACCREC'
       doc.xpath('/Invoice/Contact/Name').first.content.should == 'no name'
@@ -101,6 +101,22 @@ describe Connector::Xero do
       foo.xpath('AccountCode').first.content.should == '20010AGFI'
     end
   end
+
+  describe 'create_company' do
+    before do
+      @company = Company.new(:name => 'no name', :firstname => 'john', :lastname => 'doe', :email => 'john@doe.com')
+      @company.id = 123
+    end
+
+    it 'should tell connector to put company as proper xml' do
+      xml = @connector.create_contact(@company)
+      doc = Nokogiri::XML(xml)
+      doc.xpath('/Contact/Name').first.content.should == 'no name'
+      doc.xpath('/Contact/FirstName').first.content.should == 'john'
+      doc.xpath('/Contact/LastName').first.content.should == 'doe'
+      doc.xpath('/Contact/EmailAddress').first.content.should == 'john@doe.com'
+    end
+  end
   
   describe 'parse_response' do
     it 'should extract InvoiceNumber from happy xml, under xpath' do
@@ -114,7 +130,7 @@ describe Connector::Xero do
 </Response>
 XML
       response = HttpDuck.new(200, xml)
-      @connector.parse_response(response).should == 'INV-0011'
+      @connector.parse_invoice_response(response).should == 'INV-0011'
     end
 
     it 'should extract error message when mail is not valid' do
@@ -144,7 +160,7 @@ XML
 XML
       response = HttpDuck.new(400, xml)
       message = 'A validation exception occurred, Email address must be valid.'
-      lambda{@connector.parse_response(response)}.should raise_error Connector::Xero::Problem, message
+      lambda{@connector.parse_invoice_response(response)}.should raise_error Connector::Xero::Problem, message
     end
 
     it 'should extract error code and message' do
@@ -157,7 +173,7 @@ XML
 XML
       response = HttpDuck.new(400, xml)
       message = 'The string \'20100510\' is not a valid AllXsd value.'
-      lambda{@connector.parse_response(response)}.should raise_error Connector::Xero::Problem, message
+      lambda{@connector.parse_invoice_response(response)}.should raise_error Connector::Xero::Problem, message
     end
   end
 end

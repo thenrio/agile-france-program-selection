@@ -53,21 +53,21 @@ module Connector
       logger.info "get #{response.code}, #{response.body}"
 
       invoice = Invoice.new(:company => company)
-      invoice.invoice_id = parse_response response
+      invoice.invoice_id = parse_invoice_response(response)
       invoice
     end
 
     # parse response and return xpath content for /Response/Invoices/Invoice/InvoiceNumber
-    def parse_response(response)
+    def parse_invoice_response(response)
       case Integer(response.code)
         when 200 then
-          success!(response)
+          extract_invoice_id(response)
         else
           fail!(response)
       end
     end
 
-    def success!(response)
+    def extract_invoice_id(response)
       doc = Nokogiri::XML(response.body)
       doc.xpath('/Response/Invoices/Invoice/InvoiceNumber').first.content
     end
