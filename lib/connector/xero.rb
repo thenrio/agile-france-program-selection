@@ -7,6 +7,7 @@ require 'model/attendee'
 require 'model/invoice'
 require 'nokogiri'
 require 'logger'
+require 'renderer'
 
 class Date
   def xero_format
@@ -127,6 +128,11 @@ module Connector
           }
         }
       }
+    end
+
+    def create_contact(company)
+      renderer = Renderer::Hml.new
+      renderer.render('xero/contact.xml.haml', :company => company)
     end
 
     class Problem < StandardError;
