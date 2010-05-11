@@ -13,6 +13,8 @@ class Invoicer
   end
 
   def invoice_company(company)
+    @connector.put_company(company) unless company.invoicing_id
+    
     invoice_id = @connector.put_invoice(company)
     invoice = Invoice.new(:invoice_id => invoice_id, :company => company)
     company.invoiceables.each do |invoiceable|
