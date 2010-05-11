@@ -5,6 +5,7 @@ class Invoice
 
   property :id, Serial
   property :invoice_id, String
+  property :date, Date
 
   belongs_to :company
   has n, :invoiceables

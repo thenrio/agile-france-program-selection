@@ -3,6 +3,7 @@ require 'renderer'
 require 'nokogiri'
 require 'ostruct'
 require 'rr'
+require 'monkey-date'
 
 describe 'Renderer' do
   before do
@@ -59,16 +60,14 @@ end
 describe Renderer::Hml do
   before do
     @renderer = Renderer::Hml.new
-    @company = OpenStruct.new(:name => 'ha')
+    company = OpenStruct.new(:name => 'ha')
     invoiceable = OpenStruct.new(:invoice_item_id => 'ID', :quantity => 10, :price => 200)
-    @invoice = OpenStruct.new(:invoiceables => [invoiceable])
-
-    @invoice.invoiceables.first.quantity.should == 10
+    @invoice = OpenStruct.new(:company => company, :invoiceables => [invoiceable], :date => Date.today)
   end
 
   describe 'render' do
     it 'should render haiku' do
-      content = @renderer.render('xero/invoice.xml.haml', :company => @company, :invoice => @invoice)
+      content = @renderer.render('xero/invoice.xml.haml', :invoice => @invoice)
       doc = Nokogiri::XML(content)
       doc.search('/Invoice/Type').first.content.should == 'ACCREC'
     end
