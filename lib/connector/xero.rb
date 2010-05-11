@@ -18,7 +18,7 @@ end
 module Connector
   class Xero < Base
     attr_writer :access_token
-    attr_accessor :date, :offset
+    attr_accessor :date, :settlement
 
     def self.logger
       @@logger ||= Logger.new("xero-#{Date.today}.log")
@@ -38,7 +38,7 @@ module Connector
       @options = options
       @renderer = Renderer::Hml.new
       self.date = Date.today
-      self.offset = 15
+      self.settlement = 15
     end
 
     def access_token
@@ -114,7 +114,7 @@ module Connector
           }
         }
         invoice.Date(date.xero_format)
-        invoice.DueDate((date+offset).xero_format)
+        invoice.DueDate((date+settlement).xero_format)
         invoice.CurrencyCode('EUR')
         invoice.LineAmountTypes('Exclusive')
 #        invoice.Status('SUBMITTED')
