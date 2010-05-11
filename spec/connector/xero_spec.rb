@@ -102,19 +102,35 @@ describe Connector::Xero do
   end
 
 
-  describe 'create_company' do
+  describe 'with a company,' do
     before do
       @company = Company.new(:name => 'no name', :firstname => 'john', :lastname => 'doe', :email => 'john@doe.com')
       @company.id = 123
     end
 
-    it 'should tell connector to put company as proper xml' do
-      xml = @connector.create_contact(@company)
-      doc = Nokogiri::XML(xml)
-      doc.xpath('/Contact/Name').first.content.should == 'no name'
-      doc.xpath('/Contact/FirstName').first.content.should == 'john'
-      doc.xpath('/Contact/LastName').first.content.should == 'doe'
-      doc.xpath('/Contact/EmailAddress').first.content.should == 'john@doe.com'
+    describe 'create_company' do
+      it 'should tell connector to put company as proper xml' do
+        xml = @connector.create_contact(@company)
+        doc = Nokogiri::XML(xml)
+        doc.xpath('/Contact/Name').first.content.should == 'no name'
+        doc.xpath('/Contact/FirstName').first.content.should == 'john'
+        doc.xpath('/Contact/LastName').first.content.should == 'doe'
+        doc.xpath('/Contact/EmailAddress').first.content.should == 'john@doe.com'
+      end
+    end
+
+    describe 'put_company' do
+      before do
+        @access_token = mock!
+        @connector.access_token = @access_token
+
+        stub(@connector).create_company(@company) { 'company' }
+        stub(@connector).parse_company_response(anything) { '123' }
+      end
+      it 'should put' do
+        company = @connector.put_company(@company)
+        company.invoicing_id.should == '123'
+      end
     end
   end
 
