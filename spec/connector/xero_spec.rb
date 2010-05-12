@@ -74,7 +74,7 @@ describe Connector::Xero do
         @connector.access_token = @access_token
 
         stub(@connector).create_invoice(@invoice) { 'invoice' }
-        stub(@connector).parse_invoice_response(anything) { '123' }
+        stub(@connector).extract_invoice_id(anything) { '123' }
       end
 
       it 'should tell connector to put' do
@@ -125,7 +125,7 @@ describe Connector::Xero do
         @connector.access_token = @access_token
 
         stub(@connector).create_contact(@company) { 'contact' }
-        stub(@connector).parse_contact_response(anything) { '123' }
+        stub(@connector).extract_contact_id(anything) { '123' }
       end
       
       it 'should put' do
@@ -136,7 +136,7 @@ describe Connector::Xero do
     end
   end
 
-  describe 'parse_response' do
+  describe 'extract_invoice_id' do
     it 'should extract InvoiceNumber from happy xml, under xpath' do
       xml = <<XML
 <Response>
@@ -148,9 +148,11 @@ describe Connector::Xero do
 </Response>
 XML
       response = HttpDuck.new(200, xml)
-      @connector.parse_invoice_response(response).should == 'INV-0011'
+      @connector.extract_invoice_id(response).should == 'INV-0011'
     end
-
+  end
+  
+  describe 'parse_response' do
     it 'should extract error message when mail is not valid' do
       xml = <<XML
 <ApiException>
@@ -178,7 +180,7 @@ XML
 XML
       response = HttpDuck.new(400, xml)
       message = 'A validation exception occurred, Email address must be valid.'
-      lambda { @connector.parse_invoice_response(response) }.should raise_error Connector::Xero::Problem, message
+      lambda { @connector.parse_response(response) }.should raise_error Connector::Xero::Problem, message
     end
 
     it 'should extract error code and message' do
@@ -191,7 +193,7 @@ XML
 XML
       response = HttpDuck.new(400, xml)
       message = 'The string \'20100510\' is not a valid AllXsd value.'
-      lambda { @connector.parse_invoice_response(response) }.should raise_error Connector::Xero::Problem, message
+      lambda { @connector.parse_response(response) }.should raise_error Connector::Xero::Problem, message
     end
   end
 end

@@ -49,7 +49,9 @@ module Connector
       response = access_token.put(uri, invoice_as_xml)
       logger.info "get #{response.code}, #{response.body}"
 
-      invoice.invoice_id = parse_invoice_response(response)
+      parse_response(response) do |r|
+        invoice.invoice_id = extract_invoice_id(r) 
+      end
       invoice
     end
 
@@ -60,8 +62,10 @@ module Connector
       response = access_token.put(uri, xml)
       logger.info "get #{response.code}, #{response.body}"
 
-      company.invoicing_id = parse_contact_response(response)
-      company      
+      parse_response(response) do |r|
+        company.invoicing_id = extract_contact_id(r)
+      end
+      company
     end
 
     # parse response and return xpath content for /Response/Invoices/Invoice/InvoiceNumber
@@ -74,19 +78,10 @@ module Connector
       end
     end
 
-    # parse response and return xpath content for /Response/Invoices/Invoice/InvoiceNumber
-    def parse_invoice_response(response)
-      parse_response(response) {|r| return extract_invoice_id(r)}
-    end
-
-    # parse response and return xpath content for /Response/Invoices/Invoice/InvoiceNumber
-    def parse_contact_response(response)
-      parse_response(response) {|r| return extract_contact_id(r)}
-    end
-
     def extract_invoice_id(response)
       doc = Nokogiri::XML(response.body)
-      doc.xpath('/Response/Invoices/Invoice/InvoiceNumber').first.content
+      result = doc.xpath('/Response/Invoices/Invoice/InvoiceNumber').first
+      result.content if result
     end
 
     def extract_contact_id(response)
