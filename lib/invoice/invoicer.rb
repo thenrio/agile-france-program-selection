@@ -1,5 +1,6 @@
 require 'model/invoiceable'
 require 'connector/base'
+require 'date'
 class Invoicer
   attr_accessor :connector
   def initialize(connector = Connector::Base.new)
@@ -18,6 +19,10 @@ class Invoicer
 
   def invoice_company(company)
     create_company(company)
-    @connector.put_invoice(company).save
+    invoice = Invoice.new(:company => company, :date => Date.today)
+    company.invoiceables.each do |invoiceable|
+      invoice.invoiceables.push invoiceable
+    end
+    @connector.put_invoice(invoice).save
   end
 end

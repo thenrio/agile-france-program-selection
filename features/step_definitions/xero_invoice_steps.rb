@@ -23,22 +23,23 @@ And 'database is empty' do
   Configuration.new.test
 end
 
-And 'database has a company google' do
-  @google = Company.new(:name => 'google')
-  @google.save
+And 'database has a company 37signals' do
+  @signals37 = Company.new(:name => '37signals', :firstname => 'D', :lastname => 'HH', :email => 'john@doe.com')
+  @signals37.invoicing_id = '4CED6122-1F86-428D-8118-4030FC765BA6'
+  @signals37.save
 end
 
-And 'John Doe, from google, attends' do
-  @john_doe = Attendee.new(:firstname => 'John', :lastname => 'Doe', :email => 'john@doe.com', :company => @google)
+And 'John Doe, from 37signals, attends' do
+  @john_doe = Attendee.new(:firstname => 'John', :lastname => 'Doe', :email => 'john@doe.com', :company => @signals37)
   @john_doe.save
 end
 
-When 'XeroInvoicer invoices google' do
-  @invoicer.invoice_company @google
+When 'XeroInvoicer invoices 37signals' do
+  @invoicer.invoice_company @signals37
 end
 
-Then 'there is an invoice for google having a xero_id field' do
-  invoice = Invoice.first(:company => @google)
+Then 'there is an invoice for 37signals having a xero_id field' do
+  invoice = Invoice.first(:company => @signals37)
   invoice.should_not be_nil
   invoice.invoice_id.should_not be_nil
 end
