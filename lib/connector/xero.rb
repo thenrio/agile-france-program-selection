@@ -42,16 +42,16 @@ module Connector
       @access_token = OAuth::AccessToken.new(consumer, @consumer_key, @secret_key)
     end
 
-    def put(uri, xml)
+    def send(uri, xml, verb=:put)
       logger.info "send #{xml}"
-      response = access_token.put(uri, xml)
+      response = access_token.request(verb, uri, xml)
       logger.info "get #{response.code}, #{response.body}"
       return response
     end
 
     def put_invoice(invoice)
       uri = 'https://api.xero.com/api.xro/2.0/Invoice'
-      response = put(uri, create_invoice(invoice))
+      response = send(uri, create_invoice(invoice))
 
       parse_response(response) do |r|
         invoice.invoice_id = extract_invoice_id(r)
@@ -61,7 +61,7 @@ module Connector
 
     def post_contact(company)
       uri = 'https://api.xero.com/api.xro/2.0/Contact'
-      response = put(uri, create_contact(company))
+      response = send(uri, create_contact(company), :post)
 
       parse_response(response) do |r|
         company.invoicing_id = extract_contact_id(r)
