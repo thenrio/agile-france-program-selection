@@ -21,20 +21,22 @@ describe 'an Invoicer,' do
       Configuration.new.test
       @google = Company.new().tap { |it| it.save }
       @john = Attendee.new(:company => @google).tap { |it| it.save }
-      stub(@john).invoiceables { [1, 2] }
+      stub(@google).invoiceables { [1, 2] }
     end
 
-    describe 'when declared in invocing system,' do
+    describe 'when declared in invoicing system,' do
       before do
         @google.invoicing_id = '1234567890'
+        invoice = Invoice.new(:company => @google)
+        invoice.invoiceables.push Invoiceable.new(:attendee => @john)
+        stub(@invoicer.connector).put_invoice(@google) { invoice }
       end
 
       describe 'invoicing' do
         it 'should tell connector to invoice john\'s invoiceables' do
-          mock(@invoicer.connector).put_invoice(@google) { :invoice_id }
           @invoicer.invoice_company @google
 
-          invoice = Invoice.first(:invoice_id => :invoice_id)
+          invoice = Invoice.first
           invoice.company.should == @google
           entrance = invoice.invoiceables[0]
           entrance.invoice_item_id.should == 'AGF10P270'
@@ -46,20 +48,18 @@ describe 'an Invoicer,' do
           @invoicer.invoice_company @google
         end
       end
-
-      describe 'create_company' do
-        it 'should save contact invoicing id in company' do
-          stub(@invoicer.connector).put_company(@google) { '12345' }
-          @invoicer.create_company @google
-          Company.get(@google.id).invoicing_id.should == '12345'
-        end
-      end
     end
 
     describe 'when not declared in invoicing system,' do
-      it 'invoicing should not tell connector to put google' do
-        mock(@invoicer.connector).put_company(@google)
-        @invoicer.invoice_company @google
+      describe 'create_company' do
+        it 'should save contact invoicing id in company' do
+          stub(@invoicer.connector).put_contact(@google) {
+            @google.invoicing_id = '1234567890'
+            @google
+          }
+          @invoicer.create_company @google
+          Company.get(@google.id).invoicing_id.should == '1234567890'
+        end
       end
     end
   end
