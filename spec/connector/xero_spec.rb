@@ -124,11 +124,13 @@ describe Connector::Xero do
         @access_token = mock!
         @connector.access_token = @access_token
 
-        stub(@connector).create_company(@company) { 'company' }
-        stub(@connector).parse_company_response(anything) { '123' }
+        stub(@connector).create_contact(@company) { 'contact' }
+        stub(@connector).parse_contact_response(anything) { '123' }
       end
+      
       it 'should put' do
-        company = @connector.put_company(@company)
+        mock(@access_token).put('https://api.xero.com/api.xro/2.0/Contact', 'contact') { HttpDuck.new(200) }
+        company = @connector.put_contact(@company)
         company.invoicing_id.should == '123'
       end
     end

@@ -53,6 +53,17 @@ module Connector
       invoice
     end
 
+    def put_contact(company)
+      uri = 'https://api.xero.com/api.xro/2.0/Contact'
+      xml = create_contact(company)
+      logger.info "send #{xml}"
+      response = access_token.put(uri, xml)
+      logger.info "get #{response.code}, #{response.body}"
+
+      company.invoicing_id = parse_contact_response(response)
+      company      
+    end
+
     # parse response and return xpath content for /Response/Invoices/Invoice/InvoiceNumber
     def parse_invoice_response(response)
       case Integer(response.code)
@@ -63,9 +74,24 @@ module Connector
       end
     end
 
+    # parse response and return xpath content for /Response/Invoices/Invoice/InvoiceNumber
+    def parse_contact_response(response)
+      case Integer(response.code)
+        when 200 then
+          extract_contact_id(response)
+        else
+          fail!(response)
+      end
+    end
+
     def extract_invoice_id(response)
       doc = Nokogiri::XML(response.body)
       doc.xpath('/Response/Invoices/Invoice/InvoiceNumber').first.content
+    end
+
+    def extract_contact_id(response)
+      doc = Nokogiri::XML(response.body)
+      doc.xpath('/Response/Contacts/Contact/ContactID').first.content
     end
 
     def fail!(response)
