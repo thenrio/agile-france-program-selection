@@ -62,7 +62,7 @@ describe Connector::Xero do
     before do
       company = Company.new(:name => 'no name', :firstname => 'john',
                             :lastname => 'doe', :email => 'john@doe.com',
-                            :invoicing_id => 'sha1')
+                            :invoicing_system_id => 'sha1')
       date = Date.parse('10/05/2010')
       invoiceables = [Invoiceable.new()]
       @invoice = Invoice.new(:company => company, :invoiceables => invoiceables, :date => date)
@@ -80,7 +80,7 @@ describe Connector::Xero do
       it 'should tell connector to put' do
         mock(@access_token).request(:put, 'https://api.xero.com/api.xro/2.0/Invoice', 'invoice') { HttpDuck.new(200) }
         invoice = @connector.put_invoice(@invoice)
-        invoice.invoice_id.should == '123'
+        invoice.invoicing_system_id.should == '123'
       end
     end
 
@@ -137,7 +137,7 @@ describe Connector::Xero do
            HttpDuck.new(200)
         }
         company = @connector.put_contact(@company)
-        company.invoicing_id.should == '123'
+        company.invoicing_system_id.should == '123'
       end
     end
   end

@@ -25,10 +25,10 @@ describe 'an Invoicer,' do
 
     describe 'when declared in invoicing system,' do
       before do
-        @google.invoicing_id = '1234567890'
+        @google.invoicing_system_id = '1234567890'
         invoice = @google.create_invoice
         stub(@invoicer.connector).put_invoice(invoice) {
-          invoice.invoice_id = '123'
+          invoice.invoicing_system_id = '123'
           invoice
         }
       end
@@ -55,11 +55,11 @@ describe 'an Invoicer,' do
       describe 'create_company' do
         it 'should save contact invoicing id in company' do
           stub(@invoicer.connector).put_contact(@google) {
-            @google.invoicing_id = '1234567890'
+            @google.invoicing_system_id = '1234567890'
             @google
           }
           @invoicer.create_company @google
-          Company.get(@google.id).invoicing_id.should == '1234567890'
+          Company.get(@google.id).invoicing_system_id.should == '1234567890'
         end
       end
     end

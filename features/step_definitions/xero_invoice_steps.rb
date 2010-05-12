@@ -41,5 +41,5 @@ end
 Then 'there is an invoice for 37signals having a xero_id field' do
   invoice = Invoice.first(:company => @signals37)
   invoice.should_not be_nil
-  invoice.invoice_id.should_not be_nil
+  invoice.invoicing_system_id.should_not be_nil
 end

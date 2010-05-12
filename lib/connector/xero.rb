@@ -54,7 +54,7 @@ module Connector
       response = send(uri, create_invoice(invoice))
 
       parse_response(response) do |r|
-        invoice.invoice_id = extract_invoice_id(r)
+        invoice.invoicing_system_id = extract_invoice_id(r)
       end
       invoice
     end
@@ -64,7 +64,7 @@ module Connector
       response = send(uri, create_contact(company))
 
       parse_response(response) do |r|
-        company.invoicing_id = extract_contact_id(r)
+        company.invoicing_system_id = extract_contact_id(r)
       end
       company
     end

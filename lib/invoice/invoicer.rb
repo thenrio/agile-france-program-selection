@@ -14,7 +14,7 @@ class Invoicer
   end
 
   def create_company(company)
-    return @connector.put_contact(company).save unless company.invoicing_id
+    return @connector.put_contact(company).save unless company.invoicing_system_id
     company
   end
 

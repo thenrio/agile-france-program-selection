@@ -4,7 +4,7 @@ class Invoice
   include DataMapper::Resource
 
   property :id, Serial
-  property :invoice_id, String
+  property :invoicing_system_id, String
   property :date, Date
 
   belongs_to :company

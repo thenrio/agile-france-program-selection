@@ -7,13 +7,13 @@ DataMapper.logger.debug("Starting Migration")
 migration 4, :add_invoicing_id_to_company do
   up do
     modify_table :registration_company do
-      add_column :invoicing_id, String
+      add_column :invoicing_system_id, String
     end
   end
 
   down do
     modify_table :registration_company do
-      drop_column :invoicing_id
+      drop_column :invoicing_system_id
     end
   end
 end

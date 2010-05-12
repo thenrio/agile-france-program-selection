@@ -11,7 +11,7 @@ class Company
   property :firstname, String
   property :lastname, String
   property :email, String
-  property :invoicing_id, String
+  property :invoicing_system_id, String
 
   has n, :invoices
   has n, :attendees

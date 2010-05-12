@@ -1,7 +1,7 @@
 %Invoice
   %Type ACCREC
   %Contact
-    %ContactID= invoice.company.invoicing_id
+    %ContactID= invoice.company.invoicing_system_id
   %Date= invoice.date.xero_format
   %DueDate= (invoice.date + 15).xero_format
   %LineAmountTypes Exclusive
