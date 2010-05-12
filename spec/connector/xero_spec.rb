@@ -68,7 +68,7 @@ describe Connector::Xero do
       @invoice = Invoice.new(:company => company, :invoiceables => invoiceables, :date => date)
     end
 
-    describe 'put_invoice' do
+    describe 'post_invoice' do
       before do
         @access_token = mock!
         @connector.access_token = @access_token
@@ -77,9 +77,9 @@ describe Connector::Xero do
         stub(@connector).extract_invoice_id(anything) { '123' }
       end
 
-      it 'should tell connector to put' do
-        mock(@access_token).request(:put, 'https://api.xero.com/api.xro/2.0/Invoice', 'invoice') { HttpDuck.new(200) }
-        invoice = @connector.put_invoice(@invoice)
+      it 'should tell connector to post' do
+        mock(@access_token).request(:post, 'https://api.xero.com/api.xro/2.0/Invoice', 'invoice') { HttpDuck.new(200) }
+        invoice = @connector.post_invoice(@invoice)
         invoice.invoicing_system_id.should == '123'
       end
     end
@@ -109,7 +109,7 @@ describe Connector::Xero do
     end
 
     describe 'create_company' do
-      it 'should tell connector to put company as proper xml' do
+      it 'should tell connector to post company as proper xml' do
         xml = @connector.create_contact(@company)
         doc = Nokogiri::XML(xml)
         doc.xpath('/Contact/Name').first.content.should == 'no name'
@@ -121,9 +121,9 @@ describe Connector::Xero do
 
     # alas, post does not work as documented (create/update)
     # post receives 401 !!!
-    # put does create, and does it
+    # post does create, and does it
     # poor api
-    describe 'put_company' do
+    describe 'post_company' do
       before do
         @access_token = mock!
         @connector.access_token = @access_token
@@ -132,11 +132,11 @@ describe Connector::Xero do
         stub(@connector).extract_contact_id(anything) { '123' }
       end
       
-      it 'should put' do
-        mock(@access_token).request(:put, 'https://api.xero.com/api.xro/2.0/Contact', 'contact') {
+      it 'should post' do
+        mock(@access_token).request(:post, 'https://api.xero.com/api.xro/2.0/Contact', 'contact') {
            HttpDuck.new(200)
         }
-        company = @connector.put_contact(@company)
+        company = @connector.post_contact(@company)
         company.invoicing_system_id.should == '123'
       end
     end

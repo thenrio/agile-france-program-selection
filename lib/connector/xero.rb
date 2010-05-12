@@ -42,14 +42,14 @@ module Connector
       @access_token = OAuth::AccessToken.new(consumer, @consumer_key, @secret_key)
     end
 
-    def send(uri, xml, verb=:put)
+    def send(uri, xml, verb=:post)
       logger.info "send #{xml}"
       response = access_token.request(verb, uri, xml)
       logger.info "get #{response.code}, #{response.body}"
       return response
     end
 
-    def put_invoice(invoice)
+    def post_invoice(invoice)
       uri = 'https://api.xero.com/api.xro/2.0/Invoice'
       response = send(uri, create_invoice(invoice))
 
@@ -59,7 +59,7 @@ module Connector
       invoice
     end
 
-    def put_contact(company)
+    def post_contact(company)
       uri = 'https://api.xero.com/api.xro/2.0/Contact'
       response = send(uri, create_contact(company))
 
@@ -104,7 +104,7 @@ module Connector
       @renderer.render('xero/contact.xml.haml', :company => company)
     end
 
-    class Problem < StandardError;
+    class Problem < StandardError
     end
   end
 end

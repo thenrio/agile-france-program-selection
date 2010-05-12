@@ -14,12 +14,12 @@ class Invoicer
   end
 
   def create_company(company)
-    return @connector.put_contact(company).save unless company.invoicing_system_id
+    return @connector.post_contact(company).save unless company.invoicing_system_id
     company
   end
 
   def invoice_company(company)
     company = create_company(company)
-    @connector.put_invoice(company.create_invoice).save
+    @connector.post_invoice(company.create_invoice).save
   end
 end
