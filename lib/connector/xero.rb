@@ -65,23 +65,23 @@ module Connector
     end
 
     # parse response and return xpath content for /Response/Invoices/Invoice/InvoiceNumber
-    def parse_invoice_response(response)
+    def parse_response(response)
       case Integer(response.code)
         when 200 then
-          extract_invoice_id(response)
+          return yield(response)
         else
           fail!(response)
       end
     end
 
     # parse response and return xpath content for /Response/Invoices/Invoice/InvoiceNumber
+    def parse_invoice_response(response)
+      parse_response(response) {|r| return extract_invoice_id(r)}
+    end
+
+    # parse response and return xpath content for /Response/Invoices/Invoice/InvoiceNumber
     def parse_contact_response(response)
-      case Integer(response.code)
-        when 200 then
-          extract_contact_id(response)
-        else
-          fail!(response)
-      end
+      parse_response(response) {|r| return extract_contact_id(r)}
     end
 
     def extract_invoice_id(response)
