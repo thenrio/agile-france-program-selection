@@ -119,6 +119,10 @@ describe Connector::Xero do
       end
     end
 
+    # alas, post does not work as documented (create/update)
+    # post receives 401 !!!
+    # put does create, and does it
+    # poor api
     describe 'put_company' do
       before do
         @access_token = mock!
@@ -128,9 +132,11 @@ describe Connector::Xero do
         stub(@connector).extract_contact_id(anything) { '123' }
       end
       
-      it 'should post' do
-        mock(@access_token).request(:post, 'https://api.xero.com/api.xro/2.0/Contact', 'contact') { HttpDuck.new(200) }
-        company = @connector.post_contact(@company)
+      it 'should put' do
+        mock(@access_token).request(:put, 'https://api.xero.com/api.xro/2.0/Contact', 'contact') {
+           HttpDuck.new(200)
+        }
+        company = @connector.put_contact(@company)
         company.invoicing_id.should == '123'
       end
     end

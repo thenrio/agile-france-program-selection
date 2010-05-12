@@ -54,7 +54,7 @@ describe 'an Invoicer,' do
     describe 'when not declared in invoicing system,' do
       describe 'create_company' do
         it 'should save contact invoicing id in company' do
-          stub(@invoicer.connector).post_contact(@google) {
+          stub(@invoicer.connector).put_contact(@google) {
             @google.invoicing_id = '1234567890'
             @google
           }

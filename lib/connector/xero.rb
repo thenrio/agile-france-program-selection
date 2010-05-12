@@ -59,9 +59,9 @@ module Connector
       invoice
     end
 
-    def post_contact(company)
+    def put_contact(company)
       uri = 'https://api.xero.com/api.xro/2.0/Contact'
-      response = send(uri, create_contact(company), :post)
+      response = send(uri, create_contact(company))
 
       parse_response(response) do |r|
         company.invoicing_id = extract_contact_id(r)
