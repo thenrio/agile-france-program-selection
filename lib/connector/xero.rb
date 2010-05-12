@@ -42,13 +42,16 @@ module Connector
       @access_token = OAuth::AccessToken.new(consumer, @consumer_key, @secret_key)
     end
 
-    def send(uri, xml, verb=:post)
-      logger.info "send #{xml}"
+    def send(uri, xml, verb=:put)
+      logger.info "#{verb} #{xml}"
       response = access_token.request(verb, uri, xml)
       logger.info "get #{response.code}, #{response.body}"
       return response
     end
 
+    # at this time oauth-4.0.0, and xero api-v2
+    # post(uri, xml) get 401 whereas put(uri, xml) get 200
+    # so use verb :put, even if it should be a :post
     def post_invoice(invoice)
       uri = 'https://api.xero.com/api.xro/2.0/Invoice'
       response = send(uri, create_invoice(invoice))
@@ -59,6 +62,9 @@ module Connector
       invoice
     end
 
+    # at this time oauth-4.0.0, and xero api-v2
+    # post(uri, xml) get 401 whereas put(uri, xml) get 200
+    # so use verb :put, even if it should be a :post
     def post_contact(company)
       uri = 'https://api.xero.com/api.xro/2.0/Contact'
       response = send(uri, create_contact(company))

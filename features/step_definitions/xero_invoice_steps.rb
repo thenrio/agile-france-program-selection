@@ -25,7 +25,7 @@ end
 
 And 'database has a company 37signals' do
   @signals37 = Company.new(:name => '37signals', :firstname => 'D', :lastname => 'HH', :email => 'john@doe.com')
-  @signals37.invoicing_id = '4CED6122-1F86-428D-8118-4030FC765BA6'
+  @signals37.invoicing_system_id = '4CED6122-1F86-428D-8118-4030FC765BA6'
   @signals37.save
 end
 

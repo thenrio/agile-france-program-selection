@@ -78,7 +78,7 @@ describe Connector::Xero do
       end
 
       it 'should tell connector to post' do
-        mock(@access_token).request(:post, 'https://api.xero.com/api.xro/2.0/Invoice', 'invoice') { HttpDuck.new(200) }
+        mock(@access_token).request(:put, 'https://api.xero.com/api.xro/2.0/Invoice', 'invoice') { HttpDuck.new(200) }
         invoice = @connector.post_invoice(@invoice)
         invoice.invoicing_system_id.should == '123'
       end
@@ -133,7 +133,7 @@ describe Connector::Xero do
       end
       
       it 'should post' do
-        mock(@access_token).request(:post, 'https://api.xero.com/api.xro/2.0/Contact', 'contact') {
+        mock(@access_token).request(:put, 'https://api.xero.com/api.xro/2.0/Contact', 'contact') {
            HttpDuck.new(200)
         }
         company = @connector.post_contact(@company)
