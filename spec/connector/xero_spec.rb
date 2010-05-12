@@ -130,7 +130,7 @@ describe Connector::Xero do
       
       it 'should put' do
         mock(@access_token).put('https://api.xero.com/api.xro/2.0/Contact', 'contact') { HttpDuck.new(200) }
-        company = @connector.put_contact(@company)
+        company = @connector.post_contact(@company)
         company.invoicing_id.should == '123'
       end
     end

@@ -24,4 +24,12 @@ class Company
     end
     @invoiceables
   end
+
+  def create_invoice
+    invoice = Invoice.new(:company => self, :date => Date.today)
+    self.invoiceables.each do |invoiceable|
+      invoice.invoiceables.push invoiceable
+    end
+    invoice
+  end
 end

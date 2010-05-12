@@ -59,7 +59,7 @@ module Connector
       invoice
     end
 
-    def put_contact(company)
+    def post_contact(company)
       uri = 'https://api.xero.com/api.xro/2.0/Contact'
       response = put(uri, create_contact(company))
 

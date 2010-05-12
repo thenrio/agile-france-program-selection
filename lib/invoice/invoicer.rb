@@ -14,15 +14,12 @@ class Invoicer
   end
 
   def create_company(company)
-    @connector.put_contact(company).save unless company.invoicing_id
+    return @connector.post_contact(company).save unless company.invoicing_id
+    company
   end
 
   def invoice_company(company)
-    create_company(company)
-    invoice = Invoice.new(:company => company, :date => Date.today)
-    company.invoiceables.each do |invoiceable|
-      invoice.invoiceables.push invoiceable
-    end
-    @connector.put_invoice(invoice).save
+    company = create_company(company)
+    @connector.put_invoice(company.create_invoice).save
   end
 end

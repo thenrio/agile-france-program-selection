@@ -21,15 +21,16 @@ describe 'an Invoicer,' do
       Configuration.new.test
       @google = Company.new().tap { |it| it.save }
       @john = Attendee.new(:company => @google).tap { |it| it.save }
-      stub(@google).invoiceables { [1, 2] }
     end
 
     describe 'when declared in invoicing system,' do
       before do
         @google.invoicing_id = '1234567890'
-        invoice = Invoice.new(:company => @google)
-        invoice.invoiceables.push Invoiceable.new(:attendee => @john)
-        stub(@invoicer.connector).put_invoice(@google) { invoice }
+        invoice = @google.create_invoice
+        stub(@invoicer.connector).put_invoice(invoice) {
+          invoice.invoice_id = '123'
+          invoice
+        }
       end
 
       describe 'invoicing' do
@@ -53,7 +54,7 @@ describe 'an Invoicer,' do
     describe 'when not declared in invoicing system,' do
       describe 'create_company' do
         it 'should save contact invoicing id in company' do
-          stub(@invoicer.connector).put_contact(@google) {
+          stub(@invoicer.connector).post_contact(@google) {
             @google.invoicing_id = '1234567890'
             @google
           }
