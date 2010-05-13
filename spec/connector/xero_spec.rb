@@ -1,3 +1,4 @@
+#encoding: utf-8
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 require 'rr'
 require 'nokogiri'
@@ -60,12 +61,13 @@ describe Connector::Xero do
 
   describe 'with invoice,' do
     before do
-      company = Company.new(:name => 'no name', :firstname => 'john',
+      git = Company.create(:name => 'git', :firstname => 'john',
                             :lastname => 'doe', :email => 'john@doe.com',
                             :invoicing_system_id => 'sha1')
+      junio = Attendee.create(:firstname => 'junio', :lastname => 'hamano', :company => git)
       date = Date.parse('10/05/2010')
-      invoiceables = [Invoiceable.new()]
-      @invoice = Invoice.new(:company => company, :invoiceables => invoiceables, :date => date)
+      @invoiceable = Invoiceable.new(:attendee => junio)
+      @invoice = Invoice.new(:company => git, :invoiceables => [@invoiceable], :date => date)
     end
 
     describe 'post_invoice' do
@@ -93,7 +95,7 @@ describe Connector::Xero do
         doc.xpath('/Invoice/Date').first.content.should == '2010-05-10'
         doc.xpath('/Invoice/DueDate').first.content.should == '2010-05-25'
         foo = doc.xpath('/Invoice/LineItems/LineItem')[0]
-        foo.xpath('Description').first.content.should == 'AGF10P270'
+        foo.xpath('Description').first.content.should == @invoiceable.description
         foo.xpath('Quantity').first.content.should == '1'
         foo.xpath('UnitAmount').first.content.should == '270'
         foo.xpath('AccountCode').first.content.should == '20010AGFI'
