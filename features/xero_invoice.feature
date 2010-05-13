@@ -8,4 +8,4 @@ Feature: In order to increase revenue
     And database has a company 37signals
     And John Doe, from 37signals, attends
     When XeroInvoicer invoices 37signals
-    Then there is an invoice for 37signals having a xero_id field
+    Then there is an invoice for 37signals having a invoicing_system_id field
