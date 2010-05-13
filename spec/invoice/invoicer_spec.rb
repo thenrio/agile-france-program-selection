@@ -19,8 +19,8 @@ describe 'an Invoicer,' do
   describe 'with google,' do
     before do
       Configuration.new.test
-      @google = Company.new().tap { |it| it.save }
-      @john = Attendee.new(:company => @google).tap { |it| it.save }
+      @google = Company.create
+      @john = Attendee.create(:company => @google)
     end
 
     describe 'when declared in invoicing system,' do
