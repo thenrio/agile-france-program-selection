@@ -48,6 +48,12 @@ describe 'an Invoicer,' do
           dont_allow(@invoicer.connector).put_company(@google)
           @invoicer.invoice_company @google
         end
+
+        it 'should not tell connector to put empty invoice' do
+          stub(@google).invoiceables { [] }
+          dont_allow(@invoicer.connector).post_invoice(anything)
+          @invoicer.invoice_company @google
+        end
       end
     end
 
