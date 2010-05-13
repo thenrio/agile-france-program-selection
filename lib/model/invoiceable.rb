@@ -12,6 +12,12 @@ class Invoiceable
 
   attr_writer :price
 
+  @@descriptions = {'AGF10P270' => 'Place',
+                    'AGF10P220' => 'Early',
+                    'AGF10P0' => 'Place Gratuite',
+                    'AGF10D40' => 'Diner',
+                    'AGF10D0' => 'Diner Gratuit'}
+  
   def price
     return @price if @price
     invoice_item_id =~ /AGF10(\D+)(\d+)/
@@ -21,5 +27,11 @@ class Invoiceable
 
   def description
     "#{invoice_item_id} - Place pour la conférence - #{attendee.full_name}"
+  end
+  
+  def self.describe(invoicing_system_id)
+    description = @@descriptions[invoicing_system_id]
+    description = '' unless description
+    description
   end
 end
