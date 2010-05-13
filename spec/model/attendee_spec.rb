@@ -26,7 +26,7 @@ describe Attendee do
         @john_doe.early = true
       end
       it 'should have an invoiceable early entrance' do
-        @john_doe.invoiceables.should == [Invoiceable.new(:invoice_item_id => 'AGF10P220', :attendee => @john_doe)]
+        @john_doe.invoiceables.should == [Invoiceable.new(:invoicing_system_id => 'AGF10P220', :attendee => @john_doe)]
       end
     end
 
@@ -35,7 +35,7 @@ describe Attendee do
         @john_doe.diner = true
       end
       it 'should have a invoiceable diner' do
-        @john_doe.invoiceables.should == [Invoiceable.new(:attendee => @john_doe), Invoiceable.new(:invoice_item_id => 'AGF10D40', :attendee => @john_doe)]
+        @john_doe.invoiceables.should == [Invoiceable.new(:attendee => @john_doe), Invoiceable.new(:invoicing_system_id => 'AGF10D40', :attendee => @john_doe)]
       end
     end
 
@@ -46,7 +46,7 @@ describe Attendee do
       end
 
       it 'should be invoiced with AGF10P0' do
-        @john_doe.invoiceables.should == [Invoiceable.new(:invoice_item_id => 'AGF10P0', :attendee => @john_doe)]
+        @john_doe.invoiceables.should == [Invoiceable.new(:invoicing_system_id => 'AGF10P0', :attendee => @john_doe)]
       end
 
       describe 'with diner,' do
@@ -55,7 +55,7 @@ describe Attendee do
         end
 
         it 'should have AGF10D0' do
-          @john_doe.invoiceables.last.should == Invoiceable.new(:invoice_item_id => 'AGF10D0', :attendee => @john_doe)
+          @john_doe.invoiceables.last.should == Invoiceable.new(:invoicing_system_id => 'AGF10D0', :attendee => @john_doe)
         end
       end
     end
@@ -63,7 +63,7 @@ describe Attendee do
     describe ' when entrance is already invoiced' do
       before do
         @invoice = Invoice.new(:company => @john_doe.company)
-        entrance = Invoiceable.new(:invoice_item_id => 'AGF10P270', :attendee => @john_doe)
+        entrance = Invoiceable.new(:invoicing_system_id => 'AGF10P270', :attendee => @john_doe)
         @invoice.invoiceables.push(entrance)
         @invoice.save
       end

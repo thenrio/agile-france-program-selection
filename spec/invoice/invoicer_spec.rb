@@ -40,7 +40,7 @@ describe 'an Invoicer,' do
           invoice = Invoice.first
           invoice.company.should == @google
           entrance = invoice.invoiceables[0]
-          entrance.invoice_item_id.should == 'AGF10P270'
+          entrance.invoicing_system_id.should == 'AGF10P270'
           entrance.attendee.should == @john
         end
 
