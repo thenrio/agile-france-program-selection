@@ -25,7 +25,7 @@ class Company
     @invoiceables
   end
 
-  def declared_in_invoicing_system?
+  def yet_in_invoicing_system?
     not invoicing_system_id.nil?
   end
 

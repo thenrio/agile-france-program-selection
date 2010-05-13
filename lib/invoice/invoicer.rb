@@ -14,7 +14,7 @@ class Invoicer
   end
 
   def create_company(company)
-    @connector.post_contact(company).save unless company.declared_in_invoicing_system?
+    @connector.post_contact(company).save unless company.yet_in_invoicing_system?
     company
   end
 
