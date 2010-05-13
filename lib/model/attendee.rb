@@ -3,7 +3,7 @@ require 'model/full_named'
 
 class Attendee
   include DataMapper::Resource
-#  include FullNamed
+  include FullNamed
   storage_names[:default] = 'registration_attendee'
 
   property :id, Serial, :field => 'attendee_id'

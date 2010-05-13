@@ -1,3 +1,4 @@
+#encoding: utf-8
 require 'dm-core'
 
 class Invoiceable
@@ -16,5 +17,9 @@ class Invoiceable
     invoice_item_id =~ /AGF10(\D+)(\d+)/
     self.price = Integer($2) if $2
     @price
+  end
+
+  def description
+    "#{invoice_item_id} - Place pour la conférence - #{attendee.full_name}"
   end
 end

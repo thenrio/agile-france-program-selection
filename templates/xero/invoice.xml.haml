@@ -8,7 +8,7 @@
   %LineItems
     -invoice.invoiceables.each do  |invoiceable|
       %LineItem
-        %Description= invoiceable.invoice_item_id
+        %Description= invoiceable.description
         %Quantity= 1
         %UnitAmount= invoiceable.price
         %AccountCode 20010AGFI
