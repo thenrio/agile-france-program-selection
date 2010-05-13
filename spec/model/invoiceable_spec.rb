@@ -12,7 +12,7 @@ describe Invoiceable do
   end
 
   describe 'description' do
-    it 'should ' do
+    it 'should have invoicing system id, textual description of item and attendee full name' do
       Invoiceable.new(:attendee => @junio).description.should == 'AGF10P270 - Place pour la conférence - junio hamano'
     end
   end
