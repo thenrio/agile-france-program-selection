@@ -26,7 +26,7 @@ class Invoiceable
   end
 
   def description
-    "#{invoice_item_id} - Place pour la conférence - #{attendee.full_name}"
+    "#{invoice_item_id} - #{Invoiceable.describe(invoice_item_id)} - #{attendee.full_name}"
   end
   
   def self.describe(invoicing_system_id)
