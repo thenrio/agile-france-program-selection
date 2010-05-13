@@ -1,25 +1,25 @@
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..'))
 require 'dm-migrations/migration_runner'
+require 'configuration'
+require 'model/invoiceable'
 require 'model/invoice'
+require 'model/attendee'
+Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-database/prod.db'
 
 DataMapper::Logger.new(STDOUT, :debug)
 DataMapper.logger.debug("Starting Migration")
 
-
-migration 3, :create_invoice_item do
+migration 4, :create_invoiceables do
   up do
-    InvoiceItem.auto_migrate!
+    Invoiceable.auto_migrate!
   end
 
   down do
-    drop_table :invoice_items
+    drop_table :invoiceables
   end
 end
 
 if $0 == __FILE__
-  require 'configuration'
-  Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-database/prod.db'
-  
   if $*.first == "down"
     migrate_down!
   else
