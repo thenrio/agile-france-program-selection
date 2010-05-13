@@ -25,6 +25,10 @@ class Company
     @invoiceables
   end
 
+  def declared_in_invoicing_system?
+    not invoicing_system_id.nil?
+  end
+
   def create_invoice
     invoice = Invoice.new(:company => self, :date => Date.today)
     self.invoiceables.each do |invoiceable|

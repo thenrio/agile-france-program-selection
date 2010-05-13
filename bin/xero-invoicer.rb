@@ -3,7 +3,7 @@ require 'invoice/invoicer'
 require 'connector/xero'
 require 'configuration'
 require 'model/company'
-
+require 'ruby-debug'
 
 options = {:site => 'https://api.xero.com',
            :request_token_path => "/oauth/RequestToken",
@@ -18,4 +18,6 @@ invoicer = Invoicer.new(connector)
 
 
 Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-database/prod.db'
-invoicer.invoice_companies
+algodeal = Company.first(:name => 'Algodeal')
+debugger
+invoicer.invoice_company algodeal
