@@ -43,5 +43,4 @@ describe Invoiceable do
       Invoiceable.describe('foo').should == ''
     end
   end
-
 end
