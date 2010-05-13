@@ -43,7 +43,7 @@ module Connector
     end
 
     def send(uri, xml, verb=:put)
-      logger.info "#{verb} content=\n#{xml}"
+      logger.info "#{verb}\n#{xml}"
       response = access_token.request(verb, uri, xml)
       logger.info "get #{response.code}, #{response.body}"
       return response
