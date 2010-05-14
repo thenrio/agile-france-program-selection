@@ -9,7 +9,7 @@ class Bird
   property :name, String
   property :early, Integer, :default => 0
 
-  support_bloody_boolean :early
+  quack_on_question_mark :early
 end
 
 
