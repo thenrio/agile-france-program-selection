@@ -1,5 +1,6 @@
 require 'dm-core'
 require 'model/full_named'
+require 'model/poor_boolean_support'
 
 class Attendee
   include DataMapper::Resource
@@ -10,9 +11,12 @@ class Attendee
   property :firstname, String
   property :lastname, String
   property :email, String
-  property :early, Boolean
-  property :lunch, Boolean
+  property :early, Integer
+  property :lunch, Integer
   property :invited_by, String
+
+  extend PoorBooleanSupport
+  quack_on_question_mark :early, :lunch
 
   belongs_to :company, :required => false
 
