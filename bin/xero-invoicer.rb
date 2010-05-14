@@ -19,4 +19,5 @@ invoicer = Invoicer.new(connector)
 
 Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-database/prod.db'
 algodeal = Company.first(:name => 'Algodeal')
+debugger
 invoicer.invoice_company algodeal

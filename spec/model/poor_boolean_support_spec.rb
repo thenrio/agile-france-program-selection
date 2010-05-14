@@ -20,8 +20,17 @@ describe Bird do
     Bird.auto_migrate!
   end
   it '1 should be true' do
-    goose = Bird.create(:name => 'goose', :early =>1)
-    goose.early?.should == true
+    goose = Bird.create(:name => 'goose', :early => 1)
+    goose.early?.should be_true
   end
 
+  it '0 should not be true' do
+    goose = Bird.create(:name => 'goose', :early => 0)
+    goose.early?.should_not be_true
+  end
+
+  it 'nil should not be true' do
+    goose = Bird.create(:name => 'goose', :early => nil)
+    goose.early?.should_not be_true
+  end
 end

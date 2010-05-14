@@ -30,15 +30,21 @@ And 'database has a company 37signals' do
 end
 
 And 'John Doe, from 37signals, attends' do
-  @john_doe = Attendee.new(:firstname => 'John', :lastname => 'Doe', :email => 'john@doe.com', :company => @signals37)
-  @john_doe.save
+  @john = Attendee.create(:firstname => 'John', :lastname => 'Doe', :email => 'john@doe.com', :company => @signals37)
+  debugger
+  @john.early?.should_not be_true
+  end
+
+And 'wycats, from 37signals, attends as early' do
+  @wycats = Attendee.create(:firstname => 'wy', :lastname => 'katz', :email => 'wycats', :company => @signals37, :early => 1)
+  @wycats.early?.should be_true
 end
 
 When 'XeroInvoicer invoices 37signals' do
   @invoicer.invoice_company @signals37
 end
 
-Then 'there is an invoice for 37signals having a invoicing_system_id field' do
+Then 'there is an invoice for 37signals having an invoicing_system_id field' do
   invoice = Invoice.first(:company => @signals37)
   invoice.should_not be_nil
   invoice.invoicing_system_id.should_not be_nil
