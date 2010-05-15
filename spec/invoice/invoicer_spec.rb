@@ -64,11 +64,33 @@ describe 'an Invoicer,' do
             @google.invoicing_system_id = '1234567890'
             @google
           }
-          @invoicer.create_company @google
-          Company.get(@google.id).invoicing_system_id.should == '1234567890'
+          g = @invoicer.create_company @google
+          g.invoicing_system_id.should == '1234567890'
+          Company.get(@google.id).should == g
         end
       end
     end
+
+    describe 'create_company' do
+      before do
+        @google.email = 'donut'
+        stub(@invoicer.connector).post_contact(@google) {
+          google = @google.clone
+          google.invoicing_system_id = '1234567890'
+          google.email = 'watcha'
+          google
+        }
+      end
+      it 'should be idempotent' do
+        g1 = @invoicer.create_company(@google)
+        debugger
+        g1.has_conflicting_emails?.should be_true
+        g2 = @invoicer.create_company(@google)
+        g2.has_conflicting_emails?.should be_true
+        g2.should == g1
+      end
+    end
+
   end
 
   describe 'get_available_companies' do
@@ -89,7 +111,7 @@ describe 'an Invoicer,' do
       a_sis = Company.new(:name => 'A-sis')
       @invoicer.can_post?(a_sis).should_not be_true
     end
-    
+
     it 'is true if company name is not available, ignoring case' do
       assis = Company.new(:name => 'assis')
       @invoicer.can_post?(assis).should be_true
@@ -100,9 +122,11 @@ describe 'an Invoicer,' do
     before do
       Configuration.new.test
       @a_sis = Company.create(:name => 'A-SIS', :email => 'good')
+
       def @invoicer.get_available_companies
         {'a-sis' => Company.new(:name => 'a-SIS', :invoicing_system_id => '123', :email => 'bad')}
       end
+
       @invoicer.merge!(@a_sis).invoicing_system_id.should == '123'
     end
 

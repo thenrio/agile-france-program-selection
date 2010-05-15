@@ -9,7 +9,7 @@ class Invoicer
 
   def create_company(company)
     @connector.post_contact(company).save if can_post? company
-    company
+    company.reload
   end
 
   def invoice_company(company)
@@ -32,7 +32,6 @@ class Invoicer
     end
     company.invoicing_system_email = contact.email
     company.attributes = company.attributes.merge(attributes_but_mail)
-    company.save
     company
   end
 
