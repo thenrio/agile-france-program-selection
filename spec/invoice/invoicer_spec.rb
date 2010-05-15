@@ -19,7 +19,7 @@ describe 'an Invoicer,' do
   describe 'with google,' do
     before do
       Configuration.new.test
-      @google = Company.create
+      @google = Company.create(:name => 'google')
       @john = Attendee.create(:company => @google)
     end
 
@@ -71,26 +71,26 @@ describe 'an Invoicer,' do
       end
     end
 
-    describe 'create_company' do
-      before do
-        @google.email = 'donut'
-        stub(@invoicer.connector).post_contact(@google) {
+    describe 'create_company,' do
+      describe 'with conflicting emails' do
+        before do
+          @google.email = 'donut'
+
           google = @google.clone
           google.invoicing_system_id = '1234567890'
           google.email = 'watcha'
-          google
-        }
-      end
-      it 'should be idempotent' do
-        g1 = @invoicer.create_company(@google)
-        debugger
-        g1.has_conflicting_emails?.should be_true
-        g2 = @invoicer.create_company(@google)
-        g2.has_conflicting_emails?.should be_true
-        g2.should == g1
+          stub(@invoicer).get_available_companies { {google.name => google} }
+        end
+        
+        it 'should be idempotent' do
+          g1 = @invoicer.create_company(@google)
+          g1.invoicing_system_email.should == 'watcha'
+          g2 = @invoicer.create_company(@google)
+          g2.invoicing_system_email.should == 'watcha'
+          g2.should == g1
+        end
       end
     end
-
   end
 
   describe 'get_available_companies' do
