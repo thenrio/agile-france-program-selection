@@ -107,11 +107,15 @@ describe 'an Invoicer,' do
     end
 
     it 'A-SIS should gain invoicing_system_id' do
-      Company.get(@a_sis.id).invoicing_system_id.should == '123'
+      @a_sis.invoicing_system_id.should == '123'
     end
 
-    it 'A-SIS should keep mail' do
-      Company.get(@a_sis.id).email.should == 'good'
+    it 'A-SIS should keep good mail' do
+      @a_sis.email.should == 'good'
+    end
+
+    it 'A-SIS should have bad_invoicing_system_email' do
+      @a_sis.bad_invoicing_system_email.should == 'bad'
     end
   end
 end
