@@ -130,11 +130,20 @@ module Connector
       @renderer.render('xero/contact.xml.haml', :company => company)
     end
 
+    def extract_from_node(node, path)
+      begin
+        node.xpath(path).first.content
+      rescue Exception => bang
+        logger.warn("no such #{path} in #{node.to_xml}")
+      end
+    end
+    private :extract_from_node
+
     def create_company_from_node(node)
       company = Company.new
-      company.invoicing_system_id = node.xpath('ContactID').first.content
-      company.name = node.xpath('Name').first.content
-      company.email = node.xpath('EmailAddress').first.content
+      company.invoicing_system_id = extract_from_node(node, 'ContactID')
+      company.name = extract_from_node(node, 'Name')
+      company.email = extract_from_node(node, 'EmailAddress')
       company
     end
 
