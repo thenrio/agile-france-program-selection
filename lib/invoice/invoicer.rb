@@ -41,7 +41,7 @@ class Invoicer
   private :merge_contact_in_company
 
   def lookup_available_contact(company)
-    get_available_companies[company.name.downcase]
+    posted_companies[company.name.downcase]
   end
 
   def merge!(company)
@@ -55,7 +55,7 @@ class Invoicer
   end
   private :add_posted_company
 
-  def get_available_companies
+  def posted_companies
     unless @companies_indexed_by_name_downcase
       @companies_indexed_by_name_downcase = {}
       @connector.get_contacts.each do |company|

@@ -87,7 +87,7 @@ describe 'an Invoicer,' do
           google = @google.clone
           google.invoicing_system_id = '1234567890'
           google.email = 'watcha'
-          stub(@invoicer).get_available_companies { {google.name => google} }
+          stub(@invoicer).posted_companies { {google.name => google} }
         end
         
         it 'should be idempotent' do
@@ -101,17 +101,17 @@ describe 'an Invoicer,' do
     end
   end
 
-  describe 'get_available_companies' do
+  describe 'posted_companies' do
     it 'should tell connector to get contacts' do
       a_sis = Company.new(:name => 'a-SIS')
       mock(@invoicer.connector).get_contacts { [a_sis] }
-      @invoicer.get_available_companies.should == {'a-sis' => a_sis}
+      @invoicer.posted_companies.should == {'a-sis' => a_sis}
     end
   end
 
   describe 'can_post?,' do
     before do
-      def @invoicer.get_available_companies
+      def @invoicer.posted_companies
         {'a-sis' => Company.new(:name => 'a-SIS', :invoicing_system_id => '123')}
       end
     end
@@ -131,7 +131,7 @@ describe 'an Invoicer,' do
       Configuration.new.test
       @a_sis = Company.create(:name => 'A-SIS', :email => 'good')
 
-      def @invoicer.get_available_companies
+      def @invoicer.posted_companies
         {'a-sis' => Company.new(:name => 'a-SIS', :invoicing_system_id => '123', :email => 'bad')}
       end
 
