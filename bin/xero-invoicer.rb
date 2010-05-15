@@ -14,10 +14,10 @@ options = {:site => 'https://api.xero.com',
 consumer_key = 'NTA0YZDJZTM0M2JHNDQ0MMJHY2NLMT'
 secret_key = 'XHHWNGJGRUDMXQKVBQIZEBGG2ROFRF'
 connector = Connector::Xero.new(consumer_key, secret_key, options)
+
+
 invoicer = Invoicer.new(connector)
-
-
 Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-database/prod.db'
-algodeal = Company.first(:name => 'Algodeal')
-debugger
-invoicer.invoice_company algodeal
+Company.all do |company|
+  invoicer.invoice_company company
+end

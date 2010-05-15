@@ -7,12 +7,6 @@ class Invoicer
     self.connector = connector
   end
 
-  def invoice_companies
-    Company.all.each do |company|
-      invoice_company company
-    end
-  end
-
   def create_company(company)
     @connector.post_contact(company).save unless company.yet_in_invoicing_system?
     company
