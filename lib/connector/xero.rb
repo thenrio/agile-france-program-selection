@@ -69,10 +69,11 @@ module Connector
       uri = 'https://api.xero.com/api.xro/2.0/Contact'
       response = send(uri, create_contact(company))
 
+      c = company.clone
       parse_response(response) do |r|
-        company.invoicing_system_id = extract_contact_id(r)
+        c.invoicing_system_id = extract_contact_id(r)
       end
-      company
+      c
     end
 
     # at this time, does not know how to get on name, email criteria

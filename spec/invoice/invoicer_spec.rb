@@ -58,12 +58,15 @@ describe 'an Invoicer,' do
     end
 
     describe 'when not declared in invoicing system,' do
+      before do
+        google = @google.clone
+        google.invoicing_system_id = '1234567890'
+        stub(@invoicer.connector).post_contact(@google) {
+          google
+        }
+      end
       describe 'create_company' do
         it 'should save contact invoicing id in company' do
-          stub(@invoicer.connector).post_contact(@google) {
-            @google.invoicing_system_id = '1234567890'
-            @google
-          }
           g = @invoicer.create_company @google
           g.invoicing_system_id.should == '1234567890'
           Company.get(@google.id).should == g
