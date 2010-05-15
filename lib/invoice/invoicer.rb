@@ -18,7 +18,7 @@ class Invoicer
   def can_post?(company)
     return false if company.yet_in_invoicing_system?
     return true if company.name.nil?
-    lookup_available_contact(company).nil?
+    posted_company(company).nil?
   end
 
   def create_company(company)
@@ -40,12 +40,12 @@ class Invoicer
   end
   private :merge_contact_in_company
 
-  def lookup_available_contact(company)
+  def posted_company(company)
     posted_companies[company.name.downcase]
   end
 
   def merge!(company)
-    contact = lookup_available_contact(company)
+    contact = posted_company(company)
     merge_contact_in_company(company, contact) if contact
     company
   end

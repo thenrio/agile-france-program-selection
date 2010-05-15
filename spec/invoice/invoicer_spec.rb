@@ -74,7 +74,7 @@ describe 'an Invoicer,' do
           Company.get(@google.id).should == @posted
         end
         it 'should make posted company available' do
-          @invoicer.lookup_available_contact(@google).should == @posted
+          @invoicer.posted_company(@google).should == @posted
         end
       end
     end
