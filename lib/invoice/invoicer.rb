@@ -23,7 +23,10 @@ class Invoicer
 
   def create_company(company)
     merge!(company)
-    company = @connector.post_contact(company) if can_post? company
+    if can_post? company
+      company = @connector.post_contact(company)
+      add_posted_company(company)
+    end
     company.save
     company
   end
@@ -47,11 +50,16 @@ class Invoicer
     company
   end
 
+  def add_posted_company(company)
+    @companies_indexed_by_name_downcase[company.name.downcase] = company
+  end
+  private :add_posted_company
+
   def get_available_companies
     unless @companies_indexed_by_name_downcase
       @companies_indexed_by_name_downcase = {}
       @connector.get_contacts.each do |company|
-        @companies_indexed_by_name_downcase[company.name.downcase] = company
+        add_posted_company(company)
       end
     end
     @companies_indexed_by_name_downcase
