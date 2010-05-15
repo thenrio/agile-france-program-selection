@@ -27,7 +27,10 @@ class Invoicer
 
   def merge!(company)
     contact = get_available_companies[company.name.downcase]
-    company.attributes = company.attributes.merge(contact.attributes)
+    attributes_but_mail = contact.attributes.reject do |key, value|
+      key == :email
+    end
+    company.attributes = company.attributes.merge(attributes_but_mail)
     company.save
     company
   end
