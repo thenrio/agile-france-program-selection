@@ -66,10 +66,15 @@ describe 'an Invoicer,' do
         }
       end
       describe 'create_company' do
+        before do
+          @posted = @invoicer.create_company @google
+        end
         it 'should save contact invoicing id in company' do
-          g = @invoicer.create_company @google
-          g.invoicing_system_id.should == '1234567890'
-          Company.get(@google.id).should == g
+          @posted.invoicing_system_id.should == '1234567890'
+          Company.get(@google.id).should == @posted
+        end
+        it 'should make posted company available' do
+          @invoicer.lookup_available_contact(@google).should == @posted
         end
       end
     end
