@@ -1,0 +1,7 @@
+%html
+  %p= "#{invoices.size} invoices were posted"
+  %p Amongst them, the following require our attention
+    %ul
+      - invoices.each do |invoice|
+        - if invoice.has_conflicting_emails?
+          %li= "#{invoice} should be sent to #{invoice.email}"
