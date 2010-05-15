@@ -62,8 +62,8 @@ describe Connector::Xero do
   describe 'with invoice,' do
     before do
       git = Company.create(:name => 'git', :firstname => 'john',
-                            :lastname => 'doe', :email => 'john@doe.com',
-                            :invoicing_system_id => 'sha1')
+                           :lastname => 'doe', :email => 'john@doe.com',
+                           :invoicing_system_id => 'sha1')
       junio = Attendee.create(:firstname => 'junio', :lastname => 'hamano', :company => git)
       date = Date.parse('10/05/2010')
       @invoiceable = Invoiceable.new(:attendee => junio)
@@ -133,10 +133,10 @@ describe Connector::Xero do
         stub(@connector).create_contact(@company) { 'contact' }
         stub(@connector).extract_contact_id(anything) { '123' }
       end
-      
+
       it 'should post' do
         mock(@access_token).request(:put, 'https://api.xero.com/api.xro/2.0/Contact', 'contact') {
-           HttpDuck.new(200)
+          HttpDuck.new(200)
         }
         company = @connector.post_contact(@company)
         company.invoicing_system_id.should == '123'
@@ -159,7 +159,7 @@ XML
       @connector.extract_invoice_id(response).should == 'INV-0011'
     end
   end
-  
+
   describe 'parse_response' do
     it 'should extract error message when mail is not valid' do
       xml = <<XML
@@ -202,6 +202,46 @@ XML
       response = HttpDuck.new(400, xml)
       message = 'The string \'20100510\' is not a valid AllXsd value.'
       lambda { @connector.parse_response(response) }.should raise_error Connector::Xero::Problem, message
+    end
+  end
+
+
+  describe 'get_contacts' do
+    it 'should get Contacts and make them available as Companies' do
+      xml = <<XML
+<Response>
+  <Id>67c64458-0fe1-4577-9e39-e2695416f5e3</Id>
+  <Status>OK</Status>
+  <ProviderName>spike-on-xero</ProviderName>
+  <DateTimeUTC>2010-05-13T12:16:47.9988769Z</DateTimeUTC>
+  <Contacts>
+    <Contact>
+      <ContactID>4ced6122-1f86-428d-8118-4030fc765ba6</ContactID>
+      <ContactStatus>ACTIVE</ContactStatus>
+      <Name>37signals</Name>
+      <FirstName>D</FirstName>
+      <LastName>HH</LastName>
+      <EmailAddress>john@doe.com</EmailAddress>
+    </Contact>
+    <Contact>
+      <ContactID>3bb604a6-f395-4869-a8db-8c99a89fd848</ContactID>
+      <ContactStatus>ACTIVE</ContactStatus>
+      <Name>38signals</Name>
+      <FirstName>D</FirstName>
+      <LastName>HHH</LastName>
+      <EmailAddress>dhh@37signals.com</EmailAddress>
+    </Contact>
+  </Contacts>
+</Response>
+XML
+      mock(@connector.access_token).request(:get, 'https://api.xero.com/api.xro/2.0/Contacts', '') {
+        HttpDuck.new(200, xml)
+      }
+      signals37 = Company.new(:name => '37signals', :email => 'john@doe.com',
+                              :invoicing_system_id => '4ced6122-1f86-428d-8118-4030fc765ba6')
+      signals38 = Company.new(:name => '38signals', :email => 'dhh@37signals.com',
+                              :invoicing_system_id => '3bb604a6-f395-4869-a8db-8c99a89fd848')
+      @connector.get_contacts.should == [signals37, signals38]
     end
   end
 end

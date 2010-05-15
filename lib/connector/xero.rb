@@ -75,14 +75,28 @@ module Connector
       company
     end
 
+    # at this time, does not know how to get on name, email criteria
+    # and post fails when duplicate name
+    def get_contacts
+      uri = 'https://api.xero.com/api.xro/2.0/Contacts'
+      response = send(uri, '', :get)
+
+      companies = []
+      extract_contacts(parse_response(response)).each do |contact|
+        companies << create_company_from_node(contact)
+      end
+      companies
+    end
+
     # parse response and return xpath content for /Response/Invoices/Invoice/InvoiceNumber
     def parse_response(response)
       case Integer(response.code)
         when 200 then
-          return yield(response)
+          return yield(response) if block_given?
         else
           fail!(response)
       end
+      response
     end
 
     def extract_invoice_id(response)
@@ -94,6 +108,11 @@ module Connector
     def extract_contact_id(response)
       doc = Nokogiri::XML(response.body)
       doc.xpath('/Response/Contacts/Contact/ContactID').first.content
+    end
+
+    def extract_contacts(response)
+      doc = Nokogiri::XML(response.body)
+      doc.xpath('/Response/Contacts/Contact')
     end
 
     def fail!(response)
@@ -108,6 +127,14 @@ module Connector
 
     def create_contact(company)
       @renderer.render('xero/contact.xml.haml', :company => company)
+    end
+
+    def create_company_from_node(node)
+      company = Company.new
+      company.invoicing_system_id = node.xpath('ContactID').first.content
+      company.name = node.xpath('Name').first.content
+      company.email = node.xpath('EmailAddress').first.content
+      company
     end
 
     class Problem < StandardError
