@@ -8,13 +8,6 @@ class Invoicer
     self.connector = connector
   end
 
-  def create_company(company)
-    merge!(company)
-    company = @connector.post_contact(company) if can_post? company
-    company.save
-    company
-  end
-
   def invoice_company(company)
     company = create_company(company)
     invoice = company.create_invoice
@@ -26,6 +19,13 @@ class Invoicer
     return false if company.yet_in_invoicing_system?
     return true if company.name.nil?
     lookup_available_contact(company).nil?
+  end
+
+  def create_company(company)
+    merge!(company)
+    company = @connector.post_contact(company) if can_post? company
+    company.save
+    company
   end
 
   def merge_contact_in_company(company, contact)
