@@ -70,4 +70,14 @@ describe 'an Invoicer,' do
       end
     end
   end
+
+  describe 'get_available_companies' do
+    it 'should tell connector to get contacts' do
+      a_sis = Company.new(:name => 'a-SIS')
+      mock(@invoicer.connector).get_contacts {
+        [a_sis]
+      }
+      @invoicer.get_available_companies.should == {'a-sis' => a_sis}
+    end
+  end
 end

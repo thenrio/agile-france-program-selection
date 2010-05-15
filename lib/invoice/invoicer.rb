@@ -18,4 +18,14 @@ class Invoicer
     @connector.post_invoice(invoice).save unless invoice.empty?
     invoice
   end
+
+  def get_available_companies
+    unless @companies_indexed_by_name_downcase
+      @companies_indexed_by_name_downcase = {}
+      @connector.get_contacts.each do |company|
+        @companies_indexed_by_name_downcase[company.name.downcase] = company
+      end
+    end
+    @companies_indexed_by_name_downcase
+  end
 end
