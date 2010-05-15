@@ -14,4 +14,6 @@ class Invoice
   has n, :invoiceables
 
   def_delegator :invoiceables, :empty?
+  def_delegator :company, :email
+  def_delegator :company, :has_conflicting_emails?
 end
