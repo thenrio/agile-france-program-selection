@@ -82,7 +82,7 @@ describe 'an Invoicer,' do
   describe 'can_post?,' do
     before do
       def @invoicer.get_available_companies
-        {'a-sis' => Company.new(:name => 'a-SIS')}
+        {'a-sis' => Company.new(:name => 'a-SIS', :invoicing_system_id => '123')}
       end
     end
     it 'is false if company name is available, ignoring case' do
@@ -93,6 +93,25 @@ describe 'an Invoicer,' do
     it 'is true if company name is not available, ignoring case' do
       assis = Company.new(:name => 'assis')
       @invoicer.can_post?(assis).should be_true
+    end
+  end
+
+  describe 'merge!' do
+    before do
+      Configuration.new.test
+      @a_sis = Company.create(:name => 'A-SIS', :email => 'good')
+      def @invoicer.get_available_companies
+        {'a-sis' => Company.new(:name => 'a-SIS', :invoicing_system_id => '123', :email => 'bad')}
+      end
+      @invoicer.merge!(@a_sis).invoicing_system_id.should == '123'
+    end
+
+    it 'A-SIS should gain invoicing_system_id' do
+      Company.get(@a_sis.id).invoicing_system_id.should == '123'
+    end
+
+    it 'A-SIS should keep mail' do
+      Company.get(@a_sis.id).email.should == 'good'
     end
   end
 end

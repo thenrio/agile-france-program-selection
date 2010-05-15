@@ -25,6 +25,13 @@ class Invoicer
     get_available_companies[company.name.downcase].nil?
   end
 
+  def merge!(company)
+    contact = get_available_companies[company.name.downcase]
+    company.attributes = company.attributes.merge(contact.attributes)
+    company.save
+    company
+  end
+
   def get_available_companies
     unless @companies_indexed_by_name_downcase
       @companies_indexed_by_name_downcase = {}
