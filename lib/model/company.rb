@@ -38,4 +38,7 @@ class Company
   end
 
   attr_accessor :invoicing_system_email
+  def has_conflicting_emails?
+    not email == invoicing_system_email
+  end
 end
