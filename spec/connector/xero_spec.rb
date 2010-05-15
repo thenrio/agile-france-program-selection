@@ -13,6 +13,7 @@ describe Connector::Xero do
     @secret = 'secret'
 
     @connector = Connector::Xero.new(@consumer, @secret, @options)
+    Connector::Xero.logger = Logger.new(STDOUT)
     Configuration.new.test
   end
 
