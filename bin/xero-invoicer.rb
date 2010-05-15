@@ -14,10 +14,40 @@ consumer_key = 'NTA0YZDJZTM0M2JHNDQ0MMJHY2NLMT'
 secret_key = 'XHHWNGJGRUDMXQKVBQIZEBGG2ROFRF'
 connector = Connector::Xero.new(consumer_key, secret_key, options)
 
-invoicer = Invoicer.new(connector)
+@invoicer = Invoicer.new(connector)
 Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-database/prod.db'
 invoices = []
-Company.all.each do |company|
-  invoices << invoicer.invoice_company(company)
+
+def invoice(invoices)
+  Company.all.each do |company|
+    invoices << @invoicer.invoice_company(company)
+  end
 end
+
+require 'mailer'
+mail_options = {:address => "smtpauth.dbmail.com",
+                :domain => "dbmail.com",
+                :port => 25,
+                :user_name => "thierry.henrio@dbmail.com",
+                :password => "vhx224wub",
+                :authentication => :login}
+
+Mail.defaults do
+  delivery_method :smtp, mail_options
+end
+
+def mail(invoices)
+  body = Renderer::Hml.new.render('xero/report.html.haml', :invoices => invoices)
+  mail = Mail.new do
+    content_type 'text/html; charset=UTF-8'
+    from 'orga@conf.agile-france.org'
+    to "thierry.henrio@gmail.com"
+    subject("#{invoices.size} new invoices in draft")
+    body(body)
+  end
+  mail.deliver!
+end
+
+invoice(invoices)
+mail(invoices)
 
