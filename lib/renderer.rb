@@ -47,7 +47,7 @@ include Renderable
   class Hml < Renderer
     require 'haml'
     def render(template, locals={})
-      haml = Haml::Engine.new(read_template(template))
+      haml = Haml::Engine.new(read_template(template), :escape_html => true)
       haml.render(Object.new, locals)
     end    
   end
