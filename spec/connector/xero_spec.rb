@@ -5,7 +5,7 @@ require 'nokogiri'
 require 'connector/xero'
 require 'model/invoice'
 require 'model/invoiceable'
-
+require 'stringio'
 describe Connector::Xero do
   before do
     @options = {}
@@ -13,7 +13,7 @@ describe Connector::Xero do
     @secret = 'secret'
 
     @connector = Connector::Xero.new(@consumer, @secret, @options)
-    Connector::Xero.logger = Logger.new(STDOUT)
+    Connector::Xero.logger = Logger.new(StringIO.new)
     Configuration.new.test
   end
 

@@ -74,10 +74,25 @@ describe 'an Invoicer,' do
   describe 'get_available_companies' do
     it 'should tell connector to get contacts' do
       a_sis = Company.new(:name => 'a-SIS')
-      mock(@invoicer.connector).get_contacts {
-        [a_sis]
-      }
+      mock(@invoicer.connector).get_contacts { [a_sis] }
       @invoicer.get_available_companies.should == {'a-sis' => a_sis}
+    end
+  end
+
+  describe 'can_post?,' do
+    before do
+      def @invoicer.get_available_companies
+        {'a-sis' => Company.new(:name => 'a-SIS')}
+      end
+    end
+    it 'is false if company name is available, ignoring case' do
+      a_sis = Company.new(:name => 'A-sis')
+      @invoicer.can_post?(a_sis).should_not be_true
+    end
+    
+    it 'is true if company name is not available, ignoring case' do
+      assis = Company.new(:name => 'assis')
+      @invoicer.can_post?(assis).should be_true
     end
   end
 end

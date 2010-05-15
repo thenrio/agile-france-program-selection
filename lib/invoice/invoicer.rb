@@ -8,7 +8,7 @@ class Invoicer
   end
 
   def create_company(company)
-    @connector.post_contact(company).save unless company.yet_in_invoicing_system?
+    @connector.post_contact(company).save if can_post? company
     company
   end
 
@@ -17,6 +17,12 @@ class Invoicer
     invoice = company.create_invoice
     @connector.post_invoice(invoice).save unless invoice.empty?
     invoice
+  end
+
+  def can_post?(company)
+    return false if company.yet_in_invoicing_system?
+    return true if company.name.nil?
+    get_available_companies[company.name.downcase].nil?
   end
 
   def get_available_companies
