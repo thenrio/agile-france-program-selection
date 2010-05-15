@@ -31,7 +31,6 @@ end
 
 And 'John Doe, from 37signals, attends' do
   @john = Attendee.create(:firstname => 'John', :lastname => 'Doe', :email => 'john@doe.com', :company => @signals37)
-  debugger
   @john.early?.should_not be_true
   end
 
@@ -44,7 +43,7 @@ When 'XeroInvoicer invoices 37signals' do
   @invoicer.invoice_company @signals37
 end
 
-Then 'there is an invoice for 37signals having an invoicing_system_id field' do
+Then 'there is an invoice for 37signals having invoiceable for john and wycats' do
   invoice = Invoice.first(:company => @signals37)
   invoice.should_not be_nil
   invoice.invoicing_system_id.should_not be_nil
