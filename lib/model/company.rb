@@ -36,4 +36,6 @@ class Company
     end
     invoice
   end
+
+  attr_accessor :invoicing_system_email
 end

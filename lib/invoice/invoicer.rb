@@ -30,6 +30,7 @@ class Invoicer
     attributes_but_mail = contact.attributes.reject do |key, value|
       key == :email
     end
+    company.invoicing_system_email = contact.email
     company.attributes = company.attributes.merge(attributes_but_mail)
     company.save
     company

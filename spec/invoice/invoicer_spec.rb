@@ -115,7 +115,7 @@ describe 'an Invoicer,' do
     end
 
     it 'A-SIS should have bad_invoicing_system_email' do
-      @a_sis.bad_invoicing_system_email.should == 'bad'
+      @a_sis.invoicing_system_email.should == 'bad'
     end
   end
 end
