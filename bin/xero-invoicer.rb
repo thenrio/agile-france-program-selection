@@ -16,11 +16,18 @@ connector = Connector::Xero.new(consumer_key, secret_key, options)
 
 @invoicer = Invoicer.new(connector)
 Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-database/prod.db'
-invoices = []
 
-def invoice(invoices)
+@invoices = []
+@problems = []
+
+def invoice()
   Company.all.each do |company|
-    invoices << @invoicer.invoice_company(company)
+    begin
+      @invoices << @invoicer.invoice_company(company)
+    rescue Exception => problem
+      @problems << problem
+      Connector::Xero.logger.error "failed to post invoice for #{company}, #{problem}"
+    end
   end
 end
 
@@ -36,8 +43,8 @@ Mail.defaults do
   delivery_method :smtp, mail_options
 end
 
-def mail(invoices)
-  body = Renderer::Hml.new.render('xero/report.html.haml', :invoices => invoices)
+def mail()
+  body = Renderer::Hml.new.render('xero/report.html.haml', :problems => @problems, :invoices => @invoices)
   mail = Mail.new do
     content_type 'text/html; charset=UTF-8'
     from 'orga@conf.agile-france.org'
@@ -48,6 +55,6 @@ def mail(invoices)
   mail.deliver!
 end
 
-invoice(invoices)
-mail(invoices)
+invoice()
+mail()
 
