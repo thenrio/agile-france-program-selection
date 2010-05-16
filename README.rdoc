@@ -17,6 +17,13 @@ Description goes here.
 Copyright (c) 2010 thierry. See LICENSE for details.
 
 
+== dependencies are not in gem file yet
+gem install jeweler gherkin cucumber rspec rr oauth ruby-debug19 --no-ri --no-rdoc
+gem install nokogiri rcov metric_fu --no-ri --no-rdoc
+gem install dm-core do_sqlite3 dm-migrations --no-ri --no-rdoc
+gem install haml mail --no-ri --no-rdoc
+
+
 == migration hand made
 alter table talk_proposal add column vote integer default 0;
 alter table talk_proposal add column scheduled boolean default false;
