@@ -34,3 +34,10 @@ update talk_proposal set scheduled = 1 where talk_id=4;
 
 == log grooming
 cat mailer.log | cut -d ' ' -f 10 | sort > mailed.people.log
+
+== generate key
+keys generated with help of http://sial.org/howto/openssl/self-signed/
+
+~/src/ruby/spike-on-xero/keys $ openssl genrsa 1024 > xero.rsa
+~/src/ruby/spike-on-xero/keys $ openssl req -new -x509 -nodes -sha1 -days 365 -key xero.rsa > xero.cert
+fill in informations...
