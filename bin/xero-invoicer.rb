@@ -3,6 +3,7 @@ require 'invoice/invoicer'
 require 'connector/xero'
 require 'configuration'
 require 'model/company'
+require 'ruby-debug'
 
 options = {:site => 'https://api.xero.com',
            :request_token_path => "/oauth/RequestToken",
@@ -14,24 +15,25 @@ consumer_key = 'NTA0YZDJZTM0M2JHNDQ0MMJHY2NLMT'
 secret_key = 'XHHWNGJGRUDMXQKVBQIZEBGG2ROFRF'
 connector = Connector::Xero.new(consumer_key, secret_key, options)
 
-@invoicer = Invoicer.new(connector)
+$invoicer = Invoicer.new(connector)
 Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-database/prod.db'
 
-@invoices = []
-@problems = []
+$invoices = []
+$problems = []
 
 def invoice()
   Company.all.each do |company|
     begin
-      @invoices << @invoicer.invoice_company(company)
+      invoice = $invoicer.invoice_company(company)
+      $invoices << invoice unless invoice.empty?
     rescue Exception => problem
-      @problems << problem
+      $problems << problem
       Connector::Xero.logger.error "failed to post invoice for #{company}, #{problem}"
     end
   end
 end
 
-require 'mailer'
+require 'mail'
 mail_options = {:address => "smtpauth.dbmail.com",
                 :domain => "dbmail.com",
                 :port => 25,
@@ -44,13 +46,14 @@ Mail.defaults do
 end
 
 def mail()
-  body = Renderer::Hml.new.render('xero/report.html.haml', :problems => @problems, :invoices => @invoices)
+  content = Renderer::Hml.new.render('xero/report.html.haml', :problems => $problems, :invoices => $invoices)
+  title = "#{$invoices.size} new invoices in draft"
   mail = Mail.new do
     content_type 'text/html; charset=UTF-8'
     from 'orga@conf.agile-france.org'
     to "thierry.henrio@gmail.com"
-    subject("#{invoices.size} new invoices in draft")
-    body(body)
+    subject(title)
+    body(content)
   end
   mail.deliver!
 end
