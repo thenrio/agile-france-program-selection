@@ -24,23 +24,18 @@ gem install dm-core do_sqlite3 dm-migrations --no-ri --no-rdoc
 gem install haml mail --no-ri --no-rdoc
 
 
-== migration hand made
-alter table talk_proposal add column vote float default 0;
-alter table talk_proposal add column scheduled boolean default false;
-alter table talk_proposal add column room_id integer references rooms(id);
-alter table talk_proposal add column scheduled_at datetime;
+== migrations
+rake db:migrate
 
-('A'..'G').each {|name| Room.create :name => name}
+== seeds
+rake db:seeds:all
 
-== dm migration ==
-add_capacity_to_talk_proposal.rb
+requires csv file ./cosel-agile-france-2010.csv
+sorry for that one...
 
-== note
-update with sqlite3
-update talk_proposal set scheduled = 1 where talk_id=4;
+== bin/console
+use to load database and see what happens with datamapper in irb
 
-== log grooming
-cat mailer.log | cut -d ' ' -f 10 | sort > mailed.people.log
 
 == generate key
 keys generated with help of http://sial.org/howto/openssl/self-signed/
