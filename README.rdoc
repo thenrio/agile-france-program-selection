@@ -23,6 +23,11 @@ gem install nokogiri rcov metric_fu --no-ri --no-rdoc
 gem install dm-core do_sqlite3 dm-migrations --no-ri --no-rdoc
 gem install haml mail --no-ri --no-rdoc
 
+== environment and configuration
+AGILE_FRANCE_ENV should be set before executing any program
+default to test
+
+settings live in config/${AGILE_FRANCE_ENV}/*.rb
 
 == migrations
 rake db:migrate
