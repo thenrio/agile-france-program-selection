@@ -14,3 +14,7 @@ Speaker.scheduled.each do |speaker|
     puts "#{attendee.inspect} gain redeemable coupon"
   end
 end
+
+# and there
+eric = Attendee.first(:email => 'lefevre@algodeal.com')
+eric.update(:redeemable_coupon => 'ORGANIZATION')
