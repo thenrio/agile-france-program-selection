@@ -41,7 +41,7 @@ describe Attendee do
 
     describe 'when invited by organisation,' do
       before do
-        @john_doe.invited_by = 'ORGANIZATION'
+        @john_doe.coupon = 'ORGANIZATION'
         @john_doe.diner?.should be_false
       end
 

@@ -1,6 +1,7 @@
 require 'dm-core'
 require 'model/full_named'
 require 'model/poor_boolean_support'
+require 'set'
 
 class Attendee
   include DataMapper::Resource
@@ -13,7 +14,7 @@ class Attendee
   property :email, String
   property :early, Integer
   property :lunch, Integer
-  property :invited_by, String
+  property :coupon, String
 
   extend PoorBooleanSupport
   quack_on_question_mark :early, :lunch
@@ -38,8 +39,9 @@ class Attendee
   alias_method :diner=, :lunch=
   alias_method :diner?, :lunch?
 
+  @@entrance_coupon = Set.new ['JUG', 'ORGANIZATION', 'SPEAKER', 'SPONSOR']
   def invited?
-    invited_by != nil
+    @@entrance_coupon.include?(coupon)
   end
 
   def add_invoiceable_if_not_already_invoiced(invoiceable)
