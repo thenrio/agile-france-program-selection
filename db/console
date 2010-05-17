@@ -1,10 +1,12 @@
 #!/usr/bin/env ruby
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '../lib'))
 require 'irb'
 require 'irb/completion'
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '../lib'))
+require 'configuration'
 
+Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-database/prod.db'
 Dir.glob("lib/model/*.rb") do |file|
   load file
 end
 
-IRB.new
+IRB.start
