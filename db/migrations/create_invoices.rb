@@ -10,7 +10,7 @@ Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-database/prod.d
 DataMapper::Logger.new(STDOUT, :debug)
 DataMapper.logger.debug("Starting Migration")
 
-migration 5, :create_invoice do
+migration 20, :create_invoice do
   up do
     Invoice.auto_migrate!
   end

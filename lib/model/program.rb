@@ -13,7 +13,6 @@ class Session
   property :title, String
   property :key, String
   property :vote, Float, :default => 0
-  property :scheduled, Boolean, :default => false
   property :scheduled_at, DateTime
   property :capacity, Integer
 

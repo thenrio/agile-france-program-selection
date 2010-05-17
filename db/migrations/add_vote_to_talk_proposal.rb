@@ -7,8 +7,7 @@ Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-database/prod.d
 DataMapper::Logger.new(STDOUT, :debug)
 DataMapper.logger.debug( "Starting Migration" )
 
-
-migration 1, :add_vote_to_talk_proposal do
+migration 10, :add_vote_to_talk_proposal do
   up do
     modify_table :talk_proposal do
       add_column :vote, Float, :default => 0

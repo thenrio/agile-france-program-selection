@@ -7,7 +7,7 @@ Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-database/prod.d
 DataMapper::Logger.new(STDOUT, :debug)
 DataMapper.logger.debug("Starting Migration")
 
-migration 2, :add_redeemable_coupon_to_attendees do
+migration 10, :add_redeemable_coupon_to_attendees do
   up do
     modify_table :registration_attendee do
       add_column :redeemable_coupon, String
