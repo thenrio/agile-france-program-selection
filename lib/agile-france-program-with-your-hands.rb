@@ -1,5 +1,4 @@
-$LOAD_PATH.unshift(File.dirname(__FILE__))
-require 'configuration'
+require File.expand_path(File.dirname(__FILE__) + '/../config/boot')
 require 'model/program'
 require 'renderer'
 require 'pager'
@@ -23,13 +22,13 @@ def copy_css_to_output_directory
   cp_r File.join(template_dir, 'css'), output_dir
 end
 
-Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-database/prod.db'
-renderer = Renderer::Erb.new
 
-copy_css_to_output_directory()
 
 # and what about some rake task ?
 # will look better...
+copy_css_to_output_directory()
+
+renderer = Renderer::Erb.new
 Session::Category.all do |category|
   render_category(renderer, category)
 end

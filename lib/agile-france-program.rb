@@ -1,11 +1,8 @@
-$LOAD_PATH.unshift(File.dirname(__FILE__))
-require 'configuration'
-require 'model'
+require File.expand_path(File.dirname(__FILE__) + '/../config/boot')
+require 'model/program'
 require 'renderer'
 
-Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-database/prod.db'
 render = Renderer.new
-
 
 scheduled_sessions = Session.all(:scheduled_at.not => nil, :order => [:scheduled_at.asc])
 day_one = scheduled_sessions.select {|session| session if session.scheduled_at.day == 31}

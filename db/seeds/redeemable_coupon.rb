@@ -1,10 +1,7 @@
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '../../lib'))
-require 'configuration'
+require File.expand_path(File.dirname(__FILE__) + '/../../config/boot')
 require 'model/program'
 require 'model/attendee'
 require 'model/company'
-
-Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-database/prod.db'
 
 def redeem(attendee)
   attendee.update(:redeemable_coupon => 'ORGANIZATION')

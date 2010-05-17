@@ -1,9 +1,7 @@
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '../../lib'))
+require File.expand_path(File.dirname(__FILE__) + '/../../config/boot')
 require 'csv'
 require 'configuration'
 require 'model/program'
-
-Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-database/prod.db'
 
 DAYS = {1 => '2010/05/31', 2 => '2010/06/01'}
 

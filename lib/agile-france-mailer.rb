@@ -1,7 +1,5 @@
-$LOAD_PATH.unshift(File.dirname(__FILE__))
-require 'configuration'
+require File.expand_path(File.dirname(__FILE__) + '/../config/boot')
 require 'model/program'
-Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-database/prod.db'
 
 # and what about some rake task ?
 # will look better...
