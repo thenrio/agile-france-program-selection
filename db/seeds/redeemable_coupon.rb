@@ -6,15 +6,18 @@ require 'model/company'
 
 Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-database/prod.db'
 
+def redeem(attendee)
+  attendee.update(:redeemable_coupon => 'ORGANIZATION')
+  puts "#{attendee.inspect} gain redeemable coupon"
+end
+
 Speaker.scheduled.each do |speaker|
-  attendee = Attendee.first(:lastname => speaker.email)
+  attendee = Attendee.first(:email => speaker.email)
   if attendee
-    attendee.redeemable_coupon = 'ORGANIZATION'
-    attendee.save
-    puts "#{attendee.inspect} gain redeemable coupon"
+    redeem(attendee)
   end
 end
 
 # and there
-eric = Attendee.first(:email => 'lefevre@algodeal.com')
-eric.update(:redeemable_coupon => 'ORGANIZATION')
+redeem Attendee.first(:email => 'lefevre@algodeal.com')
+
