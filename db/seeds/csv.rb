@@ -1,6 +1,5 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../config/boot')
 require 'csv'
-require 'configuration'
 require 'model/program'
 
 DAYS = {1 => '2010/05/31', 2 => '2010/06/01'}
