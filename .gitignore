@@ -22,3 +22,7 @@ pkg
 .idea
 keys
 config/production
+tmp
+log
+*.log
+output
