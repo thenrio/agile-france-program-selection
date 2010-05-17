@@ -1,4 +1,4 @@
-$LOAD_PATH.unshift(File.dirname(__FILE__))
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '../../lib'))
 require 'csv'
 require 'configuration'
 require 'model/program'
@@ -7,9 +7,8 @@ Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-database/prod.d
 
 DAYS = {1 => '2010/05/31', 2 => '2010/06/01'}
 
-def add_schedule_information(session, day, room, scheduled, time)
+def add_schedule_information(session, day, time, room)
   begin
-    session.scheduled = (scheduled.upcase == 'X')
     session.room = Room.first(:name => room)
     session.scheduled_at = DateTime.parse("#{DAYS[Integer(day)]} #{time}")
   rescue StandardError => e
@@ -18,13 +17,11 @@ def add_schedule_information(session, day, room, scheduled, time)
 end
 
 def clear_schedule_information(session)
-  session.scheduled = false
   session.room = nil
   session.scheduled_at = nil
 end
 
-CSV.foreach(File.join(File.dirname(__FILE__), '../cosel-agile-france-2010.csv')) do |csv|
-  scheduled = csv[0]
+CSV.foreach(File.join(File.dirname(__FILE__), '../../cosel-agile-france-2010.csv')) do |csv|
   key = csv[1]
   vote = csv[24]
   room = csv[9]
@@ -34,8 +31,8 @@ CSV.foreach(File.join(File.dirname(__FILE__), '../cosel-agile-france-2010.csv'))
   session = Session.first(:key => key)
   if session
     session.vote = vote
-    if scheduled
-      add_schedule_information(session, day, room, scheduled, time)
+    if room
+      add_schedule_information(session, day, time, room)
     else
       clear_schedule_information(session)
     end
