@@ -3,11 +3,13 @@ require 'invoice/invoicer'
 require 'connector/xero'
 require 'model/company'
 
-connector = Connector::Xero.new($xero_consumer_key, $xero_secret_key, $xero_options)
-$invoicer = Invoicer.new(connector)
-
 $invoices = []
 $problems = []
+
+def init_invoicer
+  connector = Connector::Xero.new($xero_consumer_key, $xero_secret_key, $xero_options)
+  $invoicer = Invoicer.new(connector)
+end
 
 def invoice()
   Company.all.each do |company|
@@ -35,6 +37,7 @@ def mail()
   mail.deliver!
 end
 
+init_invoicer()
 invoice()
 mail()
 
