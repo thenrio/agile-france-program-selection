@@ -4,10 +4,7 @@ require 'connector/xero'
 require 'model/company'
 
 connector = Connector::Xero.new($xero_consumer_key, $xero_secret_key, $xero_options)
-
 $invoicer = Invoicer.new(connector)
-path = File.expand_path(File.join(File.dirname(__FILE__), '../../agile-france-database/prod.db'))
-Configuration.new :path => path
 
 $invoices = []
 $problems = []
