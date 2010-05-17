@@ -8,7 +8,7 @@ DataMapper::Logger.new(STDOUT, :debug)
 DataMapper.logger.debug( "Starting Migration" )
 
 
-migration 1, :add_scheduled_to_talk_proposal do
+migration 1, :add_capacity_to_talk_proposal do
   up do
     modify_table :talk_proposal do
       add_column :capacity, Integer
