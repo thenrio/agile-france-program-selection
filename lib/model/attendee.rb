@@ -26,11 +26,11 @@ class Attendee
     @invoiceables = []
     place = Invoiceable.new
     place = Invoiceable.new(:invoicing_system_id => 'AGF10P220') if early?
-    place = Invoiceable.new(:invoicing_system_id => 'AGF10P0') if invited?
+    place = Invoiceable.new(:invoicing_system_id => 'AGF10P0') if entrance_redeemed?
     add_invoiceable_if_not_already_invoiced(place)
     if diner?
       diner = Invoiceable.new(:invoicing_system_id => 'AGF10D40')
-      diner = Invoiceable.new(:invoicing_system_id => 'AGF10D0') if invited?
+      diner = Invoiceable.new(:invoicing_system_id => 'AGF10D0') if diner_redeemed?
       add_invoiceable_if_not_already_invoiced(diner)
     end
     @invoiceables
@@ -40,9 +40,16 @@ class Attendee
   alias_method :diner?, :lunch?
 
   @@entrance_coupon = Set.new ['JUG', 'ORGANIZATION', 'SPEAKER', 'SPONSOR']
-  def invited?
+  def entrance_redeemed?
     @@entrance_coupon.include?(redeemable_coupon)
   end
+  private :entrance_redeemed?
+
+  @@diner_coupon = Set.new ['ORGANIZATION', 'SPEAKER', 'SPONSOR']
+  def diner_redeemed?
+    @@diner_coupon.include?(redeemable_coupon)
+  end
+  private :diner_redeemed?
 
   def add_invoiceable_if_not_already_invoiced(invoiceable)
     if invoiceable

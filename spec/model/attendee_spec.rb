@@ -69,6 +69,17 @@ describe Attendee do
       end
     end
 
+    describe 'with JUG redeemable_coupon,' do
+      it 'entrance should be invoiced with AGF10P0' do
+        @john_doe.update(:redeemable_coupon => 'JUG')
+        @john_doe.invoiceables.should == [Invoiceable.new(:invoicing_system_id => 'AGF10P0', :attendee => @john_doe)]
+      end
+      it 'diner should be invoiced with AGF10D40' do
+        @john_doe.update(:redeemable_coupon => 'JUG', :diner => true)
+        @john_doe.invoiceables.last.should == Invoiceable.new(:invoicing_system_id => 'AGF10D40', :attendee => @john_doe)
+      end
+    end
+
     describe ' when entrance is already invoiced' do
       before do
         @invoice = Invoice.new(:company => @john_doe.company)
