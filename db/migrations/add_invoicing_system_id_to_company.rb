@@ -1,21 +1,23 @@
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..'))
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '../../lib'))
 require 'dm-migrations/migration_runner'
+
 require 'configuration'
-require 'model/invoiceable'
-require 'model/invoice'
-require 'model/attendee'
 Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-database/prod.db'
 
 DataMapper::Logger.new(STDOUT, :debug)
 DataMapper.logger.debug("Starting Migration")
 
-migration 4, :create_invoiceables do
+migration 3, :add_invoicing_id_to_company do
   up do
-    Invoiceable.auto_migrate!
+    modify_table :registration_company do
+      add_column :invoicing_system_id, String
+    end
   end
 
   down do
-    drop_table :invoiceables
+    modify_table :registration_company do
+      drop_column :invoicing_system_id
+    end
   end
 end
 
