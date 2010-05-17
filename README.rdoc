@@ -25,7 +25,7 @@ gem install haml mail --no-ri --no-rdoc
 
 
 == migration hand made
-alter table talk_proposal add column vote integer default 0;
+alter table talk_proposal add column vote float default 0;
 alter table talk_proposal add column scheduled boolean default false;
 alter table talk_proposal add column room_id integer references rooms(id);
 alter table talk_proposal add column scheduled_at datetime;
