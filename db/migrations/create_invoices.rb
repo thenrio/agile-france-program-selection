@@ -1,11 +1,8 @@
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '../../lib'))
+require File.expand_path(File.dirname(__FILE__) + '/../../config/boot')
 require 'dm-migrations/migration_runner'
 require 'model/invoice'
 require 'model/company'
 require 'model/invoiceable'
-
-require 'configuration'
-Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-database/prod.db'
 
 DataMapper::Logger.new(STDOUT, :debug)
 DataMapper.logger.debug("Starting Migration")

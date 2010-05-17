@@ -85,7 +85,7 @@ namespace :db do
     end
   end
 
-  namespace :seeds do
+  namespace :sow do
     task :rooms do
       ruby 'db/seeds/rooms.rb'
     end
