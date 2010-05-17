@@ -7,10 +7,8 @@ require 'configuration'
 describe Attendee do
   before do
     Configuration.new.test
-    @google = Company.new(:name => 'google')
-    @google.save
-    @john_doe = Attendee.new(:firstname => 'John', :lastname => 'Doe', :email => 'john@doe.com', :company => @google)
-    @john_doe.save
+    @google = Company.create(:name => 'google')
+    @john_doe = Attendee.create(:firstname => 'John', :lastname => 'Doe', :email => 'john@doe.com', :company => @google)
   end
 
   describe 'John Doe' do
@@ -41,7 +39,7 @@ describe Attendee do
 
     describe 'when invited by organisation,' do
       before do
-        @john_doe.coupon = 'ORGANIZATION'
+        @john_doe.redeemable_coupon = 'ORGANIZATION'
         @john_doe.diner?.should be_false
       end
 
@@ -57,6 +55,17 @@ describe Attendee do
         it 'should have AGF10D0' do
           @john_doe.invoiceables.last.should == Invoiceable.new(:invoicing_system_id => 'AGF10D0', :attendee => @john_doe)
         end
+      end
+    end
+
+    describe 'with ORGANIZATION redeemable_coupon,' do
+      it 'entrance should be invoiced with AGF10P0' do
+        @john_doe.update(:redeemable_coupon => 'ORGANIZATION')
+        @john_doe.invoiceables.should == [Invoiceable.new(:invoicing_system_id => 'AGF10P0', :attendee => @john_doe)]
+      end
+      it 'diner should be invoiced with AGF10D40' do
+        @john_doe.update(:redeemable_coupon => 'ORGANIZATION', :diner => true)
+        @john_doe.invoiceables.last.should == Invoiceable.new(:invoicing_system_id => 'AGF10D0', :attendee => @john_doe)
       end
     end
 

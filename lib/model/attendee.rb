@@ -14,7 +14,7 @@ class Attendee
   property :email, String
   property :early, Integer
   property :lunch, Integer
-  property :coupon, String
+  property :redeemable_coupon, String
 
   extend PoorBooleanSupport
   quack_on_question_mark :early, :lunch
@@ -41,7 +41,7 @@ class Attendee
 
   @@entrance_coupon = Set.new ['JUG', 'ORGANIZATION', 'SPEAKER', 'SPONSOR']
   def invited?
-    @@entrance_coupon.include?(coupon)
+    @@entrance_coupon.include?(redeemable_coupon)
   end
 
   def add_invoiceable_if_not_already_invoiced(invoiceable)
