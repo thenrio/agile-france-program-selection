@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+require 'irb'
+require 'irb/completion'
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '../lib'))
+
+Dir.glob("lib/model/*.rb") do |file|
+  load file
+end
+
+IRB.new
