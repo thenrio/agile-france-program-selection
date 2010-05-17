@@ -74,3 +74,14 @@ require 'cucumber/rake/task'
 Cucumber::Rake::Task.new(:features) do |t|
   t.cucumber_opts = "features --format pretty"
 end
+
+# migrate
+namespace :db do
+  require 'dm-migrations/migration_runner'
+  task :migrate do
+    Dir.glob("db/migrations/*.rb") do |migration|
+      load migration
+      migrate_up!
+    end
+  end
+end
