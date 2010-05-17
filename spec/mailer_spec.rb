@@ -184,7 +184,7 @@ eos
       @diner.scheduled_at = DateTime.parse('31/05/2010 14h')
       @diner.save!
       date = Date.parse('06/06/2006')
-      @lunch = Session.new(:title => 'lunch', :speaker => @speaker, :scheduled => true, :scheduled_at => date)
+      @lunch = Session.new(:title => 'lunch', :speaker => @speaker, :scheduled_at => date)
       @lunch.save!
       @mails = @mailer.communicate_session_is_rescheduled @diner
     end
