@@ -31,11 +31,9 @@ rake db:migrate
 rake db:seeds:all
 
 requires csv file ./cosel-agile-france-2010.csv
-sorry for that one...
 
 == bin/console
 use to load database and see what happens with datamapper in irb
-
 
 == generate key
 keys generated with help of http://sial.org/howto/openssl/self-signed/
