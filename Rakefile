@@ -84,4 +84,17 @@ namespace :db do
       migrate_up!
     end
   end
+
+  namespace :seeds do
+    task :rooms do
+      ruby 'db/seeds/rooms.rb'
+    end
+    task :csv => [:rooms] do
+      ruby 'db/seeds/csv.rb'
+    end
+    task :redeemable_coupon => [:csv] do
+      ruby 'db/seeds/redeemable_coupon.rb'
+    end
+    task :all => [:csv, :redeemable_coupon]
+  end
 end
