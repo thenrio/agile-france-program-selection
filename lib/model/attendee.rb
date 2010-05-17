@@ -1,6 +1,6 @@
 require 'dm-core'
-require 'model/full_named'
-require 'model/poor_boolean_support'
+require 'model/support/full_named'
+require 'model/support/poor_boolean'
 require 'set'
 
 class Attendee
@@ -16,7 +16,7 @@ class Attendee
   property :lunch, Integer
   property :redeemable_coupon, String
 
-  extend PoorBooleanSupport
+  extend PoorBoolean
   quack_on_question_mark :early, :lunch
 
   belongs_to :company, :required => false

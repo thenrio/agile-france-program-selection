@@ -1,10 +1,10 @@
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 require 'dm-core'
-require 'model/poor_boolean_support'
+require 'model/support/poor_boolean'
 
 class Bird
   include DataMapper::Resource
-  extend PoorBooleanSupport
+  extend PoorBoolean
   property :id, Serial
   property :name, String
   property :early, Integer, :default => 0

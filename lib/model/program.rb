@@ -1,5 +1,5 @@
 require 'dm-core'
-require 'model/full_named'
+require 'model/support/full_named'
 
 class Session
   include DataMapper::Resource
