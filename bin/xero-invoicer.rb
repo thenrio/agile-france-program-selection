@@ -1,19 +1,9 @@
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '../lib'))
+require File.expand_path(File.dirname(__FILE__) + '/../config/boot')
 require 'invoice/invoicer'
 require 'connector/xero'
-require 'configuration'
 require 'model/company'
-require 'ruby-debug'
 
-options = {:site => 'https://api.xero.com',
-           :request_token_path => "/oauth/RequestToken",
-           :access_token_path  => "/oauth/AccessToken",
-           :authorize_path     => "/oauth/Authorize",
-           :signature_method => 'RSA-SHA1',
-           :private_key_file => File.join(File.dirname(__FILE__), '../keys/xero.rsa')}
-consumer_key = 'NTA0YZDJZTM0M2JHNDQ0MMJHY2NLMT'
-secret_key = 'XHHWNGJGRUDMXQKVBQIZEBGG2ROFRF'
-connector = Connector::Xero.new(consumer_key, secret_key, options)
+connector = Connector::Xero.new($xero_consumer_key, $xero_secret_key, $xero_options)
 
 $invoicer = Invoicer.new(connector)
 path = File.expand_path(File.join(File.dirname(__FILE__), '../../agile-france-database/prod.db'))
@@ -32,18 +22,6 @@ def invoice()
       Connector::Xero.logger.error "failed to post invoice for #{company}, #{problem}"
     end
   end
-end
-
-require 'mail'
-mail_options = {:address => "smtpauth.dbmail.com",
-                :domain => "dbmail.com",
-                :port => 25,
-                :user_name => "thierry.henrio@dbmail.com",
-                :password => "vhx224wub",
-                :authentication => :login}
-
-Mail.defaults do
-  delivery_method :smtp, mail_options
 end
 
 def mail()
