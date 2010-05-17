@@ -34,6 +34,7 @@ def mail()
     subject(title)
     body(content)
   end
+  Connector::Xero.logger.info "mailer report =>\n#{content}"
   mail.deliver!
 end
 
