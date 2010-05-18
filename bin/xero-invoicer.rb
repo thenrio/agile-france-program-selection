@@ -37,6 +37,7 @@ def mail()
     Connector::Xero.logger.info "mailer report =>\n#{content}"
     mail.deliver!
   end
+  Connector::Xero.logger.info "program terminated with #{title}"
 end
 
 init_invoicer()
