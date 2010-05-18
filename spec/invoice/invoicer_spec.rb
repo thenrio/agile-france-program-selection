@@ -120,6 +120,11 @@ describe 'an Invoicer,' do
       @invoicer.can_post?(a_sis).should_not be_true
     end
 
+    it 'is false if company name is available, ignoring leading and trailing spaces' do
+      a_sis = Company.new(:name => ' A-sis ')
+      @invoicer.can_post?(a_sis).should_not be_true
+    end
+
     it 'is true if company name is not available, ignoring case' do
       assis = Company.new(:name => 'assis')
       @invoicer.can_post?(assis).should be_true
