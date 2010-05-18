@@ -5,10 +5,10 @@ class Invoice
   include DataMapper::Resource
   extend Forwardable
 
-
   property :id, Serial
   property :invoicing_system_id, String
   property :date, Date
+  property :settlement, Integer, :default => 10
 
   belongs_to :company
   has n, :invoiceables

@@ -62,7 +62,7 @@ describe Renderer::Hml do
     @renderer = Renderer::Hml.new
     company = OpenStruct.new(:name => 'ha')
     invoiceable = OpenStruct.new(:invoicing_system_id => 'ID', :quantity => 10, :price => 200)
-    @invoice = OpenStruct.new(:company => company, :invoiceables => [invoiceable], :date => Date.today)
+    @invoice = OpenStruct.new(:company => company, :invoiceables => [invoiceable], :date => Date.today, :settlement => 3)
   end
 
   describe 'render' do

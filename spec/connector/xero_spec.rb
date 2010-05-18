@@ -94,7 +94,7 @@ describe Connector::Xero do
         doc.xpath('/Invoice/Type').first.content.should == 'ACCREC'
         doc.xpath('/Invoice/Contact/ContactID').first.content.should == 'sha1'
         doc.xpath('/Invoice/Date').first.content.should == '2010-05-10'
-        doc.xpath('/Invoice/DueDate').first.content.should == '2010-05-25'
+        doc.xpath('/Invoice/DueDate').first.content.should == '2010-05-20'
         foo = doc.xpath('/Invoice/LineItems/LineItem')[0]
         foo.xpath('Description').first.content.should == @invoiceable.description
         foo.xpath('Quantity').first.content.should == '1'
