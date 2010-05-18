@@ -4,22 +4,14 @@ require 'mailer'
 require 'configuration'
 
 def create_seeds
-  Speaker.all.destroy!
-  Session.all.destroy!
-  @speaker = Speaker.new(:firstname => 'John', :lastname => 'Doe', :email => 'john@doe.org')
-  @speaker.save
+  @speaker = Speaker.create(:firstname => 'John', :lastname => 'Doe', :email => 'john@doe.org')
   date = DateTime.parse('2010/05/31 10:30')
-  @diner = Session.new(:title => 'diner', :speaker => @speaker, :scheduled_at => date)
-  @diner.save
-  pub = Session.new(:title => 'pub', :speaker => @speaker)
-  pub.save
+  @diner = Session.create(:title => 'diner', :speaker => @speaker, :scheduled_at => date)
+  pub = Session.create(:title => 'pub', :speaker => @speaker)
   @sessions = [@diner, pub]
 end
 
-def configure_test_mail
-  Mail.defaults do
-    delivery_method :test
-  end
+def empty_mailer_test_inbox
   Mail::TestMailer.deliveries.clear
 end
 
@@ -30,7 +22,7 @@ end
 
 describe 'Mailer' do
   before do
-    configure_test_mail()
+    empty_mailer_test_inbox()
     configure_test_database()
     @mailer = Mailer.new
   end
