@@ -19,4 +19,15 @@ describe Invoice do
       invoice.empty?.should_not be_true
     end
   end
+
+  describe 'due_date,' do
+    before do
+      date = Date.parse('18/05/2010')
+      @invoice = Invoice.new(:date => date, :settlement => 10)
+    end
+
+    it 'should be date + settlement' do
+      @invoice.due_date.should == Date.parse('28/05/2010')
+    end
+  end
 end

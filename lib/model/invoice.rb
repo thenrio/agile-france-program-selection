@@ -16,4 +16,8 @@ class Invoice
   def_delegator :invoiceables, :empty?
   def_delegator :company, :email
   def_delegator :company, :has_conflicting_emails?
+
+  def due_date
+    date+settlement
+  end
 end
