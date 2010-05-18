@@ -1,6 +1,13 @@
 require 'model/invoiceable'
 require 'connector/base'
 require 'date'
+
+class String
+  def strip_or_self!
+    strip! or self
+  end
+end
+
 class Invoicer
   attr_accessor :connector
 
@@ -41,7 +48,7 @@ class Invoicer
   private :merge_contact_in_company
 
   def posted_company(company)
-    posted_companies[company.name.downcase]
+    posted_companies[strip_downcase(company.name)]
   end
 
   def merge!(company)
@@ -51,9 +58,14 @@ class Invoicer
   end
 
   def add_posted_company(company)
-    @companies_indexed_by_name_downcase[company.name.downcase] = company
+    @companies_indexed_by_name_downcase[strip_downcase(company.name)] = company
   end
   private :add_posted_company
+
+  def strip_downcase(string)
+    string.strip.downcase
+  end
+  private :strip_downcase
 
   def posted_companies
     unless @companies_indexed_by_name_downcase
