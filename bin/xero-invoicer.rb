@@ -25,7 +25,7 @@ end
 
 def mail()
   content = Renderer::Hml.new.render('xero/report.html.haml', :problems => $problems, :invoices => $invoices)
-  title = "#{$invoices.size} new invoices in draft"
+  title = "#{$invoices.size} new invoices in draft, and #{$problems.size} problems"
   mail = Mail.new do
     content_type 'text/html; charset=UTF-8'
     from 'orga@conf.agile-france.org'
@@ -33,8 +33,10 @@ def mail()
     subject(title)
     body(content)
   end
-  Connector::Xero.logger.info "mailer report =>\n#{content}"
-  mail.deliver!
+  unless($invoices.empty? and $problems.empty?)
+    Connector::Xero.logger.info "mailer report =>\n#{content}"
+    mail.deliver!
+  end
 end
 
 init_invoicer()
