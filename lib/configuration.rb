@@ -1,4 +1,5 @@
 require 'dm-core'
+require 'dm-aggregates'
 
 class Configuration
   def initialize(options={})
