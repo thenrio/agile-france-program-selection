@@ -18,10 +18,7 @@ Given 'a XeroInvoicer using sandbox xero account' do
   @invoicer = Invoicer.new(@connector)
 
 end
-And 'database is empty' do
-  require 'configuration'
-  Configuration.new.test
-end
+
 
 And 'database has a company 37signals' do
   @signals37 = Company.new(:name => '37signals', :firstname => 'D', :lastname => 'HH', :email => 'john@doe.com')
