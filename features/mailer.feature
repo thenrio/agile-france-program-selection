@@ -9,4 +9,4 @@ Feature: In order to increase revenue
       And company "mother" has invoice "INV-0001"
       And invoice "INV-0001" has an invoiceable "AGF10P70" for "junio"
     When invoice "INV-0001" is mailed using template "xero/how-to-pay.html.haml"
-    Then company should received a mail with attached file "rib-iban.pdf"
+    Then company "mother" should received a mail with attached file "rib-iban.pdf"

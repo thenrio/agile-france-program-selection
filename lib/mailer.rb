@@ -48,6 +48,10 @@ class Mailer
     mail_speakers(speakers, subject, template)
   end
 
+  def mail_invoice(invoice, template)
+    
+  end
+
   def communicate_session_is_rescheduled(session)
     subject = 'une de vos sessions a été reprogrammée'
     template = 'communicate_session_is_rescheduled.text.erb'

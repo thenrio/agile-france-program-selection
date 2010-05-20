@@ -1,5 +1,5 @@
 require 'spec/spec_helper'
-
+require 'mailer'
 And 'database is empty' do
   empty_database
 end
@@ -19,8 +19,8 @@ And /^company "(\w+)" has invoice "(.+)"/ do |name, invoicing_system_id|
 end
 
 And /^invoice "(.+)" has an invoiceable "(.+)" for "(\w+)"/ do |invoice, invoiceable, user|
-  i = Invoice.first(:invoice_system_id => invoice)
+  i = Invoice.first(:invoicing_system_id => invoice)
   attendee = Attendee.first(:firstname => user)
-  Invoiceable.create(:invoice_system_id => invoiceable, :attendee => attendee, :invoice => i)
+  Invoiceable.create(:invoicing_system_id => invoiceable, :attendee => attendee, :invoice => i)
 end
 

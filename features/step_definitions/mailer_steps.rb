@@ -4,11 +4,11 @@ Given /mail uses "(\w+)" environment/ do |env|
   load "config/#{env}/mail_configuration.rb"
 end
 
-When /^invoice "(.+)" is mailed using template "(.+)"/ do |invoice, template|
-  i = Invoice.first(:invoice_system_id => invoice)
-  Mailer.new.mail_invoice(i, template)
+When /^invoice "(.+)" is mailed using template "(.+)"/ do |id, template|
+  invoice = Invoice.first(:invoicing_system_id => id)
+  @mail = Mailer.new.mail_invoice(invoice, template)
 end
 
-Then /^company should received a mail with attached file "(.+)"/ do |file|
-
+Then /^company "(.\w+)" should received a mail with attached file "(.+)"/ do |name, file|
+  c = Company.first(:name => name)
 end
