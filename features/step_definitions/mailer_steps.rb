@@ -10,5 +10,7 @@ When /^invoice "(.+)" is mailed using template "(.+)"/ do |id, template|
 end
 
 Then /^company "(.\w+)" should received a mail with attached file "(.+)"/ do |name, file|
-  c = Company.first(:name => name)
+  company = Company.first(:name => name)
+  @mail.to.should == [company.email]
+  @mail.attached
 end
