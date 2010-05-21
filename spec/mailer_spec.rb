@@ -173,11 +173,9 @@ eos
 
   describe 'communicate_session_is_rescheduled' do
     before do
-      @diner.scheduled_at = DateTime.parse('31/05/2010 14h')
-      @diner.save!
+      @diner.update(:scheduled_at => DateTime.parse('31/05/2010 14h'))
       date = Date.parse('06/06/2006')
-      @lunch = Session.new(:title => 'lunch', :speaker => @speaker, :scheduled_at => date)
-      @lunch.save!
+      @lunch = Session.create(:title => 'lunch', :speaker => @speaker, :scheduled_at => date)
       @mails = @mailer.communicate_session_is_rescheduled @diner
     end
 
