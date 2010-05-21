@@ -5,8 +5,12 @@ require 'renderer'
 require 'logger'
 
 class Mailer
-  @@logger = Logger.new('mailer.log')
-  @@mail_logger = Logger.new('mails.log')
+  def self.logger=(logger)
+    @@logger=logger
+  end
+  def logger
+    @@logger ||= Logger.new("mailer-#{Date.today}.log")
+  end
 
   def mail_speakers(speakers, subject, template)
     mails = []
@@ -74,8 +78,7 @@ class Mailer
       subject(subject)
       body(body)
     end
-    @@logger.info "sending to #{speaker.email} template #{template}"
-    @@mail_logger.info "#{mail} => #{mail.body}"
+    logger.info "#{mail} using template #{template}=> #{mail.body}"
     mail.deliver!
   end
 end

@@ -2,6 +2,7 @@
 require "spec_helper"
 require 'mailer'
 require 'configuration'
+require 'stringio'
 
 def create_seeds
   @speaker = Speaker.create(:firstname => 'John', :lastname => 'Doe', :email => 'john@doe.org')
@@ -24,6 +25,7 @@ describe 'Mailer' do
   before do
     empty_mailer_test_inbox()
     configure_test_database()
+    Mailer.logger = Logger.new(StringIO.new)
     @mailer = Mailer.new
   end
 
