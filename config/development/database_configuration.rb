@@ -1,3 +1,4 @@
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '../../lib'))
 require 'configuration'
-$database_configuration ||= Configuration.new :path => '/Users/thenrio/src/ruby/agile-france-database/prod.db'
+path = File.expand_path(File.dirname(__FILE__) + '/../../../agile-france-database')
+$database_configuration ||= Configuration.new :path => "#{path}/prod.db"
