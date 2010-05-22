@@ -209,19 +209,17 @@ eos
     before do
       @git = Company.create(:name => 'git', :firstname => 'linus', :lastname => 'torvald')
       @junio = Attendee.create(:firstname => 'junio', :lastname => 'hamano', :email => 'junio@git.org')
-      @mailer.confirm_attendee @junio
+      @mail = @mailer.confirm_attendee @junio
     end
 
     it 'should confirm junio that he will attend' do
-      @mails.length.should == 1
-      mail = @mails[0]
-      mail.from.should == ['orga@conf.agile-france.org']
-      mail.to.should == [@junio.email]
-      mail.subject.should == 'confirmation de votre inscription à la conférence Agile France'
+      @mail.from.should == ['orga@conf.agile-france.org']
+      @mail.to.should == [@junio.email]
+      @mail.subject.should == 'confirmation de votre inscription à la conférence Agile France'
     end
 
     it 'should send it' do
-      Mail::TestMailer.deliveries.should == @mails
+      Mail::TestMailer.deliveries.should == [@mail]
     end
   end
 end
