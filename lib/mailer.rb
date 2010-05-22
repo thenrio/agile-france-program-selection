@@ -52,21 +52,17 @@ class Mailer
     mail_speakers(speakers, subject, template)
   end
 
-  def mail_invoice(invoice, template)
-    
+  def create_renderer_for(template)
+    if File.extname(template) == '.haml'
+      Renderer::Hml.new
+    else
+      Renderer::Erb.new
+    end
   end
-
-  def communicate_session_is_rescheduled(session)
-    subject = 'une de vos sessions a été reprogrammée'
-    template = 'communicate_session_is_rescheduled.text.erb'
-    speakers = Speaker.scheduled
-
-    mail_speakers(speakers, subject, template)
-  end
+  private :create_renderer_for
 
   def make_body(speaker, template, locals={})
-    renderer = Renderer::Erb.new
-    renderer.render(template, locals.merge(:speaker => speaker))
+    create_renderer_for(template).render(template, locals.merge(:speaker => speaker))
   end
 
   def mail(speaker, subject, template, locals={})
