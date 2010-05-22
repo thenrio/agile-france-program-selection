@@ -15,7 +15,7 @@ class Mailer
   def mail_speakers(speakers, subject, template)
     mails = []
     speakers.each do |speaker|
-      mails << mail(speaker, subject, template)
+      mails << mail(speaker, subject, template, :speaker => speaker)
     end
     mails
   end
@@ -61,12 +61,12 @@ class Mailer
   end
   private :create_renderer_for
 
-  def make_body(speaker, template, locals={})
-    create_renderer_for(template).render(template, locals.merge(:speaker => speaker))
+  def make_body(template, locals)
+    create_renderer_for(template).render(template, locals)
   end
 
-  def mail(speaker, subject, template, locals={})
-    body = make_body(speaker, template, locals)
+  def mail(speaker, subject, template, locals)
+    body = make_body(template, locals)
     mail = Mail.new do
       content_type 'text/html; charset=UTF-8'
       from 'orga@conf.agile-france.org'
