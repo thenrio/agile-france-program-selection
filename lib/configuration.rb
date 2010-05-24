@@ -18,12 +18,14 @@ class Configuration
     require 'model/attendee'
     require 'model/company'
     require 'model/program'
+    require 'model/sent_mail'
     Speaker.auto_migrate!
     Session.auto_migrate!
     Company.auto_migrate!
     Attendee.auto_migrate!
     Invoice.auto_migrate!
     Invoiceable.auto_migrate!
+    SentMail.auto_migrate!
     self
   end
 end
