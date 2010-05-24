@@ -12,7 +12,7 @@ class Invoicer
   def invoice_company(company)
     company = create_company(company)
     invoice = company.create_invoice
-    @connector.post_invoice(invoice).save unless invoice.empty?
+    @connector.post_invoice(invoice).save unless invoice.zero?
     invoice
   end
 
