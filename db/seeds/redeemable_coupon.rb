@@ -22,6 +22,11 @@ def agile_france
   @agile_france
 end
 
+def organize(first_name, last_name, email)
+  Attendee.create(:firstname => first_name, :lastname => last_name, :email => email, :company => agile_france, :redeemable_coupon => 'ORGANIZATION')  
+end
+
+#1 speaker
 Speaker.scheduled.each do |speaker|
   attendee = Attendee.first(:email => speaker.email)
   if attendee
@@ -34,3 +39,17 @@ Speaker.scheduled.each do |speaker|
   end
 end
 
+#2 jug
+jugger = Attendee.first('fabrice.bouteiller@gmail.com')
+jugger.update(:redeemable_coupon => 'JUG') if jugger
+
+#3 orga
+organize('Agata', 'Sobik', 'agata.sobik@gmail.com')
+organize('Jonathan', 'Scher', 'scher.jonathan@gmail.com')
+organize('Pascal', 'Pratmarty', 'pascal.pratmarty@agitude.fr')
+organize('Sebastien', 'Douche', 'sdouche@gmail.com')
+organize('Thibault', 'Bouchette', 'tbouchette@yahoo.fr')
+organize('Thierry', 'Henrio', 'thierry.henrio@gmail.com')
+organize('Yannick', 'Ameur', 'yannick.ameur@gmail.com')
+#4 PO
+organize('Laurent', 'Bossavit', 'laurent@bossavit.com')
