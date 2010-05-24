@@ -65,4 +65,8 @@ class Attendee
     end
   end
   private :add_invoiceable_if_not_already_invoiced
+
+  def self.diners
+    Attendee.all(:lunch => 1) | Attendee.all(:redeemable_coupon.not => nil)
+  end
 end
