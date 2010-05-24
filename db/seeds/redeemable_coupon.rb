@@ -11,7 +11,7 @@ def redeem(attendee)
 end
 
 def agile_france
-  @agile_france ||= Company.get(:email => 'orga@conf.agile-france.org')
+  @agile_france ||= Company.first(:email => 'orga@conf.agile-france.org')
   unless @agile_france
     filler = 'filler'
     attributes = {:name => 'agile-france',
