@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../config/boot')
 require 'dm-migrations/migration_runner'
-require 'model/mail'
+require 'model/sent_mail'
 
 DataMapper::Logger.new(STDOUT, :debug)
 DataMapper.logger.debug("Starting Migration")
