@@ -1,5 +1,4 @@
 require 'dm-core'
-require 'forwardable'
 
 class SentMail
   include DataMapper::Resource
