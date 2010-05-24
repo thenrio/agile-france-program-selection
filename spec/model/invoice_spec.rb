@@ -13,10 +13,27 @@ describe Invoice do
   end
 
   describe 'with one invoiceable,' do
-    it 'should not be emty?' do
-      invoice = Invoice.new()
-      invoice.invoiceables << Invoiceable.new
-      invoice.empty?.should_not be_true
+    before do
+      @invoice = Invoice.new()
+
+    end
+    it 'should not be empty?' do
+      @invoice.invoiceables << Invoiceable.new
+      @invoice.empty?.should_not be_true
+    end
+  end
+
+  describe 'price,' do
+    before do
+      @invoice = Invoice.new()
+      g = Invoiceable.new().tap {|inv| inv.price = 0}
+      i = Invoiceable.new().tap {|inv| inv.price = 220}
+      t = Invoiceable.new().tap {|inv| inv.price = 14}
+      v = Invoiceable.new().tap {|inv| inv.price = 6}
+      @invoice.invoiceables.concat [g, i, t, v]
+    end
+    it 'should be sum of invoiceables price' do
+      @invoice.price.should = 240
     end
   end
 
