@@ -9,6 +9,6 @@ class SentMail
   property :template, String
 
   def person
-    Company.get person_id
+    eval "#{person_class}.get(#{person_id})"
   end
 end
