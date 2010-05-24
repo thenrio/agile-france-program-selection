@@ -2,12 +2,6 @@ require 'model/invoiceable'
 require 'connector/base'
 require 'date'
 
-class String
-  def strip_or_self!
-    strip! or self
-  end
-end
-
 class Invoicer
   attr_accessor :connector
 
