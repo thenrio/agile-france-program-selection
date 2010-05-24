@@ -33,7 +33,7 @@ describe Invoice do
       @invoice.invoiceables.concat [g, i, t, v]
     end
     it 'should be sum of invoiceables price' do
-      @invoice.price.should = 240
+      @invoice.price.should == 240
     end
   end
 

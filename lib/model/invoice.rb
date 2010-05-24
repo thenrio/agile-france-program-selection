@@ -21,4 +21,11 @@ class Invoice
   def due_date
     date+settlement
   end
+
+  def price
+    # there is no inject on datamapper collection is there ?
+    price = 0
+    invoiceables.each {|inv| price += inv.price}
+    price
+  end
 end
