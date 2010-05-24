@@ -49,8 +49,11 @@ describe 'an Invoicer,' do
           @invoicer.invoice_company @google
         end
 
-        it 'should not tell connector to put empty invoice' do
-          stub(@google).invoiceables { [] }
+        it 'should not tell connector to put zero? invoice' do
+          invoice = Invoice.new
+          invoice.invoiceables.push Invoiceable.new(:invoicing_system_id => 'AGF10P0')
+          invoice.zero?.should be_true
+          stub(@google).create_invoice {invoice}
           dont_allow(@invoicer.connector).post_invoice(anything)
           @invoicer.invoice_company @google
         end
