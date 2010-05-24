@@ -15,8 +15,12 @@ class Attendee
   property :early, Integer, :default => 0
   property :lunch, Integer, :default => 0
   property :group, Integer, :default => 0
-  property :creation_date, Date, :default => DateTime.now
-  property :modification_date, Date, :default => DateTime.now
+  # bloody date and software convention
+  # datetime is a String in sqlite3
+  # it is serialized as 2010-05-24T10:47:54+02:00 by datamapper and 2010-05-23 23:58:19.368257 by django
+  # datamapper can read django date, and django can not ...
+  property :creation_date, String, :default => '2010-05-23 23:58:19.368257'
+  property :modification_date, String, :default => '2010-05-23 23:58:19.368257'
   property :redeemable_coupon, String
 
   extend PoorBoolean
