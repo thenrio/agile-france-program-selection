@@ -23,7 +23,10 @@ def agile_france
 end
 
 def organize(first_name, last_name, email)
-  Attendee.create(:firstname => first_name, :lastname => last_name, :email => email, :company => agile_france, :redeemable_coupon => 'ORGANIZATION')  
+  organizer = Attendee.first(:email => email)
+  organizer ||= Attendee.create(:firstname => first_name, :lastname => last_name, :email => email,
+                                :company => agile_france, :redeemable_coupon => 'ORGANIZATION')
+  organizer
 end
 
 #1 speaker
