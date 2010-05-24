@@ -12,8 +12,11 @@ class Attendee
   property :firstname, String
   property :lastname, String
   property :email, String
-  property :early, Integer
-  property :lunch, Integer
+  property :early, Integer, :default => 0
+  property :lunch, Integer, :default => 0
+  property :group, Integer, :default => 0
+  property :creation_date, Date, :default => DateTime.now
+  property :modification_date, Date, :default => DateTime.now
   property :redeemable_coupon, String
 
   extend PoorBoolean
