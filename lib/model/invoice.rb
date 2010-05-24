@@ -28,4 +28,8 @@ class Invoice
     invoiceables.each {|inv| price += inv.price}
     price
   end
+
+  def zero?
+    price == 0
+  end
 end
