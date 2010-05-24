@@ -1,4 +1,4 @@
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '../../lib'))
 require 'configuration'
-path = File.expand_path(File.dirname(__FILE__) + '/../../../agile-france-database')
+path = '/Users/thenrio/src/python/xpdayfr'
 $database_configuration ||= Configuration.new :path => "#{path}/prod.db"
