@@ -13,9 +13,12 @@ describe SentMail do
 
     it 'should have a foo company as a person' do
       mail = SentMail.new(:person_class => @foo.class, :person_id => @foo.id)
-      mail.person.should == @foo
+      mail.person.should eql @foo
     end
 
+    it 'should have a john attendee as a person' do
+      mail = SentMail.new(:person_class => @john.class, :person_id => @john.id)
+      mail.person.should eql @john
+    end
   end
-
 end
