@@ -37,6 +37,20 @@ describe Invoice do
     end
   end
 
+describe 'zero?,' do
+    before do
+      @invoice = Invoice.new()
+    end
+    it 'should be true if invoice price is 0' do
+      stub(@invoice).price {0}
+      @invoice.zero?.should be_true
+    end
+    it 'should be false if invoice price is not 0' do
+      stub(@invoice).price {1}
+      @invoice.zero?.should_not be_true
+    end
+  end
+
   describe 'due_date,' do
     before do
       date = Date.parse('18/05/2010')
