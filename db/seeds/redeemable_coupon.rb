@@ -40,7 +40,7 @@ Speaker.scheduled.each do |speaker|
 end
 
 #2 jug
-jugger = Attendee.first('fabrice.bouteiller@gmail.com')
+jugger = Attendee.first(:email => 'fabrice.bouteiller@gmail.com')
 jugger.update(:redeemable_coupon => 'JUG') if jugger
 
 #3 orga
