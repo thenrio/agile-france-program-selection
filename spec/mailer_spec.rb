@@ -185,6 +185,9 @@ eos
       @mail.from.should == ['orga@conf.agile-france.org']
       @mail.to.should == [@junio.email]
       @mail.subject.should == 'confirmation de votre inscription à la conférence Agile France'
+      @mail.charset.should == 'UTF-8'
+      @mail.content_type.should include('text/html')
+      @mail.body.raw_source.should == '<h1>hello</h1>'
     end
 
     it 'should send it' do
