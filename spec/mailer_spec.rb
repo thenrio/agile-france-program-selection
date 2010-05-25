@@ -184,10 +184,12 @@ eos
     it 'should confirm junio that he will attend' do
       @mail.from.should == ['orga@conf.agile-france.org']
       @mail.to.should == [@junio.email]
-      @mail.subject.should == 'confirmation de votre inscription à la conférence Agile France'
+      @mail.subject.should == 'comment vous rendre à la conférence Agile France'
       @mail.charset.should == 'UTF-8'
       @mail.content_type.should include('text/html')
-      @mail.body.raw_source.should == '<h1>hello</h1>'
+
+      doc = Nokogiri::HTML(@mail.body.raw_source)
+      doc.search('/').should == '<h1>hello</h1>'
     end
 
     it 'should send it' do
