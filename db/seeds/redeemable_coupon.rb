@@ -47,7 +47,7 @@ jugger = Attendee.first(:email => 'fabrice.bouteiller@gmail.com')
 redeem(jugger, 'JUG') if jugger
 
 #3 orga
-organize('Agata', 'Sobik', 'agata.sobik@gmail.com')
+# organize('Agata', 'Sobik', 'agata.sobik@gmail.com')
 organize('Jonathan', 'Scher', 'scher.jonathan@gmail.com')
 organize('Pascal', 'Pratmarty', 'pascal.pratmarty@agitude.fr')
 organize('Sebastien', 'Douche', 'sdouche@gmail.com')
