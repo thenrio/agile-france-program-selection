@@ -5,8 +5,8 @@ require 'model/company'
 require 'model/invoice'
 require 'ruby-debug'
 
-def redeem(attendee)
-  attendee.update(:redeemable_coupon => 'SPEAKER')
+def redeem(attendee, coupon='SPEAKER')
+  attendee.update(:redeemable_coupon => coupon)
   puts "#{attendee.inspect} gain redeemable coupon"
 end
 
@@ -14,18 +14,18 @@ def agile_france
   @agile_france ||= Company.first(:email => 'orga@conf.agile-france.org')
   unless @agile_france
     attributes = {:name => 'agile-france',
-              :firstname => 'agile', :lastname => 'france',
-              :email => 'orga@conf.agile-france.org',
-              :invoicing_system_id => 'self'}
+                  :firstname => 'agile', :lastname => 'france',
+                  :email => 'orga@conf.agile-france.org',
+                  :invoicing_system_id => 'self'}
     @agile_france = Company.create(attributes)
   end
   @agile_france
 end
 
 def organize(first_name, last_name, email)
-  organizer = Attendee.first(:email => email)
-  organizer ||= Attendee.create(:firstname => first_name, :lastname => last_name, :email => email,
-                                :company => agile_france, :redeemable_coupon => 'ORGANIZATION')
+  organizer = Attendee.first(:email => email) ||
+      Attendee.create(:firstname => first_name, :lastname => last_name, :email => email, :company => agile_france)
+  redeem(organizer, 'ORGANIZATION')
   organizer
 end
 
@@ -44,7 +44,7 @@ end
 
 #2 jug
 jugger = Attendee.first(:email => 'fabrice.bouteiller@gmail.com')
-jugger.update(:redeemable_coupon => 'JUG') if jugger
+redeem(jugger, 'JUG') if jugger
 
 #3 orga
 organize('Agata', 'Sobik', 'agata.sobik@gmail.com')
