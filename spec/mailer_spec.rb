@@ -139,7 +139,7 @@ eos
     before do
       @mails = @mailer.mail_communicate_refusal
     end
-    
+
     it 'should inform John Doe that pub session is not scheduled' do
       @mails.length.should == 1
       mail = @mails[0]
@@ -190,19 +190,22 @@ eos
         mail.template.should == 'haml'
       end
     end
- end
+  end
 
-#    describe 'deliver' do
-#      before do
-#        @git = Company.create(:name => 'git', :firstname => 'linus', :lastname => 'torvald', :email => 'linus@torvald.org')
-#        @mail = MessageToPerson.new(@git, 'template')
-#      end
-#
-#      it 'should send once, but not twice same message to same Person' do
-#        @mail.deliver
-#        Mail::TestMailer.deliveries.should == [@mail]
-#        @mail.deliver
-#        Mail::TestMailer.deliveries.should == [@mail]
-#      end
-#    end
+  describe 'deliver' do
+    before do
+      @git = Company.create(:name => 'git', :firstname => 'linus', :lastname => 'torvald', :email => 'linus@torvald.org')
+      @mail = Mail.new do
+        person(@git)
+        template('foo')
+      end
+    end
+
+    it 'should send once, but not twice same message to same Person' do
+      @mail.deliver
+      Mail::TestMailer.deliveries.should == [@mail]
+      @mail.deliver
+      Mail::TestMailer.deliveries.should == [@mail]
+    end
+  end
 end
