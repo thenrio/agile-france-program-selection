@@ -197,4 +197,19 @@ eos
       Mail::TestMailer.deliveries.should == [@mail]
     end
   end
+
+
+#  describe 'deliver once' do
+#    before do
+#      @git = Company.create(:name => 'git', :firstname => 'linus', :lastname => 'torvald', :email => 'linus@torvald.org')
+#    end
+#
+#    it 'should send once, but not twice same message to same Person' do
+#      mail = @mailer.mail(@git, 'hello!', 'foo.html.haml')
+#      Mail::TestMailer.deliveries.should == [mail]
+#      mail = @mailer.mail(@git, 'hello!', 'foo.html.haml')
+#      mail.should be_nil
+#      Mail::TestMailer.deliveries.should == [mail]
+#    end
+#  end
 end
