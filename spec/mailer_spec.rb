@@ -52,10 +52,6 @@ Contactez nous pour toute question, remarque ou contrainte
 L'Organisation de la conférence Agile France
 eos
     end
-
-    it 'should send it' do
-      Mail::TestMailer.deliveries.should == @mails
-    end
   end
 
   describe 'confirm_speaker' do
@@ -91,10 +87,6 @@ Contactez nous pour toute question, remarque ou contrainte
 L'Organisation de la conférence Agile France
 eos
     end
-
-    it 'should send it' do
-      Mail::TestMailer.deliveries.should == @mails
-    end
   end
 
   describe 'ask_for_capacity' do
@@ -126,10 +118,6 @@ Pour les sessions suivantes, avez vous une limite de participation : 50, 40, 30,
 
 L'Organisation de la conférence Agile France
 eos
-      end
-
-      it 'should send it' do
-        Mail::TestMailer.deliveries.should == @mails
       end
     end
 
@@ -168,10 +156,6 @@ Nous vous remercions d'avoir proposé, car cela nous a permis de choisir
 L'Organisation de la conférence Agile France
 eos
     end
-
-    it 'should send it' do
-      Mail::TestMailer.deliveries.should == @mails
-    end
   end
 
 
@@ -192,24 +176,22 @@ eos
       doc = Nokogiri::HTML(@mail.body.raw_source)
       doc.content.chomp.should == 'hello'
     end
-
-    it 'should send it' do
-      Mail::TestMailer.deliveries.should == [@mail]
-    end
   end
 
 
-#  describe 'deliver once' do
-#    before do
-#      @git = Company.create(:name => 'git', :firstname => 'linus', :lastname => 'torvald', :email => 'linus@torvald.org')
-#    end
+#  describe MessageToPerson do
+#    describe 'deliver' do
+#      before do
+#        @git = Company.create(:name => 'git', :firstname => 'linus', :lastname => 'torvald', :email => 'linus@torvald.org')
+#        @mail = @mailer.mail(@git, 'hello!', 'foo.html.haml')
+#      end
 #
-#    it 'should send once, but not twice same message to same Person' do
-#      mail = @mailer.mail(@git, 'hello!', 'foo.html.haml')
-#      Mail::TestMailer.deliveries.should == [mail]
-#      mail = @mailer.mail(@git, 'hello!', 'foo.html.haml')
-#      mail.should be_nil
-#      Mail::TestMailer.deliveries.should == [mail]
+#      it 'should send once, but not twice same message to same Person' do
+#        @mail.deliver
+#        Mail::TestMailer.deliveries.should == [mail]
+#        @mail.deliver
+#        Mail::TestMailer.deliveries.should == [mail]
+#      end
 #    end
 #  end
 end

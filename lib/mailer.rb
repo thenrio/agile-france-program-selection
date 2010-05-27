@@ -88,7 +88,6 @@ class Mailer
       subject(subject)
       body(body)
     end
-    mail.deliver
   end
 
   def confirm_attendee(attendee)
