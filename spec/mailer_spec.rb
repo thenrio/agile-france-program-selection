@@ -3,6 +3,7 @@ require "spec_helper"
 require 'mailer'
 require 'configuration'
 require 'stringio'
+require 'nokogiri'
 
 def create_seeds
   @speaker = Speaker.create(:firstname => 'John', :lastname => 'Doe', :email => 'john@doe.org')
@@ -189,7 +190,7 @@ eos
       @mail.content_type.should include('text/html')
 
       doc = Nokogiri::HTML(@mail.body.raw_source)
-      doc.search('/').should == '<h1>hello</h1>'
+      doc.content.chomp.should == 'hello'
     end
 
     it 'should send it' do

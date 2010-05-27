@@ -79,7 +79,7 @@ class Mailer
   end
 
   def confirm_attendee(attendee)
-    subject = 'confirmation de votre inscription à la conférence Agile France'
+    subject = 'comment vous rendre à la conférence Agile France'
     template = 'confirm_attendee.html.haml'
     mail(attendee, subject, template, :attendee => attendee)
   end
