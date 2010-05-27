@@ -5,12 +5,37 @@ require 'renderer'
 require 'logger'
 
 
-class MessageToPerson < Mail::Message
-  attr_accessor :person, :template
+#class MessageToPerson < Mail::Message
+#  attr_accessor :person, :template
+#
+#  def initialize(*args, &block)
+#    super(args, block)
+#  end
+#
+#end
 
-  def deliver
-    Mailer.logger.info "#{self} using template #{template}=> #{body}"
-    super
+module Mail
+  class Message
+
+    def person(person=nil)
+      if person
+        @person=person
+        self
+      else
+        @person
+      end
+    end
+
+    def template(template=nil)
+      return @template unless template
+      @template=template
+      self
+    end
+
+    def deliver
+      Mailer.logger.info "#{self} using template #{@template}=> #{@body}"
+      super
+    end
   end
 end
 
@@ -81,7 +106,7 @@ class Mailer
 
   def mail(speaker, subject, template, locals={})
     body = make_body(template, locals)
-    MessageToPerson.new do
+    Mail.new do
       content_type 'text/html; charset=UTF-8'
       from 'orga@conf.agile-france.org'
       to "#{speaker.email}"

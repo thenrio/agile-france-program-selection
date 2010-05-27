@@ -179,14 +179,18 @@ eos
   end
 
 
-  describe MessageToPerson do
+  describe Mail do
     describe 'initialize' do
-      it 'should be able to pass person and template in hash' do
-        mail = MessageToPerson.new(:person => 'someone', :template => 'template')
+      it 'should be able to pass person and template to block' do
+        mail = Mail.new do
+          person('someone')
+          template('haml')
+        end
         mail.person.should == 'someone'
         mail.template.should == 'haml'
       end
     end
+ end
 
 #    describe 'deliver' do
 #      before do
@@ -201,5 +205,4 @@ eos
 #        Mail::TestMailer.deliveries.should == [@mail]
 #      end
 #    end
-  end
 end
