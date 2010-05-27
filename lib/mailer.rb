@@ -4,12 +4,26 @@ require 'model/program'
 require 'renderer'
 require 'logger'
 
+
+class MessageToPerson < Mail::Message
+  attr_accessor :person, :template
+
+  def deliver
+    Mailer.logger.info "#{self} using template #{template}=> #{body}"
+    super
+  end
+end
+
+
 class Mailer
   def self.logger=(logger)
     @@logger=logger
   end
-  def logger
+  def self.logger
     @@logger ||= Logger.new("mailer-#{Date.today}.log")
+  end
+  def logger
+    Mailer.logger
   end
 
   def mail_speakers(speakers, subject, template)
@@ -67,15 +81,14 @@ class Mailer
 
   def mail(speaker, subject, template, locals)
     body = make_body(template, locals)
-    mail = Mail.new do
+    mail = MessageToPerson.new do
       content_type 'text/html; charset=UTF-8'
       from 'orga@conf.agile-france.org'
       to "#{speaker.email}"
       subject(subject)
       body(body)
     end
-    logger.info "#{mail} using template #{template}=> #{mail.body}"
-    mail.deliver!
+    mail.deliver
   end
 
   def confirm_attendee(attendee)
