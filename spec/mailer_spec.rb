@@ -179,19 +179,27 @@ eos
   end
 
 
-#  describe MessageToPerson do
+  describe MessageToPerson do
+    describe 'initialize' do
+      it 'should be able to pass person and template in hash' do
+        mail = MessageToPerson.new(:person => 'someone', :template => 'template')
+        mail.person.should == 'someone'
+        mail.template.should == 'haml'
+      end
+    end
+
 #    describe 'deliver' do
 #      before do
 #        @git = Company.create(:name => 'git', :firstname => 'linus', :lastname => 'torvald', :email => 'linus@torvald.org')
-#        @mail = @mailer.mail(@git, 'hello!', 'foo.html.haml')
+#        @mail = MessageToPerson.new(@git, 'template')
 #      end
 #
 #      it 'should send once, but not twice same message to same Person' do
 #        @mail.deliver
-#        Mail::TestMailer.deliveries.should == [mail]
+#        Mail::TestMailer.deliveries.should == [@mail]
 #        @mail.deliver
-#        Mail::TestMailer.deliveries.should == [mail]
+#        Mail::TestMailer.deliveries.should == [@mail]
 #      end
 #    end
-#  end
+  end
 end

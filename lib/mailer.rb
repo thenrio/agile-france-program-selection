@@ -79,9 +79,9 @@ class Mailer
     create_renderer_for(template).render(template, locals)
   end
 
-  def mail(speaker, subject, template, locals)
+  def mail(speaker, subject, template, locals={})
     body = make_body(template, locals)
-    mail = MessageToPerson.new do
+    MessageToPerson.new do
       content_type 'text/html; charset=UTF-8'
       from 'orga@conf.agile-france.org'
       to "#{speaker.email}"
