@@ -168,6 +168,10 @@ eos
       @mail = @mailer.confirm_attendee @junio
     end
 
+    it 'should push in inbox' do
+      @mailer.inbox.first.should == @mail
+    end
+
     it 'should confirm junio that he will attend' do
       @mail.from.should == ['orga@conf.agile-france.org']
       @mail.to.should == [@junio.email]

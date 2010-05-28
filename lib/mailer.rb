@@ -111,7 +111,7 @@ class Mailer
 
   def mail(person, subject, template, locals={})
     body = make_body(template, locals)
-    Mail.new do
+    message = Mail.new do
       content_type 'text/html; charset=UTF-8'
       from 'orga@conf.agile-france.org'
       to "#{person.email}"
@@ -120,6 +120,8 @@ class Mailer
       template(template)
       body(body)
     end
+    inbox << message
+    message
   end
 
   def inbox
