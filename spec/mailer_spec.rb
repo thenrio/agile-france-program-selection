@@ -186,8 +186,15 @@ eos
         @mailer.deliver!
         @mailer.inbox.empty?.should be_true
       end
-    end
 
+      it 'should continue should one message fail' do
+        bad, good = Mail.new, Mail.new
+        mock(bad).deliver {raise}
+        mock(good).deliver
+        @mailer.inbox << bad << good
+        @mailer.deliver!
+      end
+    end
   end
   
   describe Mail do

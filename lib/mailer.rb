@@ -128,7 +128,12 @@ class Mailer
 
   def deliver!
     while not inbox.empty?
-      inbox.pop.deliver
+      message = inbox.pop
+      begin
+        message.deliver
+      rescue => failure
+        Mailer.logger.error("failed to deliver #{message}, #{failure}")
+      end
     end
   end
 
