@@ -13,6 +13,19 @@ And /^user "(\w+)" with email "(.+)" belongs to "(.+)"/ do |firstname, email, na
   Attendee.create(:firstname => firstname, :email => email, :company => company)
 end
 
+And 'speaker thierry has email thierry.henrio@gmail.com' do
+  Speaker.create(:firstname => 'thierry', :lastname => 'henrio', :email => 'thierry.henrio@gmail.com')
+end
+
+And 'speaker thierry has two scheduled sessions' do
+  speaker = Speaker.first(:firstname => 'thierry')
+  room = Room.create(:name => 'room')
+  date = DateTime.now
+  2.times do |time|
+    Session.create(:title => "session#{time}", :speaker => speaker, :room => room, :scheduled_at => date)
+  end
+end
+
 And /^company "(\w+)" has invoice "(.+)"/ do |name, invoicing_system_id|
   company = Company.first(:name => name)
   Invoice.create(:invoicing_system_id => invoicing_system_id, :company => company)

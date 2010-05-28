@@ -1,3 +1,4 @@
+@xero
 Feature: In order to increase revenue
   XeroInvoicer should create invoices on external xero accounting system
   
