@@ -28,7 +28,7 @@ Then 'thierry should receive one mail with two sessions' do
 end
 
 When 'attendee thierry is mailed' do
-  attendee = Attendee.first(:firstname=>'thierry')
+  attendee = Attendee.first(:email=>'thierry.henrio@gmail.com')
   mailer = Mailer.new
   mailer.confirm_attendee(attendee)
   @deliveries = mailer.deliver!

@@ -3,7 +3,7 @@ require 'dm-migrations/migration_runner'
 require 'model/sent_mail'
 
 DataMapper::Logger.new(STDOUT, :debug)
-DataMapper.logger.debug("Starting Migration")
+DataMapper.logger.debug("Starting Migration #{File.basename(__FILE__)}")
 
 migration 20, :create_sent_mails do
   up do

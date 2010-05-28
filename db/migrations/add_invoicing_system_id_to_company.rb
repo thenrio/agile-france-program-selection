@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../../config/boot')
 require 'dm-migrations/migration_runner'
 
 DataMapper::Logger.new(STDOUT, :debug)
-DataMapper.logger.debug("Starting Migration")
+DataMapper.logger.debug("Starting Migration #{File.basename(__FILE__)}")
 
 migration 10, :add_invoicing_id_to_company do
   up do

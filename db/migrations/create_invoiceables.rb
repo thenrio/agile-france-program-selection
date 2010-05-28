@@ -5,7 +5,7 @@ require 'model/invoice'
 require 'model/attendee'
 
 DataMapper::Logger.new(STDOUT, :debug)
-DataMapper.logger.debug("Starting Migration")
+DataMapper.logger.debug("Starting Migration #{File.basename(__FILE__)}")
 
 migration 20, :create_invoiceables do
   up do

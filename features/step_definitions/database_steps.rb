@@ -38,5 +38,5 @@ And /^invoice "(.+)" has an invoiceable "(.+)" for "(\w+)"/ do |invoice, invoice
 end
 
 And 'attendee thierry has email thierry.henrio@gmail.com' do
-  Attendee.create(:firstname => 'thierry', :lastname => 'henrio', :email => 'thierry.henrio@gmail.com')
+  Attendee.create(:firstname => 'Chuck', :lastname => 'Norris', :email => 'thierry.henrio@gmail.com')
 end
