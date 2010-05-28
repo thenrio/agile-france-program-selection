@@ -180,27 +180,28 @@ eos
       @mail.content_type.should include('text/html')
 
       doc = Nokogiri::HTML(@mail.body.raw_source)
-      doc.content.chomp.should == 'hello'
+      doc.content.chomp.should include 'junio hamano'
     end
 
-    describe 'deliver!' do
-      it 'should empty inbox' do
-        message = Mail.new
-        @mailer.inbox << message
-        @mailer.deliver!
-        @mailer.inbox.empty?.should be_true
-      end
-
-      it 'should continue should one message fail' do
-        bad, good = Mail.new, Mail.new
-        mock(bad).deliver {raise}
-        mock(good).deliver
-        @mailer.inbox << bad << good
-        @mailer.deliver!
-      end
-    end
   end
   
+  describe 'deliver!' do
+    it 'should empty inbox' do
+      message = Mail.new
+      @mailer.inbox << message
+      @mailer.deliver!
+      @mailer.inbox.empty?.should be_true
+    end
+
+    it 'should continue should one message fail' do
+      bad, good = Mail.new, Mail.new
+      mock(bad).deliver {raise}
+      mock(good).deliver
+      @mailer.inbox << bad << good
+      @mailer.deliver!
+    end
+  end
+
   describe Mail do
     describe 'deliver' do
       before do
