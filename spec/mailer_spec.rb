@@ -14,6 +14,9 @@ def create_seeds
 end
 
 def empty_mailer_test_inbox
+  Mail.defaults do
+    delivery_method :test
+  end
   Mail::TestMailer.deliveries.clear
 end
 
@@ -24,7 +27,6 @@ end
 
 describe 'Mailer' do
   before do
-    empty_mailer_test_inbox()
     configure_test_database()
     Mailer.logger = Logger.new(StringIO.new)
     @mailer = Mailer.new
@@ -178,34 +180,28 @@ eos
     end
   end
 
-
   describe Mail do
-    describe 'initialize' do
-      it 'should be able to pass person and template to block' do
+    describe 'deliver' do
+      before do
+        empty_mailer_test_inbox
+        @git = Company.create(:name => 'git', :firstname => 'linus', :lastname => 'torvald', :email => 'linus@torvald.org')
+      end
+
+      it 'should send once, but not twice same message to same Person' do
+        # caution there, do not use spec ivar in Mail block
+        # it is instance_evaled, and hence are spec ivar are just unknown ...
+        company = @git
         mail = Mail.new do
-          person('someone')
-          template('haml')
+          person(company)
+          template('foo')
         end
-        mail.person.should == 'someone'
-        mail.template.should == 'haml'
-      end
-    end
-  end
+        mail.person.should == company
 
-  describe 'deliver' do
-    before do
-      @git = Company.create(:name => 'git', :firstname => 'linus', :lastname => 'torvald', :email => 'linus@torvald.org')
-      @mail = Mail.new do
-        person(@git)
-        template('foo')
+        mail.deliver
+        Mail::TestMailer.deliveries.should == [mail]
+        mail.deliver
+        Mail::TestMailer.deliveries.should == [mail]
       end
-    end
-
-    it 'should send once, but not twice same message to same Person' do
-      @mail.deliver
-      Mail::TestMailer.deliveries.should == [@mail]
-      @mail.deliver
-      Mail::TestMailer.deliveries.should == [@mail]
     end
   end
 end

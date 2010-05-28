@@ -1,22 +1,12 @@
 #encoding: utf-8
-require 'mail'
 require 'model/program'
 require 'renderer'
 require 'logger'
+require 'model/sent_mail'
 
-
-#class MessageToPerson < Mail::Message
-#  attr_accessor :person, :template
-#
-#  def initialize(*args, &block)
-#    super(args, block)
-#  end
-#
-#end
-
+require 'mail'
 module Mail
   class Message
-
     def person(person=nil)
       if person
         @person=person
@@ -32,9 +22,15 @@ module Mail
       self
     end
 
+    alias_method :raw_deliver, :deliver
     def deliver
-      Mailer.logger.info "#{self} using template #{@template}=> #{@body}"
-      super
+      hash = {:person_class => @person.class.to_s.to_sym, :person_id => person.id, :template => @template}
+      mail = SentMail.first(hash)
+      unless mail
+        Mailer.logger.info "send to #{@person.email} with template #{@template} => #{@body}"
+        raw_deliver
+        SentMail.create(hash)
+      end
     end
   end
 end
@@ -111,6 +107,8 @@ class Mailer
       from 'orga@conf.agile-france.org'
       to "#{speaker.email}"
       subject(subject)
+      person(speaker)
+      template(template)
       body(body)
     end
   end
