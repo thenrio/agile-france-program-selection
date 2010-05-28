@@ -98,3 +98,29 @@ namespace :db do
     task :all => [:csv, :redeemable_coupon]
   end
 end
+
+task :env do
+  require File.expand_path(File.dirname(__FILE__) + '/config/boot')
+  Dir.glob("lib/model/*.rb") do |file|
+    require file
+  end
+end
+
+namespace :mail do
+  task :attendee => [:env] do
+    require 'mailer'
+    mailer = Mailer.new
+    Attendee.all.each do |attendee|
+      mail = mailer.confirm_attendee(attendee)
+      puts "will send #{mail}"
+    end
+  end
+  task :test => [:env] do
+    require 'mailer'
+    mailer = Mailer.new
+    Attendee.all(:email => 'thierry.henrio@gmail.com').each do |attendee|
+      mailer.confirm_attendee(attendee)
+    end
+    mailer.deliver!
+  end
+end
