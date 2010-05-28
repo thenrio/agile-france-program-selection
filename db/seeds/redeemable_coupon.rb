@@ -24,7 +24,7 @@ end
 
 def organize(first_name, last_name, email)
   organizer = Attendee.first(:email => email) ||
-      Attendee.create(:firstname => first_name, :lastname => last_name, :email => email, :company => agile_france)
+      Attendee.create(:firstname => first_name, :lastname => last_name, :email => email, :company => agile_france, :lunch => 1)
   redeem(organizer, 'ORGANIZATION')
   organizer
 end
