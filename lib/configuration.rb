@@ -19,6 +19,7 @@ class Configuration
     require 'model/company'
     require 'model/program'
     require 'model/sent_mail'
+    Room.auto_migrate!
     Speaker.auto_migrate!
     Session.auto_migrate!
     Company.auto_migrate!

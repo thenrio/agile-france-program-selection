@@ -129,14 +129,23 @@ class Mailer
   end
 
   def deliver!
+    deliveries = []
     while not inbox.empty?
       message = inbox.pop
       begin
         message.deliver
+        deliveries << message
       rescue => failure
         Mailer.logger.error("failed to deliver #{message}, #{failure}")
       end
     end
+    deliveries
+  end
+
+  def confirm_speaker(speaker)
+    subject = 'comment vous rendre à la conférence Agile France'
+    template = 'confirm_attendee.html.haml'
+    mail(speaker, subject, template, :speaker => speaker)    
   end
 
   def confirm_attendee(attendee)
