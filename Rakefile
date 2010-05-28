@@ -111,9 +111,9 @@ namespace :mail do
     require 'mailer'
     mailer = Mailer.new
     Attendee.all.each do |attendee|
-      mail = mailer.confirm_attendee(attendee)
-      puts "will send #{mail}"
+      mailer.confirm_attendee(attendee)
     end
+    mailer.deliver!
   end
   task :test => [:env] do
     require 'mailer'
