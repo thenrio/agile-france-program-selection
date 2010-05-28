@@ -43,9 +43,6 @@ class Mailer
   def self.logger
     @@logger ||= Logger.new("mailer-#{Date.today}.log")
   end
-  def logger
-    Mailer.logger
-  end
 
   def mail_speakers(speakers, subject, template)
     mails = []

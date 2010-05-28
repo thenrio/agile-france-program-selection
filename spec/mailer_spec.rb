@@ -179,7 +179,7 @@ eos
       doc.content.chomp.should == 'hello'
     end
   end
-
+  
   describe Mail do
     describe 'deliver' do
       before do
