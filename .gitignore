@@ -22,6 +22,7 @@ pkg
 .idea
 keys
 config/production
+mail_configuration.rb
 tmp
 log
 *.log
