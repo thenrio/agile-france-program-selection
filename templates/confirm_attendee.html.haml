@@ -1,2 +1,23 @@
 %html
-  %h1 hello
+  %p= "Bonjour #{attendee.full_name}"
+  %p
+    Vous etes bien inscrit à la
+    %a{:href => 'http://conf.agile-france.org/'}Conférence Agile France,
+    qui a lieu les lundi 31 mai et mardi 1er juin
+
+  %h3 Comment vous rendre à la conférence ?
+  %p
+    voici les
+    %a{:href => 'http://conf.agile-france.org/site/'}instructions
+  %p
+    si vous venez en métro, Chateau de Vincennes, comptez 15 minutes pour vous rendre au Chalet à pied
+
+  %h3 A quelle heure dois-je me présenter ?
+  %p nous vous recevrons à partir de 08h30 le lundi
+  %p la conférence commence à 09h
+
+  %h3 Dois-je présenter une pièce d'identité ?
+  %p non
+
+  Nous vous souhaitons un bon week-end, l'organisation de la Conférence Agile France
+
