@@ -178,6 +178,16 @@ eos
       doc = Nokogiri::HTML(@mail.body.raw_source)
       doc.content.chomp.should == 'hello'
     end
+
+    describe 'deliver!' do
+      it 'should empty inbox' do
+        message = Mail.new
+        @mailer.inbox << message
+        @mailer.deliver!
+        @mailer.inbox.empty?.should be_true
+      end
+    end
+
   end
   
   describe Mail do
