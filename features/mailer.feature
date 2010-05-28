@@ -1,6 +1,7 @@
 @mail
 Feature: In order to save customer time
 
+  @speaker
   Scenario: 
     Given mail uses "development" environment
       And database is empty
@@ -9,9 +10,10 @@ Feature: In order to save customer time
     When speaker thierry is mailed
     Then thierry should receive one mail with two sessions
 
+  @attendee
   Scenario:
     Given mail uses "development" environment
       And database is empty
-      And participant thierry has email thierry.henrio@gmail.com
-    When participant thierry is mailed
-    Then participant thierry should receive one mail    
+      And attendee thierry has email thierry.henrio@gmail.com
+    When attendee thierry is mailed
+    Then attendee thierry should receive a mail    

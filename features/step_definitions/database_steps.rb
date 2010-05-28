@@ -37,3 +37,6 @@ And /^invoice "(.+)" has an invoiceable "(.+)" for "(\w+)"/ do |invoice, invoice
   Invoiceable.create(:invoicing_system_id => invoiceable, :attendee => attendee, :invoice => i)
 end
 
+And 'attendee thierry has email thierry.henrio@gmail.com' do
+  Attendee.create(:firstname => 'thierry', :lastname => 'henrio', :email => 'thierry.henrio@gmail.com')
+end

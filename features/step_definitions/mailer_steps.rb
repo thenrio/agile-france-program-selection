@@ -26,3 +26,14 @@ end
 Then 'thierry should receive one mail with two sessions' do
   @deliveries.size.should == 1
 end
+
+When 'attendee thierry is mailed' do
+  attendee = Attendee.first(:firstname=>'thierry')
+  mailer = Mailer.new
+  mailer.confirm_attendee(attendee)
+  @deliveries = mailer.deliver!
+end
+
+Then 'attendee thierry should receive a mail' do
+  @deliveries.size.should == 1
+end
