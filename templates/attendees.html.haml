@@ -1,0 +1,3 @@
+%html
+  - attendees.each do |attendee|
+    %p= "#{attendee.full_name}, diner=#{attendee.diner?}, speaker=#{attendee.speaker?}, staff=#{attendee.staff?}"

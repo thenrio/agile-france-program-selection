@@ -75,10 +75,17 @@ Cucumber::Rake::Task.new(:features) do |t|
   t.cucumber_opts = "features --format pretty"
 end
 
+task :env do
+  require File.expand_path(File.dirname(__FILE__) + '/config/boot')
+  Dir.glob("lib/model/*.rb") do |file|
+    require file
+  end
+end
+
 # migrate
 namespace :db do
-  require 'dm-migrations/migration_runner'
-  task :migrate do
+  task :migrate => [:env] do
+    require 'dm-migrations/migration_runner'
     Dir.glob("db/migrations/*.rb") do |migration|
       load migration
       migrate_up!
@@ -86,7 +93,7 @@ namespace :db do
   end
 
   namespace :sow do
-    task :rooms do
+    task :rooms => [:env] do
       ruby 'db/seeds/rooms.rb'
     end
     task :csv => [:rooms] do
@@ -97,14 +104,20 @@ namespace :db do
     end
     task :all => [:csv, :redeemable_coupon]
   end
-end
 
-task :env do
-  require File.expand_path(File.dirname(__FILE__) + '/config/boot')
-  Dir.glob("lib/model/*.rb") do |file|
-    require file
+  namespace :list do
+    task :attendees => [:env] do
+      require 'renderer'
+      attendees = Attendee.all.to_a.sort {|a,b| a.full_name <=> b.full_name}
+      renderer = Renderer::Hml.new
+      renderer.render('attendees.html.haml', :attendees => attendees) do |content|
+        renderer.write(content, 'attendees.html')  
+      end
+    end
   end
 end
+
+
 
 namespace :mail do
   task :attendee => [:env] do
