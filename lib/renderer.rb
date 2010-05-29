@@ -9,7 +9,7 @@ include Renderable
 
   def write(content, file_name='sessions.html', output_dir=self.output_dir)
     f = File.join(output_dir, file_name)
-    File.open(f, 'w+') do |file|
+    File.open(f, 'w+:UTF-8') do |file|
       file.write content
     end
     puts "wrote #{content.length} to #{f}"
@@ -46,7 +46,11 @@ include Renderable
     require 'haml'
     def render(template, locals={})
       haml = Haml::Engine.new(read_template(template), :escape_html => true)
-      haml.render(Object.new, locals)
+      content = haml.render(Object.new, locals)
+      if block_given?
+        return yield content
+      end
+      content
     end    
   end
 end
