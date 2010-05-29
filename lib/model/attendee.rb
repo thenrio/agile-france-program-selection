@@ -52,7 +52,7 @@ class Attendee
   end
   private :entrance_redeemed?
 
-  @@diner_coupon = Set.new ['ORGANIZATION', 'SPEAKER', 'SPONSOR']
+  @@diner_coupon = @@entrance_coupon
   def diner_redeemed?
     @@diner_coupon.include?(redeemable_coupon)
   end
@@ -65,6 +65,14 @@ class Attendee
     end
   end
   private :add_invoiceable_if_not_already_invoiced
+
+  def speaker?
+    not Speaker.first(:email => email).nil?
+  end
+
+  def staff?
+    redeemable_coupon == 'ORGANIZATION'
+  end
 
   def self.diner
     all(:lunch => 1)
