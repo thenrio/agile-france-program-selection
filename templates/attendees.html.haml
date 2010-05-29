@@ -1,3 +1,4 @@
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 %html
   - attendees.each do |attendee|
-    %p= "#{attendee.full_name}, diner=#{attendee.diner?}, speaker=#{attendee.speaker?}, staff=#{attendee.staff?}"
+    %p= "#{attendee.full_name}, diner=#{attendee.diner?}, speaker=#{attendee.speaker?}, staff=#{attendee.staff?}, company=#{attendee.company.name}"

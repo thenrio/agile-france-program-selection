@@ -82,7 +82,7 @@ task :env do
   end
 end
 
-# migrate
+# db
 namespace :db do
   task :migrate => [:env] do
     require 'dm-migrations/migration_runner'
@@ -108,7 +108,7 @@ namespace :db do
   namespace :list do
     task :attendees => [:env] do
       require 'renderer'
-      attendees = Attendee.all.to_a.sort {|a,b| a.full_name <=> b.full_name}
+      attendees = Attendee.all.to_a.sort {|a,b| a.full_name.strip <=> b.full_name.strip}
       renderer = Renderer::Hml.new
       renderer.render('attendees.html.haml', :attendees => attendees) do |content|
         renderer.write(content, 'attendees.html')  
@@ -116,8 +116,6 @@ namespace :db do
     end
   end
 end
-
-
 
 namespace :mail do
   task :attendee => [:env] do
