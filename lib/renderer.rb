@@ -1,6 +1,4 @@
 #encoding: utf-8
-require 'configuration'
-require 'model/program'
 require 'renderable'
 
 class Renderer
