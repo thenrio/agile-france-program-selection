@@ -27,10 +27,10 @@ Then 'thierry should receive one mail with two sessions' do
   @deliveries.size.should == 1
 end
 
-When 'attendee thierry is mailed' do
+When /attendee thierry is mailed with template "(.*)" and subject "(.*)"/ do |template, subject|
   attendee = Attendee.first(:email=>'thierry.henrio@gmail.com')
   mailer = Mailer.new
-  mailer.confirm_attendee(attendee)
+  mailer.mail(attendee, subject, template)
   @deliveries = mailer.deliver!
 end
 
