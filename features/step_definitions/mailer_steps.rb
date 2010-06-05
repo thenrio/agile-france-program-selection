@@ -30,7 +30,7 @@ end
 When /attendee thierry is mailed with template "(.*)" and subject "(.*)"/ do |template, subject|
   attendee = Attendee.first(:email=>'thierry.henrio@gmail.com')
   mailer = Mailer.new
-  mailer.mail(attendee, subject, template)
+  mailer.mail(attendee, subject, template, :attendee => attendee)
   @deliveries = mailer.deliver!
 end
 

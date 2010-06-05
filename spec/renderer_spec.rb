@@ -14,7 +14,7 @@ describe 'Renderer' do
     before do
       @file_name = 'some-sessions.html'
       @io = StringIO.new
-      mock(File).open(File.join(@renderer.output_dir, @file_name), 'w+').yields(@io)
+      mock(File).open(File.join(@renderer.output_dir, @file_name), 'w+:UTF-8').yields(@io)
     end
 
     it 'should write to file' do
