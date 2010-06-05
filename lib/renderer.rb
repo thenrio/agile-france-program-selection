@@ -5,6 +5,9 @@ class Renderer
 include Renderable
 
   def render(template, locals={})
+    content = do_render(template, locals)
+    return yield content if block_given?
+    content
   end
 
   def write(content, file_name='sessions.html', output_dir=self.output_dir)
@@ -18,14 +21,10 @@ include Renderable
 
   class Erb < Renderer
     require 'erb'
-    def render(template, locals={})
+    def do_render(template, locals={})
       erb = ERB.new(read_template(template))
       inject_locals(locals)
-      content = erb.result get_binding
-      if block_given?
-        return yield content
-      end
-      content
+      erb.result get_binding
     end
 
     def inject_locals(hash)
@@ -44,13 +43,9 @@ include Renderable
 
   class Hml < Renderer
     require 'haml'
-    def render(template, locals={})
+    def do_render(template, locals={})
       haml = Haml::Engine.new(read_template(template), :escape_html => true)
-      content = haml.render(Object.new, locals)
-      if block_given?
-        return yield content
-      end
-      content
+      haml.render(Object.new, locals)
     end    
   end
 end
