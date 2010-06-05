@@ -15,5 +15,5 @@ Feature: In order to save customer time
     Given mail uses "development" environment
       And database is empty
       And attendee thierry has email thierry.henrio@gmail.com
-    When attendee thierry is mailed with template "confirm_attendee.html.haml" and subject "Comment vous rendre à la conférence Agile France ?"
+    When attendee thierry is mailed with template "ask_attendee_for_feedback.html.haml" and subject "Comment s'est passé la conférence Agile France ?"
     Then attendee thierry should receive a mail
