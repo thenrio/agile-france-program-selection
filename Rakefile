@@ -118,20 +118,24 @@ namespace :db do
 end
 
 namespace :mail do
-  task :attendee => [:env] do
-    require 'mailer'
-    mailer = Mailer.new
-    Attendee.all.each do |attendee|
-      mailer.confirm_attendee(attendee)
+  namespace :attendee do
+    task :confirm => [:env] do
+      require 'mailer'
+      mailer = Mailer.new
+      Attendee.all.each do |attendee|
+        mailer.confirm_attendee(attendee)
+      end
+      mailer.deliver!
     end
-    mailer.deliver!
-  end
-  task :test => [:env] do
-    require 'mailer'
-    mailer = Mailer.new
-    Attendee.all(:email => 'thierry.henrio@gmail.com').each do |attendee|
-      mailer.confirm_attendee(attendee)
+    task :ask_for_feedback => [:env] do
+      require 'mailer'
+      mailer = Mailer.new
+      subject = 'Comment s\'est passé la conférence Agile France ?'
+      template = 'ask_attendee_for_feedback.html.haml'
+      Attendee.all.each do |attendee|
+        puts mailer.mail(attendee, subject, template, :attendee => attendee)
+      end
+#      mailer.deliver!
     end
-    mailer.deliver!
   end
 end
