@@ -127,18 +127,18 @@ namespace :mail do
       end
       mailer.deliver!
     end
-    end
+  end
 
-    namespace :ask_for_feedback do
-      task :attendee => [:env] do
-        require 'mailer'
-        mailer = Mailer.new
-        subject = 'Comment s\'est passé la conférence Agile France ?'
-        template = 'ask_attendee_for_feedback.html.haml'
-        Attendee.all.each do |attendee|
-          puts mailer.mail(attendee, subject, template, :attendee => attendee)
-        end
-#      mailer.deliver!
+  namespace :ask_for_feedback do
+    task :attendee => [:env] do
+      require 'mailer'
+      mailer = Mailer.new
+      subject = 'Comment s\'est passé la conférence Agile France ?'
+      template = 'ask_attendee_for_feedback.html.haml'
+      Attendee.all.each do |attendee|
+        puts mailer.mail(attendee, subject, template, :attendee => attendee)
       end
+#      mailer.deliver!
+    end
   end
 end
