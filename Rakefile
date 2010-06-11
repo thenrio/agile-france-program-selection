@@ -1,3 +1,4 @@
+#encoding: utf-8
 require 'rubygems'
 require 'rake'
 
@@ -136,9 +137,9 @@ namespace :mail do
       subject = 'Comment s\'est passé la conférence Agile France ?'
       template = 'ask_attendee_for_feedback.html.haml'
       Attendee.all.each do |attendee|
-        puts mailer.mail(attendee, subject, template, :attendee => attendee)
+        mailer.mail(attendee, subject, template, :attendee => attendee)
       end
-#      mailer.deliver!
+      mailer.deliver!
     end
   end
 end
