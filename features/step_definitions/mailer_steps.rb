@@ -40,9 +40,7 @@ end
 
 When /speaker thierry is mailed with template "(.*)" and subject "(.*)"/ do |template, subject|
   speaker = Speaker.first(:email=>'thierry.henrio@gmail.com')
-  mailer = Mailer.new
-  mailer.mail(speaker, subject, template, :speaker => speaker)
-  @deliveries = mailer.deliver!
+  mail_person(speaker, subject, template, :speaker => speaker)
 end
 
 Then 'thierry should receive a mail' do
