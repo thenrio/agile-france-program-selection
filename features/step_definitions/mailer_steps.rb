@@ -27,13 +27,24 @@ Then 'thierry should receive one mail with two sessions' do
   @deliveries.size.should == 1
 end
 
+def mail_person(person, subject, template, hash)
+  mailer = Mailer.new
+  mailer.mail(person, subject, template, hash)
+  @deliveries = mailer.deliver!
+end
+
 When /attendee thierry is mailed with template "(.*)" and subject "(.*)"/ do |template, subject|
   attendee = Attendee.first(:email=>'thierry.henrio@gmail.com')
+  mail_person(attendee, subject, template, :attendee => attendee)
+end
+
+When /speaker thierry is mailed with template "(.*)" and subject "(.*)"/ do |template, subject|
+  attendee = Speaker.first(:email=>'thierry.henrio@gmail.com')
   mailer = Mailer.new
   mailer.mail(attendee, subject, template, :attendee => attendee)
   @deliveries = mailer.deliver!
 end
 
-Then 'attendee thierry should receive a mail' do
+Then 'thierry should receive a mail' do
   @deliveries.size.should == 1
 end

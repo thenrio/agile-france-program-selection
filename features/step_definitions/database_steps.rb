@@ -17,8 +17,8 @@ And 'speaker thierry has email thierry.henrio@gmail.com' do
   Speaker.create(:firstname => 'thierry', :lastname => 'henrio', :email => 'thierry.henrio@gmail.com')
 end
 
-And 'speaker thierry has two scheduled sessions' do
-  speaker = Speaker.first(:firstname => 'thierry')
+And /"(.*)" has two scheduled sessions/ do |firstname|
+  speaker = Speaker.first(:firstname => firstname)
   room = Room.create(:name => 'room')
   date = DateTime.now
   2.times do |time|

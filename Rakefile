@@ -140,6 +140,18 @@ namespace :mail do
         mailer.mail(attendee, subject, template, :attendee => attendee)
       end
       mailer.deliver!
+      end
+
+    task :speaker => [:env] do
+      require 'mailer'
+      mailer = Mailer.new
+      subject = 'Comment s\'est passé votre session à la conférence Agile France ?'
+      template = 'ask_speaker_for_feedback.html.haml'
+      Speaker.scheduled.each do |speaker|
+        m = mailer.mail(speaker, subject, template, :speaker => speaker)
+      end
+      puts m
+#      mailer.deliver!
     end
   end
 end
