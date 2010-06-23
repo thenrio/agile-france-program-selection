@@ -39,9 +39,9 @@ When /attendee thierry is mailed with template "(.*)" and subject "(.*)"/ do |te
 end
 
 When /speaker thierry is mailed with template "(.*)" and subject "(.*)"/ do |template, subject|
-  attendee = Speaker.first(:email=>'thierry.henrio@gmail.com')
+  speaker = Speaker.first(:email=>'thierry.henrio@gmail.com')
   mailer = Mailer.new
-  mailer.mail(attendee, subject, template, :attendee => attendee)
+  mailer.mail(speaker, subject, template, :speaker => speaker)
   @deliveries = mailer.deliver!
 end
 
