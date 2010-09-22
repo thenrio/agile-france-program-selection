@@ -13,6 +13,7 @@ class Configuration
 
   def test
     DataMapper.setup(:default, 'sqlite3::memory:')
+    require 'dm-migrations'
     require 'model/invoice'
     require 'model/invoiceable'
     require 'model/attendee'
