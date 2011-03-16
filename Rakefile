@@ -1,80 +1,5 @@
 #encoding: utf-8
-require 'rubygems'
 require 'rake'
-
-begin
-  require 'jeweler'
-  Jeweler::Tasks.new do |gem|
-    gem.name = "agile-france-program-selection"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
-    gem.email = "thierry.henrio@gmail.com"
-    gem.homepage = "http://github.com/thierryhenrio/agile-france-program-selection"
-    gem.authors = ["thierry"]
-    gem.add_development_dependency "rspec", ">= 1.2.9"
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
-  end
-  Jeweler::GemcutterTasks.new
-rescue LoadError
-  puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
-end
-
-require 'spec/rake/spectask'
-Spec::Rake::SpecTask.new(:spec) do |spec|
-  spec.libs << 'lib' << 'spec'
-  spec.spec_files = FileList['spec/**/*_spec.rb']
-end
-
-Spec::Rake::SpecTask.new(:rcov) do |spec|
-  spec.libs << 'spec'
-  spec.spec_files = FileList['spec/**/*_spec.rb']
-  spec.rcov = true
-  spec.rcov_opts = ['--no-rcovrt'] # rt coverage is broken with ruby-1.9.1-p376 and rcov-0.9.8
-end
-
-task :spec => :check_dependencies
-
-task :default => :spec
-
-require 'rake/rdoctask'
-Rake::RDocTask.new do |rdoc|
-  version = File.exist?('VERSION') ? File.read('VERSION') : ""
-
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "agile-france-program-selection #{version}"
-  rdoc.rdoc_files.include('README*')
-  rdoc.rdoc_files.include('lib/**/*.rb')
-end
-
-
-# bluff dies with 3.0.0 activesupport
-gem 'activesupport', '=2.3.5'
-require 'metric_fu'
-MetricFu::Configuration.run do |config|
-  #define which metrics you want to use
-  config.metrics  = [:flog, :flay, :roodi, :rcov]
-  config.graphs   = [:flog, :flay, :roodi, :rcov]
-  config.flay     = { :dirs_to_flay => ['lib'],
-                      :minimum_score => 100  }
-  config.flog     = { :dirs_to_flog => ['lib']  }
-  config.roodi    = { :dirs_to_roodi => ['lib'] }
-  config.rcov     = { :test_files => ['spec/**/*_spec.rb'],
-                      :rcov_opts => ["--sort coverage",
-                                     "--no-html",
-                                     "--text-coverage",
-                                     "--no-color",
-                                     "--profile",
-                                     '--no-rcovrt', # rt coverage is broken with ruby-1.9.1-p376 and rcov-0.9.8
-                                     "--exclude /gems/,/Library/,spec"]}
-  config.graph_engine = :bluff
-end
-
-require 'cucumber'
-require 'cucumber/rake/task'
-
-Cucumber::Rake::Task.new(:features) do |t|
-  t.cucumber_opts = "features --format pretty"
-end
 
 task :env do
   require File.expand_path(File.dirname(__FILE__) + '/config/boot')
@@ -87,6 +12,7 @@ end
 namespace :db do
   task :migrate => [:env] do
     require 'dm-migrations/migration_runner'
+    desc 'run pending migrations'
     Dir.glob("db/migrations/*.rb") do |migration|
       load migration
       migrate_up!
@@ -94,12 +20,15 @@ namespace :db do
   end
 
   namespace :sow do
+    desc 'seed rooms'
     task :rooms => [:env] do
       ruby 'db/seeds/rooms.rb'
     end
+    desc 'seed from csv file'
     task :csv => [:rooms] do
       ruby 'db/seeds/csv.rb'
     end
+    desc 'seed redeemable coupon'
     task :redeemable_coupon => [:csv] do
       ruby 'db/seeds/redeemable_coupon.rb'
     end
@@ -107,6 +36,7 @@ namespace :db do
   end
 
   namespace :list do
+    desc 'list all attendees in an html format'
     task :attendees => [:env] do
       require 'renderer'
       attendees = Attendee.all.to_a.sort {|a,b| a.full_name.strip <=> b.full_name.strip}
@@ -119,6 +49,7 @@ namespace :db do
 end
 
 namespace :mail do
+  desc 'send confirmation mail to attendees'
   namespace :confirm do
     task :attendee => [:env] do
       require 'mailer'
@@ -130,7 +61,20 @@ namespace :mail do
     end
   end
 
+  desc 'send mail to speaker : propose to agile-france-2011 ?'
+  task :'2011' => [:env] do
+    require 'mailer'
+    mailer = Mailer.new
+    subject = 'Proposer une session pour la Conférence Agile France 2011 ?'
+    template = 'ask_speaker_for_feedback.html.haml'
+    Speaker.all.each do |speaker|
+      m = mailer.mail(speaker, subject, template, :speaker => speaker)
+      puts m
+    end
+  end
+
   namespace :ask_for_feedback do
+    desc 'send mail to attendees : what is your feedback ?'
     task :attendee => [:env] do
       require 'mailer'
       mailer = Mailer.new
@@ -142,6 +86,7 @@ namespace :mail do
       mailer.deliver!
       end
 
+    desc 'send mail to scheduled speakers : what is your feedback ?'
     task :speaker => [:env] do
       require 'mailer'
       mailer = Mailer.new
@@ -151,7 +96,7 @@ namespace :mail do
         m = mailer.mail(speaker, subject, template, :speaker => speaker)
       end
       puts m
-#      mailer.deliver!
-    end
+      mailer.deliver!
+    end   
   end
 end
